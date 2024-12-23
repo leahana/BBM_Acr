@@ -1,8 +1,7 @@
 using AEAssist.CombatRoutine;
 
-namespace AE
+namespace BBM
 {
-    // 施法枚举
     public class SpellsDefine
     {
         public const uint Sprint = 3;
@@ -455,9 +454,9 @@ namespace AE
 
         #endregion
 
-        // MCH
+        // BBM
 
-        #region MCH
+        #region BBM
 
         public const uint RookAutoturret = 2864;
         public const uint SplitShot = 2866;
@@ -561,9 +560,7 @@ namespace AE
         public const uint AeolianEdge = 2255;
         public const uint ShadowFang = 2257;
         public const uint TrickAttack = 2258;
-        // 天
         public const uint Ten = 2259;
-        // 忍术
         public const uint Ninjutsu = 2260;
         public const uint Chi = 2261;
         public const uint Shukuchi = 2262;

@@ -2,16 +2,16 @@ using AEAssist.CombatRoutine;
 using AEAssist.CombatRoutine.Module;
 using AEAssist.CombatRoutine.View.JobView;
 using AEAssist.CombatRoutine.View.JobView.HotkeyResolver;
-using Anmi.Dragoon;
 using BBM.Setting;
 using BBM.Triggers;
 using ImGuiNET;
+using NIN;
 
 namespace BBM;
 
 public class BbmNinRotationEntry : IRotationEntry
 {
-    public string AuthorName { get; set; } = "NINBBM";
+    public string AuthorName { get; set; } = "BBM";
 
     private readonly List<SlotResolverData> _slotResolvers =
     [

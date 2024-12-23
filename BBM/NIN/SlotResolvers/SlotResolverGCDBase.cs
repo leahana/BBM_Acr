@@ -1,5 +1,6 @@
 using AEAssist;
 using AEAssist.CombatRoutine;
+using AEAssist.Helper;
 using AEAssist.MemoryApi;
 
 namespace BBM
@@ -19,10 +20,9 @@ namespace BBM
         {
             foreach (var u in NinSpellsHelper.NinAbilityAsGcdSet)
             {
-                
+                slot.Add(u.GetSpell());
             }
             var lastComboSpellId = Core.Resolve<MemApiSpell>().GetLastComboSpellId();
-
             
         }
     }
