@@ -1,6 +1,6 @@
 using AEAssist.CombatRoutine;
 
-namespace AE
+namespace BBM.NIN
 {
     // 施法枚举
     public class SpellsDefine
@@ -92,7 +92,7 @@ namespace AE
                 case Jobs.Paladin:
                     return 79;
                 case Jobs.Warrior:
-                    return AurasDefine.Defiance;
+                    return AEAssist.CombatRoutine.AurasDefine.Defiance;
                 case Jobs.DarkKnight:
                     return 743;
                 case Jobs.Gunbreaker:

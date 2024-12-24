@@ -2,12 +2,13 @@
 using AEAssist.CombatRoutine.Module;
 using AEAssist.CombatRoutine.View.JobView;
 using AEAssist.CombatRoutine.View.JobView.HotkeyResolver;
+using BBM.MCH.Ability;
 using BBM.MCH.GCD;
 using BBM.MCH.Settings;
+using BBM.MCH.Triggers;
 using ImGuiNET;
-using MCH.Triggers;
 
-namespace MCH;
+namespace BBM.MCH;
 
 public class BbmMchRotationEntry : IRotationEntry
 {
@@ -19,11 +20,15 @@ public class BbmMchRotationEntry : IRotationEntry
 
     private readonly List<SlotResolverData> _slotResolvers =
     [
+        // 热冲击
         new(new MchGcdBlazingShot(), SlotMode.Gcd),
+        // 空气矛/钻头/飞锯
         new(new MchGcdAdvanced(), SlotMode.Gcd),
+        // 基础123
         new(new MchGcdBaseCombo(), SlotMode.Gcd),
-        // // offGcd队列
-        // new(new SlotResolverOffGcdBase(), SlotMode.OffGcd)
+        // offGcd队列
+        // 整备好了就用
+        new(new MchAbilityReassemble(), SlotMode.OffGcd),
     ];
 
 
@@ -38,9 +43,9 @@ public class BbmMchRotationEntry : IRotationEntry
         {
             TargetJob = Jobs.Machinist,
             AcrType = AcrType.Normal,
-            MinLevel = 0,
+            MinLevel = 1,
             MaxLevel = 100,
-            Description = "测试用1111111",
+            Description = "木桩测试123",
         };
 
         // 添加各种事件回调
@@ -50,27 +55,28 @@ public class BbmMchRotationEntry : IRotationEntry
         return rot;
     }
 
-    public static JobViewWindow QT { get; private set; }
+    public static JobViewWindow Qt { get; private set; }
 
 
     private void BuildQt()
     {
         // JobViewSave是AE底层提供的QT设置存档类 在你自己的设置里定义即可
-        QT = new JobViewWindow(MchSettings.Instance.JobViewSave, MchSettings.Instance.Save, "MCH测试 jobView");
+        Qt = new JobViewWindow(MchSettings.Instance.JobViewSave, MchSettings.Instance.Save, "MCH测试 jobView");
         // 第二个参数是你设置文件的Save类 第三个参数是QT窗口标题
         // QT.SetUpdateAction(OnUIUpdate); // 设置QT中的Update回调 不需要就不设置
 
         //添加QT分页 第一个参数是分页标题 第二个是分页里的内容
-        QT.AddTab("通用", DrawQtGeneral);
-        QT.AddTab("Dev", DrawQtDev);
+        Qt.AddTab("通用", DrawQtGeneral);
+        Qt.AddTab("Dev", DrawQtDev);
 
         // 添加QT开关 第二个参数是默认值 (开or关) 第三个参数是鼠标悬浮时的tips
-        QT.AddQt(QTKey.Base_01, true, "da1");
-        QT.AddQt(QTKey.AOE, false);
+        Qt.AddQt(QTKey.UsePotion, true, "da1");
+
+        Qt.AddQt(QTKey.AOE, false);
 
         // 添加快捷按钮 (带技能图标)
-        QT.AddHotkey("爆发药", new HotKeyResolver_Potion());
-        QT.AddHotkey("极限技", new HotKeyResolver_LB());
+        Qt.AddHotkey("爆发药", new HotKeyResolver_Potion());
+        Qt.AddHotkey("极限技", new HotKeyResolver_LB());
 
         /*
     // 这是一个自定义的快捷按钮 一般用不到
@@ -105,7 +111,7 @@ public class BbmMchRotationEntry : IRotationEntry
 
     public IRotationUI GetRotationUI()
     {
-        return QT;
+        return Qt;
     }
 
     public void OnDrawSetting()

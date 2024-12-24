@@ -2,7 +2,7 @@
 using AEAssist.Helper;
 using AEAssist.IO;
 
-namespace BBM.Setting;
+namespace BBM.NIN.Setting;
 
 /// <summary>
 /// 配置文件适合放一些一般不会在战斗中随时调整的开关数据

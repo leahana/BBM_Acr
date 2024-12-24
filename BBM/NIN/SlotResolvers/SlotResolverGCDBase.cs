@@ -1,14 +1,11 @@
 using AEAssist;
-using AEAssist.CombatRoutine;
+using AEAssist.CombatRoutine.Module;
 using AEAssist.Helper;
 using AEAssist.MemoryApi;
+using BBM.NIN.GCD;
 
-namespace BBM
+namespace BBM.NIN.SlotResolvers
 {
-    using AEAssist.CombatRoutine.Module;
-    using BBM.GCD;
-
-
     public class SlotResolverGcdBase : ISlotResolver
     {
         public int Check()

@@ -2,7 +2,7 @@ using AEAssist.CombatRoutine;
 
 namespace BBM
 {
-    public class SpellsDefine
+    public abstract class SpellsDefine
     {
         public const uint Sprint = 3;
 
@@ -454,39 +454,41 @@ namespace BBM
 
         #endregion
 
-        // BBM
+        // MCH
 
-        #region BBM
+        #region MCH
 
-        public const uint RookAutoturret = 2864;
-        public const uint SplitShot = 2866;
-        public const uint SlugShot = 2868;
-        public const uint SpreadShot = 2870;
-        public const uint HotShot = 2872;
-        public const uint CleanShot = 2873;
-        public const uint GaussRound = 2874;
-        public const uint Reassemble = 2876;
-        public const uint Wildfire = 2878;
-        public const uint Dismantle = 2887;
-        public const uint Ricochet = 2890;
-        public const uint HeatBlast = 7410;
-        public const uint HeatedSplitShot = 7411;
-        public const uint HeatedSlugShot = 7412;
-        public const uint HeatedCleanShot = 7413;
-        public const uint BarrelStabilizer = 7414;
-        public const uint RookOverdrive = 7415;
-        public const uint Flamethrower = 7418;
-        public const uint AutoCrossbow = 16497;
-        public const uint Drill = 16498;
-        public const uint Bioblaster = 16499;
-        public const uint AirAnchor = 16500;
-        public const uint AutomationQueen = 16501;
-        public const uint QueenOverdrive = 16502;
-        public const uint Detonator = 16766;
-        public const uint Tactician = 16889;
-        public const uint Hypercharge = 17209;
-        public const uint Scattergun = 25786;
-        public const uint ChainSaw = 25788;
+        public const uint RookAutoturret = 2864; //炮塔 80级变机器人
+        public const uint SplitShot = 2866; // 分裂弹 1
+        public const uint SlugShot = 2868; // 独头弹 2
+        public const uint SpreadShot = 2870; // 散射 aoe1 82级霰弹
+        public const uint HotShot = 2872; // 热弹  76级升级成空气锚
+        public const uint CleanShot = 2873; // 狙击弹 3 64变热狙击弹
+        public const uint GaussRound = 2874; // 虹吸弹
+        public const uint Reassemble = 2876; // 整备
+        public const uint Wildfire = 2878; // 野火
+        public const uint Dismantle = 2887; //  武装解除 扳手
+        public const uint Ricochet = 2890; //弹射
+        public const uint HeatBlast = 7410; // 热冲击
+        public const uint HeatedSplitShot = 7411; // 54级热分裂弹 1
+        public const uint HeatedSlugShot = 7412; // 60级热独头弹 2
+        public const uint HeatedCleanShot = 7413; // 64级 热狙击蛋 3
+        public const uint BarrelStabilizer = 7414; // 枪管加热
+        public const uint RookOverdrive = 7415; // 炮塔结算 80级变人偶
+        public const uint Flamethrower = 7418; // 70级 火焰喷射器
+        public const uint AutoCrossbow = 16497; // 自动弩
+        public const uint Drill = 16498; // 钻头
+        public const uint BlazingShot = 36978; // 68级 烈焰弹
+        public const uint Bioblaster = 16499; // 72级毒菌 
+        public const uint AirAnchor = 16500; // 76级 空气矛
+        public const uint AutomationQueen = 16501; // 80级 机器人
+        public const uint QueenOverdrive = 16502; // 80级 机器人结算
+        public const uint Detonator = 16766;  // 起爆 野火结算
+        public const uint Tactician = 16889; // 策动
+        public const uint Hypercharge = 17209; // 超荷
+        public const uint Scattergun = 25786; // 霰弹枪
+        public const uint ChainSaw = 25788; // 回转飞锯
+        
 
         public const uint PvpDrill = 17749;
         public const uint PvpRicochet = 17753;

@@ -6,11 +6,15 @@ using AEAssist.JobApi;
 
 namespace BBM.MCH.GCD;
 
-public class MchGcdAdvanced:ISlotResolver
+/**
+ * 空气矛 钻头 飞锯
+ */
+public class MchGcdAdvanced : ISlotResolver
 {
     public int Check()
     {
-        if (!MchSpellHelper.CheckReassmableGCD(SettingMgr.GetSetting<GeneralSettings>().ActionQueueInMs,
+        // 虹吸
+        if (!MchSpellHelper.CheckReassmableGcd(SettingMgr.GetSetting<GeneralSettings>().ActionQueueInMs,
                 out var strongGcd))
             return -2;
         if (Core.Resolve<JobApi_Machinist>().OverHeated)
@@ -20,16 +24,20 @@ public class MchGcdAdvanced:ISlotResolver
 
     public void Build(Slot slot)
     {
-        MchSpellHelper.CheckReassmableGCD(SettingMgr.GetSetting<GeneralSettings>().ActionQueueInMs,
+        MchSpellHelper.CheckReassmableGcd(SettingMgr.GetSetting<GeneralSettings>().ActionQueueInMs,
             out var strongGcd);
-        //if (SpellsDefine.Reassemble.IsReady()) slot.Add(SpellsDefine.Reassemble.GetSpell());
+        // if (SpellsDefine.Reassemble.IsReady()) slot.Add(SpellsDefine.Reassemble.GetSpell());
+        // 电量大于80 当前gcd是空气矛使用机器人
         if (Core.Resolve<JobApi_Machinist>().GetBattery > 80 && strongGcd == SpellsDefine.AirAnchor)
         {
-            if (SpellsDefine.AutomationQueen.IsReady())
+            // 
+            var spell = SpellsDefine.AutomationQueen.GetSpell();
+            if (spell.IsReadyWithCanCast())
             {
-                slot.Add(SpellsDefine.AutomationQueen.GetSpell());
+                slot.Add(spell);
             }
         }
+
         slot.Add(strongGcd.GetSpell());
     }
 }

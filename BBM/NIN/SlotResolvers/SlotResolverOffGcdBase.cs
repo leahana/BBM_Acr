@@ -1,8 +1,7 @@
-using AE;
 using AEAssist.CombatRoutine.Module;
 using AEAssist.Helper;
 
-namespace BBM;
+namespace BBM.NIN.SlotResolvers;
 
 public class SlotResolverOffGcdBase : ISlotResolver
 {

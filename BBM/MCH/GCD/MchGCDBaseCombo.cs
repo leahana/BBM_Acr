@@ -7,7 +7,10 @@ using AEAssist.MemoryApi;
 
 namespace BBM.MCH.GCD;
 
-public class MchGcdBaseCombo:ISlotResolver
+/**
+ * 基础gcd 123
+ */
+public class MchGcdBaseCombo : ISlotResolver
 {
     private Spell GetSpell()
     {
@@ -22,6 +25,7 @@ public class MchGcdBaseCombo:ISlotResolver
 
     public int Check()
     {
+        // todo: 需要判断是否可以使用技能。
         // 整备状态
         if (Core.Me.HasAura(AurasDefine.Reassembled))
         {
@@ -30,7 +34,7 @@ public class MchGcdBaseCombo:ISlotResolver
         /*if (MCHSpellHelper.CheckReassmableGCD(500,
                 out var strongGcd))
             return -2;*/
-        
+
         // 过热
         if (Core.Resolve<MemApiBuff>().BuffStackCount(Core.Me, AurasDefine.Overheated) > 0)
             return -1;

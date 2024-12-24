@@ -1,5 +1,4 @@
-﻿using BBM;
-namespace NIN;
+﻿namespace BBM.NIN;
 // 直接定义好 方便编码
 public static class QTKey
 {

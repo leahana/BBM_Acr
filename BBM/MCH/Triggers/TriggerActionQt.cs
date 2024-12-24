@@ -2,11 +2,12 @@ using AEAssist.CombatRoutine.Trigger;
 using AEAssist.GUI;
 using ImGuiNET;
 
-namespace MCH.Triggers;
+namespace BBM.MCH.Triggers;
 
+// 时间轴qt
 public class TriggerActionQt : ITriggerAction
 {
-    public string DisplayName { get; } = "Nin/qt";
+    public string DisplayName { get; } = "Mch/qt";
     public string Remark { get; set; }
 
     public string Key = "";
@@ -18,7 +19,7 @@ public class TriggerActionQt : ITriggerAction
 
     public TriggerActionQt()
     {
-        _qtArray = BbmMchRotationEntry.QT.GetQtArray();
+        _qtArray = BbmMchRotationEntry.Qt.GetQtArray();
     }
 
     public bool Draw()
@@ -42,7 +43,7 @@ public class TriggerActionQt : ITriggerAction
 
     public bool Handle()
     {
-        BbmMchRotationEntry.QT.SetQt(Key, Value);
+        BbmMchRotationEntry.Qt.SetQt(Key, Value);
         return true;
     }
 }

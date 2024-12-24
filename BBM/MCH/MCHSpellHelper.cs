@@ -6,12 +6,14 @@ namespace BBM.MCH;
 
 public static class MchSpellHelper
 {
-    public static bool CheckReassmableGCD(float timeleft, out uint SpellId)
+    // 检查整备gcd
+    public static bool CheckReassmableGcd(float timeleft, out uint SpellId)
     {
         if (Core.Me.Level < 76)
         {
-            if (!SpellsDefine.HotShot.RecentlyUsed() && SpellsDefine.HotShot.IsUnlock() &&
-                SpellsDefine.HotShot.GetSpell().Cooldown.TotalMilliseconds < timeleft)
+            if (!SpellsDefine.HotShot.RecentlyUsed()
+                && SpellsDefine.HotShot.IsUnlock() // 
+                && SpellsDefine.HotShot.GetSpell().Cooldown.TotalMilliseconds < timeleft)
             {
                 SpellId = SpellsDefine.HotShot;
                 return true;
@@ -19,7 +21,8 @@ public static class MchSpellHelper
         }
         else
         {
-            if (!SpellsDefine.AirAnchor.RecentlyUsed() && SpellsDefine.AirAnchor.IsUnlock() && SpellsDefine.AirAnchor.IsLevelEnough() &&
+            if (!SpellsDefine.AirAnchor.RecentlyUsed() && SpellsDefine.AirAnchor.IsUnlock() &&
+                SpellsDefine.AirAnchor.IsLevelEnough() &&
                 SpellsDefine.AirAnchor.GetSpell().Cooldown.TotalMilliseconds < timeleft)
             {
                 /*if (Core.Get<IMemApiMCH>().GetBattery()>=80)
@@ -35,17 +38,22 @@ public static class MchSpellHelper
             }
         }
 
-        if (!SpellsDefine.ChainSaw.RecentlyUsed() && SpellsDefine.ChainSaw.IsLevelEnough() && SpellsDefine.ChainSaw.IsUnlock() &&
-            SpellsDefine.ChainSaw.GetSpell().Cooldown.TotalMilliseconds < timeleft)
+        if (!SpellsDefine.ChainSaw.RecentlyUsed()
+            && SpellsDefine.ChainSaw.IsLevelEnough()
+            && SpellsDefine.ChainSaw.IsUnlock()
+            && SpellsDefine.ChainSaw.GetSpell().Cooldown.TotalMilliseconds < timeleft)
         {
-            if (SpellsDefine.Wildfire.IsReady())
+            // 野火
+            if (SpellsDefine.Wildfire.GetSpell().IsReadyWithCanCast())
             {
                 if (SpellsDefine.Drill.GetSpell().Cooldown.TotalMilliseconds < timeleft)
                 {
+                    // 钻头
                     SpellId = SpellsDefine.Drill;
                     return true;
                 }
             }
+
             SpellId = SpellsDefine.ChainSaw;
             return true;
         }
@@ -71,16 +79,12 @@ public static class MchSpellHelper
             var gaussRound = SpellsDefine.GaussRound.GetSpell();
             var ricochet = SpellsDefine.Ricochet.GetSpell();
             LogHelper.Debug($"{gaussRound.Name}-{gaussRound.Charges} : {ricochet.Name} - {ricochet.Charges}");
-            if (gaussRound.Charges >=
-                ricochet.Charges)
-                spellData = gaussRound;
-            else
-                spellData = ricochet;
-            return spellData;
+            spellData = gaussRound.Charges >= ricochet.Charges ? gaussRound : ricochet;
         }
         else
         {
-            if (!SpellsDefine.GaussRound.IsReady() && !SpellsDefine.Ricochet.IsReady())
+            if (!SpellsDefine.GaussRound.GetSpell().IsReadyWithCanCast() &&
+                !SpellsDefine.Ricochet.GetSpell().IsReadyWithCanCast())
                 return spellData;
             var gaussRound = SpellsDefine.GaussRound.GetSpell();
             var ricochet = SpellsDefine.Ricochet.GetSpell();
@@ -90,7 +94,8 @@ public static class MchSpellHelper
                 spellData = gaussRound;
             else
                 spellData = ricochet;
-            return spellData;
         }
+
+        return spellData;
     }
 }

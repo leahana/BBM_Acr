@@ -1,6 +1,8 @@
 using AEAssist.CombatRoutine.View.JobView;
+using AEAssist.Extension;
 using AEAssist.Helper;
 using AEAssist.IO;
+using Dalamud.Game.ClientState.Objects.Types;
 
 namespace BBM.MCH.Settings
 {
@@ -40,16 +42,16 @@ namespace BBM.MCH.Settings
 
         public void Save()
         {
-            Directory.CreateDirectory(Path.GetDirectoryName(path));
+            Directory.CreateDirectory(Path.GetDirectoryName(path) ?? string.Empty);
             File.WriteAllText(path, JsonHelper.ToJson(this));
         }
 
         #endregion
 
-
-        public bool BaseBottom1Boolean = true; // 使用速行 默认开启
-        public int BaseBottom2Value = 100; // 非爆发期绝峰多少能量再用
-
-        public JobViewSave JobViewSave = new(); // QT设置存档
+        public bool UsePeloton = true; // 使用速行 默认开启
+        public int BatteryGaugeValue = 50;// 电量
+        public int HeatGaugeValue = 50;// 热量
+        
+        public readonly JobViewSave JobViewSave = new(); // QT设置存档
     }
 }

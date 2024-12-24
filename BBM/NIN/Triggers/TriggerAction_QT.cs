@@ -2,7 +2,7 @@ using AEAssist.CombatRoutine.Trigger;
 using AEAssist.GUI;
 using ImGuiNET;
 
-namespace BBM.Triggers;
+namespace BBM.NIN.Triggers;
 
 // 时间轴
 public class TriggerActionQt : ITriggerAction

@@ -1,6 +1,4 @@
-using AEAssist.CombatRoutine;
-
-namespace BBM.GCD
+namespace BBM.NIN.GCD
 {
     public class NinSpellsHelper
     {

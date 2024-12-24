@@ -5,15 +5,14 @@ namespace BBM.MCH.Settings;
 
 public class MchUiSettings
 {
-    public static MchUiSettings Instance = new();
+    public static readonly MchUiSettings Instance = new();
 
     private MchSettings MchSettings => MchSettings.Instance;
 
     public void Draw()
     {
-        ImGui.Checkbox("测试使用baseItem1", ref MchSettings.Instance.BaseBottom1Boolean);
-        ImGuiHelper.LeftInputInt("电量多少用", ref MchSettings.BaseBottom2Value);
-
+        ImGui.Checkbox("速行", ref MchSettings.Instance.UsePeloton);
+        ImGuiHelper.LeftInputInt("电量多少使用机器人", ref MchSettings.BatteryGaugeValue);
         if (ImGui.Button("Save"))
         {
             MchSettings.Instance.Save();

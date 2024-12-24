@@ -2,12 +2,12 @@ using AEAssist.CombatRoutine;
 using AEAssist.CombatRoutine.Module;
 using AEAssist.CombatRoutine.View.JobView;
 using AEAssist.CombatRoutine.View.JobView.HotkeyResolver;
-using BBM.Setting;
-using BBM.Triggers;
+using BBM.NIN.Setting;
+using BBM.NIN.SlotResolvers;
+using BBM.NIN.Triggers;
 using ImGuiNET;
-using NIN;
 
-namespace BBM;
+namespace BBM.NIN;
 
 public class BbmNinRotationEntry : IRotationEntry
 {

@@ -1,7 +1,7 @@
 using AEAssist.GUI;
 using ImGuiNET;
 
-namespace BBM.Setting;
+namespace BBM.NIN.Setting;
 
 /**
  * ui设置
