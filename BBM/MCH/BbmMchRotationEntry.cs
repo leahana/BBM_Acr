@@ -7,6 +7,7 @@ using BBM.MCH.GCD;
 using BBM.MCH.Settings;
 using BBM.MCH.Triggers;
 using ImGuiNET;
+using BBM.MCH.Triggers;
 
 namespace BBM.MCH;
 
@@ -26,9 +27,16 @@ public class BbmMchRotationEntry : IRotationEntry
         new(new MchGcdAdvanced(), SlotMode.Gcd),
         // 基础123
         new(new MchGcdBaseCombo(), SlotMode.Gcd),
-        // offGcd队列
+
+
         // 整备好了就用
         new(new MchAbilityReassemble(), SlotMode.OffGcd),
+        new(new MchAbilityUseBattery(), SlotMode.OffGcd),
+        new(new MchAbilityBarrelStabilizer(), SlotMode.OffGcd),
+        // new(new MchAbilityUseGaussRound(), SlotMode.OffGcd),
+        new(new MchCheckmateAbility(), SlotMode.OffGcd),
+        new(new MchMatecheckAbility(), SlotMode.OffGcd),
+        new(new MchAbilityHyperCharge(), SlotMode.OffGcd)
     ];
 
 
@@ -70,13 +78,16 @@ public class BbmMchRotationEntry : IRotationEntry
         Qt.AddTab("Dev", DrawQtDev);
 
         // 添加QT开关 第二个参数是默认值 (开or关) 第三个参数是鼠标悬浮时的tips
-        Qt.AddQt(QTKey.UsePotion, true, "da1");
-
-        Qt.AddQt(QTKey.AOE, false);
+        Qt.AddQt(QTKey.UsePotion, true, "自动吃爆发药");
+        Qt.AddQt(QTKey.AOE, false, "使用aoe");
+        Qt.AddQt(QTKey.Test1, false, "测试01");
+        Qt.AddQt(QTKey.Test2, false);
 
         // 添加快捷按钮 (带技能图标)
         Qt.AddHotkey("爆发药", new HotKeyResolver_Potion());
         Qt.AddHotkey("极限技", new HotKeyResolver_LB());
+        Qt.AddHotkey("冲刺", new HotKeyResolver_疾跑());
+
 
         /*
     // 这是一个自定义的快捷按钮 一般用不到

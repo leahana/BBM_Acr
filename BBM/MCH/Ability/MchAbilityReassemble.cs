@@ -15,66 +15,52 @@ public class MchAbilityReassemble : ISlotResolver
 
     public int Check()
     {
-        //如果整备还没准备好,不打整备,充能技能至少有1层,IsReady才返回True
-        if (!SpellsDefine.Reassemble.GetSpell().IsReadyWithCanCast())
-            return -1;
-        if (GCDHelper.GetGCDCooldown() <= 600)
-            return -2;
+        var reassembleSpell = SpellsDefine.Reassemble.GetSpell();
+        var wildfireSpell = SpellsDefine.Wildfire.GetSpell();
+        var airAnchorSpell = SpellsDefine.AirAnchor.GetSpell();
+        var drillSpell = SpellsDefine.Drill.GetSpell();
 
-        //有过热不开整备
-        if (Core.Me.HasAura(AurasDefine.Reassembled))
-        {
-            return -3;
-        }
+        // 如果整备技能还没有准备好
+        if (!reassembleSpell.IsReadyWithCanCast()) return -1;
 
-        if (SpellsDefine.Reassemble.RecentlyUsed(1200))
-        {
-            return -1;
-        }
+        // 判断 GCD 冷却时间是否足够
+        if (GCDHelper.GetGCDCooldown() <= 600) return -2;
 
-        if (!MchSpellHelper.CheckReassmableGcd(GCDHelper.GetGCDCooldown(), out var strongGcd))
-            return -4;
-        if (strongGcd == SpellsDefine.HotShot)
-        {
-            return -5;
-        }
+        // 检查是否已经有过热状态
+        if (Core.Me.HasAura(AurasDefine.Reassembled)) return -3;
 
-        // 判断一个gcd的70%时间 (一般是2500*0.7 = 1850ms左右)内,是否至少有一个强威力gcd冷却完毕
-        /*var time = Core.Resolve<MemApiSpell>().GetGCDDuration(false) * 0.7f;
-        if (!MCHSpellHelper.CheckReassmableGCD((int)time, out var strongGcd))
-            return -3;*/
-        if (Core.Resolve<JobApi_Machinist>().OverHeated)
-            return -1;
-        /*if (AI.Instance.BattleData.LimitAbility)
-        {
-            return -2;
-        }*/
+        // 检查整备是否在最近 1200 毫秒内已经使用过
+        if (reassembleSpell.RecentlyUsed(1200)) return -1;
 
-        // 野火好了
-        if (SpellsDefine.Wildfire.GetSpell().IsReadyWithCanCast())
+        // 检查是否能进行强威力 GCD 的释放
+        if (!MchSpellHelper.CheckReassmableGcd(GCDHelper.GetGCDCooldown(), out var strongGcd)) return -4;
+
+        // 如果当前强威力 GCD 是 HotShot，则不使用整备
+        if (strongGcd == SpellsDefine.HotShot) return -5;
+
+        // 检查是否处于过热状态
+        if (Core.Resolve<JobApi_Machinist>().OverHeated) return -1;
+
+        // 判断是否进入野火阶段，且在 GCD 内没有强威力技能可以使用
+        if (wildfireSpell.IsReadyWithCanCast())
         {
-            // gcd是回转飞锯
             if (strongGcd == SpellsDefine.ChainSaw)
             {
-                // 空气矛和钻头也没好
-                if (!SpellsDefine.AirAnchor.GetSpell().IsReadyWithCanCast()
-                    && !SpellsDefine.Drill.GetSpell().IsReadyWithCanCast())
+                // 如果回转飞锯被选中，且空气矛和钻头都未准备好，则不使用整备
+                if (!airAnchorSpell.IsReadyWithCanCast()
+                    && !drillSpell.IsReadyWithCanCast())
                 {
                     return -4;
                 }
             }
         }
 
-
         return 0;
     }
 
     public void Build(Slot slot)
     {
-        //var time = Core.Resolve<MemApiSpell>().GetGCDDuration(false) * 0.7f;
-        //MCHSpellHelper.CheckReassmableGCD((int)time, out var strongGcd);
-        // 找到对应的强威力gcd,接下来的技能使用就是整备+对应gcd
+        // 添加整备技能到槽位
         slot.Add(SpellsDefine.Reassemble.GetSpell());
-        //slot.Add(strongGcd.GetSpell());
     }
 }

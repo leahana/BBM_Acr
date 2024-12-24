@@ -1,6 +1,8 @@
 using AEAssist;
 using AEAssist.CombatRoutine;
+using AEAssist.Extension;
 using AEAssist.Helper;
+using Dalamud.Game.ClientState.Objects.Types;
 
 namespace BBM.MCH;
 
@@ -68,6 +70,7 @@ public static class MchSpellHelper
         SpellId = 0;
         return false;
     }
+    public static bool 能力技封印() => ((IBattleChara) Core.Me).HasAura(1092U, 0);
 
     public static Spell? GetGaussRound()
     {
