@@ -2,6 +2,7 @@ using AEAssist;
 using AEAssist.CombatRoutine.Module;
 using AEAssist.Helper;
 using AEAssist.JobApi;
+using BBM.MCH.Extensions;
 
 namespace BBM.MCH.Ability;
 
@@ -11,8 +12,8 @@ public class MchCheckmateAbility : ISlotResolver
     {
         if (!SpellExtension.IsReadyWithCanCast(SpellHelper.GetSpell(36979U)))
             return -1;
-        // if (Amatsukaze.Data.Helper.Helper.GCD剩余时间() <= 600)
-        // return -2;
+        if (!this.CanInsertAbility())
+            return -2;
         // if (!MCHRotationEntry.QT.GetQt("爆发"))
         // return -3;
         // if (!MCHRotationEntry.QT.GetQt("双将将死"))

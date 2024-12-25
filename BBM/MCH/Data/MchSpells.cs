@@ -177,8 +177,14 @@ public static class MchSpells
     /// 回转飞锯 
     /// </summary>
     public const uint ChainSaw = 25788;
+
     /// <summary>
-    /// 全金属爆发 - 回转飞锯二段
+    /// 掘地飞轮
+    /// </summary>
+    public const uint Excavator = 36981;
+
+    /// <summary>
+    /// 全金属爆发 - 超荷二段
     /// </summary>
     public const uint FullMetalField = 36982;
 }

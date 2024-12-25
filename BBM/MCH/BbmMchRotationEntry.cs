@@ -24,21 +24,23 @@ public class BbmMchRotationEntry : IRotationEntry
     private readonly List<SlotResolverData> _slotResolvers =
     [
         // 热冲击
-        new(new MchGcdBlazingShot(), SlotMode.Gcd),
-        // 空气矛/钻头/飞锯
+
         new(new MchGcdAdvanced(), SlotMode.Gcd),
-        // 基础123
+        new(new MchGcdBlazingShot(), SlotMode.Gcd),
+        new(new MchGcdChainsaw(), SlotMode.Gcd),
+        new(new MchGcdExcavator(), SlotMode.Gcd),
+        new(new MchGcdAirAnchor(), SlotMode.Gcd),
+        new(new MchGcdDrill(), SlotMode.Gcd),
+        new(new MchGcdFullMetalField(), SlotMode.Gcd),
         new(new MchGcdBaseCombo(), SlotMode.Gcd),
 
-
-        // 整备好了就用
-        new(new MchAbilityReassemble(), SlotMode.OffGcd),
+        new(new MchAbilityWildfire(), SlotMode.OffGcd),
         new(new MchAbilityUseBattery(), SlotMode.OffGcd),
+        new(new MchAbilityReassemble(), SlotMode.OffGcd),
         new(new MchAbilityBarrelStabilizer(), SlotMode.OffGcd),
-        // new(new MchAbilityUseGaussRound(), SlotMode.OffGcd),
-        new(new MchCheckmateAbility(), SlotMode.OffGcd),
+        new(new MchAbilityHyperCharge(), SlotMode.OffGcd),
         new(new MchMatecheckAbility(), SlotMode.OffGcd),
-        new(new MchAbilityHyperCharge(), SlotMode.OffGcd)
+        new(new MchCheckmateAbility(), SlotMode.OffGcd)
     ];
 
 
@@ -55,10 +57,10 @@ public class BbmMchRotationEntry : IRotationEntry
             AcrType = AcrType.Normal,
             MinLevel = 1,
             MaxLevel = 100,
-            Description = "木桩测试123",
+            Description = "木桩测试123123123",
         };
 
-        rot.AddOpener(GetOpener);
+        // rot.AddOpener(GetOpener);
         // 添加各种事件回调
         // rot.SetRotationEventHandler(new BardRotationEventHandler());
         // 添加QT开关的时间轴行为
@@ -86,11 +88,11 @@ public class BbmMchRotationEntry : IRotationEntry
         Qt.AddTab("Dev", DrawQtDev);
 
         // 添加QT开关 第二个参数是默认值 (开or关) 第三个参数是鼠标悬浮时的tips
-        Qt.AddQt(QTKey.UsePotion, true, "自动吃爆发药");
+        Qt.AddQt(QTKey.UsePotion, false, "自动吃爆发药");
+        Qt.AddQt(QTKey.FullMetalField, true, "全金属爆发");
         Qt.AddQt(QTKey.AOE, false, "使用aoe");
         Qt.AddQt(QTKey.Test1, false, "测试01");
         Qt.AddQt(QTKey.Test2, false);
-        Qt.AddQt(QTKey.FullMetalField, true, "全金属爆发");
 
         // 添加快捷按钮 (带技能图标)
         Qt.AddHotkey("爆发药", new HotKeyResolver_Potion());

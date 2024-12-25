@@ -2,6 +2,10 @@ using AEAssist;
 using AEAssist.CombatRoutine.Module;
 using AEAssist.Helper;
 using AEAssist.JobApi;
+using BBM.MCH.Data;
+using BBM.MCH.Extensions;
+using BBM.MCH.Settings;
+using BBM.MCH.Utils;
 
 namespace BBM.MCH.Ability;
 
@@ -14,10 +18,10 @@ public class MchAbilityUseBattery : ISlotResolver
         var jobApi = Core.Resolve<JobApi_Machinist>();
 
         // 1. 检查自动机女王技能是否准备好
-        if (!SpellsDefine.AutomationQueen.GetSpell().IsReadyWithCanCast()) return -3;
+        if (!this.IsReady(MchSpells.AutomationQueen)) return -1;
 
-        // 2. 复唱GCD后段（剩余时间小于 800 毫秒）
-        if (GCDHelper.GetGCDCooldown() <= 800) return -12;
+        // 2. GCD剩余时间小于 600 毫秒）
+        if (!CombatHelper.CanInsertAbility(MchSettings.Instance.GcdCooldownLimit)) return -2;
 
         // 3. 检查是否已经有机器人
         if (jobApi.Robotactive) return -1;

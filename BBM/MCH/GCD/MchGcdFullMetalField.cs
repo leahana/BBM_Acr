@@ -1,6 +1,7 @@
 using AEAssist.CombatRoutine.Module;
 using AEAssist.Helper;
 using BBM.MCH.Data;
+using BBM.MCH.Extensions;
 using BBM.MCH.Utils;
 
 namespace BBM.MCH.GCD;
@@ -12,9 +13,9 @@ public class MchGcdFullMetalField : ISlotResolver
 {
     public int Check()
     {
-        if (CombatHelper.IsSpellReady(MchSpells.FullMetalField))
+        if (!this.IsReady(MchSpells.FullMetalField))
             return -1;
-        if (CombatHelper.FullMetalFieldReady())
+        if (!this.HasAura(MchBuffs.FullMetalFieldReady))
             return -2;
         return !CombatHelper.QtFullMetalField() ? -3 : 0;
     }

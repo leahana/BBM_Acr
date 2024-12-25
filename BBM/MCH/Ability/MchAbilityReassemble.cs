@@ -1,9 +1,7 @@
-using AEAssist;
 using AEAssist.CombatRoutine.Module;
-using AEAssist.Extension;
 using AEAssist.Helper;
 using BBM.MCH.Data;
-using BBM.MCH.Settings;
+using BBM.MCH.Extensions;
 using BBM.MCH.Utils;
 
 namespace BBM.MCH.Ability;
@@ -17,18 +15,18 @@ public class MchAbilityReassemble : ISlotResolver
 
     public int Check()
     {
-        var wildfireSpell = MchSpells.Wildfire.GetSpell();
-        var airAnchorSpell = MchSpells.AirAnchor.GetSpell();
-        var drillSpell = MchSpells.Drill.GetSpell();
+  
 
         // 如果整备技能还没有准备好
-        if (!MchSpells.Reassemble.GetSpell().IsReadyWithCanCast()) return -1;
+        if (!this.IsReady(MchSpells.Reassemble))
+            return -1;
 
-        // 判断 GCD 冷却时间是否足够
-        if (!CombatHelper.IsCooldownWithin(MchSettings.Instance.GcdCooldownLimit)) return -2;
+        // 判断 能力技能是否可插
+        if (!this.CanInsertAbility())
+            return -2;
 
         // 检查是否已经有整备状态
-        if (Core.Me.HasAura(AurasDefine.Reassembled)) return -3;
+        if (this.HasAura(MchBuffs.Reassembled)) return -3;
 
         // 检查整备是否在最近 1200 毫秒内已经使用过
         if (CombatHelper.ReassembledUsed(1200)) return -4;
@@ -40,22 +38,14 @@ public class MchAbilityReassemble : ISlotResolver
         if (strongGcd == MchSpells.HotShot) return -6;
 
         // 检查是否处于过热状态
-        if (CombatHelper.IsOverheated()) return -1;
+        if (this.HasAura(MchBuffs.Overheated)) return -7;
 
-        // 判断是否进入野火阶段，且在 GCD 内没有强威力技能可以使用
-        if (wildfireSpell.IsReadyWithCanCast())
-        {
-            if (strongGcd == SpellsDefine.ChainSaw)
-            {
-                // 如果回转飞锯被选中，且空气矛和钻头都未准备好，则不使用整备
-                if (!airAnchorSpell.IsReadyWithCanCast()
-                    && !drillSpell.IsReadyWithCanCast())
-                {
-                    return -4;
-                }
-            }
-        }
-
+        if (!this.IsReady(MchSpells.Wildfire)) return 0; // 野火未准备好
+        if (strongGcd != MchSpells.ChainSaw) return 0; // 当前 GCD 不是回转飞锯
+        
+        // 如果回转飞锯被选中 检查空气矛和钻头是否准备好
+        if (!this.IsReady(MchSpells.AirAnchor) && !this.IsReady(MchSpells.Drill))
+            return -8;
         return 0;
     }
 

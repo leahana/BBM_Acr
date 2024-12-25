@@ -2,6 +2,8 @@ using AEAssist;
 using AEAssist.CombatRoutine.Module;
 using AEAssist.Extension;
 using AEAssist.Helper;
+using BBM.MCH.Settings;
+using BBM.MCH.Utils;
 
 namespace BBM.MCH.Ability;
 
@@ -14,14 +16,15 @@ public class MchAbilitySecondWind : ISlotResolver
 
     public int Check()
     {
-        if (GCDHelper.GetGCDCooldown() < 600)
-        {
-            return -1;
-        }
-
         if (!SpellsDefine.SecondWind.GetSpell().IsReadyWithCanCast())
             return -1;
-        if (Core.Me.CurrentHpPercent() > 0.4)
+
+        if (!CombatHelper.CanInsertAbility(MchSettings.Instance.GcdCooldownLimit))
+        {
+            return -2;
+        }
+
+        if (CombatHelper.GetHpPercent(0.4f))
         {
             return -2;
         }

@@ -28,10 +28,10 @@ public abstract class CombatHelper
     /// </summary>
     /// <param name="spellId">技能 ID</param>
     /// <param name="cooldownThresholdMs">冷却时间阈值（毫秒）</param>
-    /// <returns>是否在冷却时间内</returns>
-    public static bool IsCooldownWithin(double cooldownThresholdMs)
+    /// <returns>是否在GCD后半段</returns>
+    public static bool CanInsertAbility(double cooldownThresholdMs)
     {
-        return GCDHelper.GetGCDCooldown() <= cooldownThresholdMs;
+        return GCDHelper.GetGCDCooldown() >= cooldownThresholdMs;
     }
 
 
@@ -61,15 +61,7 @@ public abstract class CombatHelper
     {
         return Core.Resolve<JobApi_Machinist>().GetHeat < threshold;
     }
-
-    /// <summary>
-    /// 检查角色是否处于整备状态。
-    /// </summary>
-    /// <returns>如果角色处于整备状态，则返回 true；否则返回 false。</returns>
-    public static bool IsReassembled()
-    {
-        return Core.Me.HasAura(MchBuffs.Reassembled);
-    }
+    
 
     /// <summary>
     /// 检查角色是否处于过热状态。
@@ -79,12 +71,7 @@ public abstract class CombatHelper
     {
         return Core.Resolve<MemApiBuff>().BuffStackCount(Core.Me, MchBuffs.Overheated) > 0;
     }
-
-    public static bool FullMetalFieldReady()
-    {
-        return Core.Me.HasAura(MchBuffs.FullMetalFieldReady);
-    }
-
+    
     public static bool ReassembledUsed(int threshold)
     {
         return MchSpells.Reassemble.RecentlyUsed(threshold);
@@ -95,5 +82,15 @@ public abstract class CombatHelper
         return BbmMchRotationEntry.Qt.GetQt(MchSpellsCnConstants.FullMetalField);
     }
 
+    /// <summary>
+    /// 获取最后一次连击的id
+    /// </summary>
+    /// <returns></returns>
     public static uint GetLastComboSpellId() => Core.Resolve<MemApiSpell>().GetLastComboSpellId();
+
+    public static bool GetHpPercent(float limit) => Core.Me.CurrentHpPercent() > limit;
+
+    
+    
+
 }

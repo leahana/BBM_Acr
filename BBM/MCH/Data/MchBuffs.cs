@@ -16,15 +16,20 @@ public static class MchBuffs
     /// <summary>
     /// 整备buff 851
     /// </summary>
-    public const uint Reassembled = 0x353;
+    public const uint Reassembled = 851;
 
     /// <summary>
     /// 过热buff 2688
     /// </summary>
-    public const uint Overheated = 0xA80;
+    public const uint Overheated = 2688;
 
     /// <summary>
     /// 全金属爆发 3866
     /// </summary>
     public const uint FullMetalFieldReady = 0xF1A;
+
+    /// <summary>
+    /// 掘地飞轮预备 3865
+    /// </summary>
+    public const uint ExcavatorReady = 3865;
 }

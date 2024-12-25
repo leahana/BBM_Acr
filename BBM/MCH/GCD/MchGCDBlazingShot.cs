@@ -1,7 +1,7 @@
 using AEAssist.CombatRoutine.Module;
 using AEAssist.Helper;
 using BBM.MCH.Data;
-using BBM.MCH.Utils;
+using BBM.MCH.Extensions;
 
 namespace BBM.MCH.GCD;
 
@@ -15,11 +15,11 @@ public class MchGcdBlazingShot : ISlotResolver
     public int Check()
     {
         // 有过热buff 
-        return CombatHelper.IsOverheated() ? 1 : -1;
+        return this.HasAura(MchBuffs.Overheated) ? 1 : -1;
     }
 
     public void Build(Slot slot)
     {
-        slot.Add(MchSpells.HeatBlast.GetSpell());
+        slot.Add(MchSpells.BlazingShot.GetSpell());
     }
 }
