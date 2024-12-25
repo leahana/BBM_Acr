@@ -49,11 +49,18 @@ namespace BBM.MCH.Settings
         #endregion
 
         public bool UsePeloton = true; // 使用速行 默认开启
-        public int BatteryGaugeValue = 50;// 电量
-        public int HeatGaugeValue = 50;// 热量
         public bool WildfireFirst = true; // 提前野火
-        public int StrongGCDCheckTime = 6000;
 
+        public int StrongGcdCheckTime = 6000;
+
+        public readonly double GcdCooldownLimit = 600f;
+        public int MinBattery = 50; // 最小电量
+        public int MaxHeat = 50; // 最大热量
         public readonly JobViewSave JobViewSave = new(); // QT设置存档
+        
+        
+        
+        
     }
+    
 }

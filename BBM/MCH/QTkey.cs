@@ -8,6 +8,7 @@ public static class QTKey
     public const string Test1 = "Test1";
     public const string Test2= "Test2";
     public const string UsePotion = "爆发药";
+    public const string FullMetalField = "全金属爆发";
 
 }
 

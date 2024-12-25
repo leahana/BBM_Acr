@@ -1,9 +1,11 @@
 ﻿using AEAssist.CombatRoutine;
 using AEAssist.CombatRoutine.Module;
+using AEAssist.CombatRoutine.Module.Opener;
 using AEAssist.CombatRoutine.View.JobView;
 using AEAssist.CombatRoutine.View.JobView.HotkeyResolver;
 using BBM.MCH.Ability;
 using BBM.MCH.GCD;
+using BBM.MCH.Opener;
 using BBM.MCH.Settings;
 using BBM.MCH.Triggers;
 using ImGuiNET;
@@ -56,11 +58,17 @@ public class BbmMchRotationEntry : IRotationEntry
             Description = "木桩测试123",
         };
 
+        rot.AddOpener(GetOpener);
         // 添加各种事件回调
         // rot.SetRotationEventHandler(new BardRotationEventHandler());
         // 添加QT开关的时间轴行为
         rot.AddTriggerAction(new TriggerActionQt());
         return rot;
+    }
+
+    private static IOpener? GetOpener(uint level)
+    {
+        return new MchSpecialOpener100();
     }
 
     public static JobViewWindow Qt { get; private set; }
@@ -82,6 +90,7 @@ public class BbmMchRotationEntry : IRotationEntry
         Qt.AddQt(QTKey.AOE, false, "使用aoe");
         Qt.AddQt(QTKey.Test1, false, "测试01");
         Qt.AddQt(QTKey.Test2, false);
+        Qt.AddQt(QTKey.FullMetalField, true, "全金属爆发");
 
         // 添加快捷按钮 (带技能图标)
         Qt.AddHotkey("爆发药", new HotKeyResolver_Potion());

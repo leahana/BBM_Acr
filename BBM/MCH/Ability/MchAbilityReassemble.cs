@@ -2,7 +2,9 @@ using AEAssist;
 using AEAssist.CombatRoutine.Module;
 using AEAssist.Extension;
 using AEAssist.Helper;
-using AEAssist.JobApi;
+using BBM.MCH.Data;
+using BBM.MCH.Settings;
+using BBM.MCH.Utils;
 
 namespace BBM.MCH.Ability;
 
@@ -15,31 +17,30 @@ public class MchAbilityReassemble : ISlotResolver
 
     public int Check()
     {
-        var reassembleSpell = SpellsDefine.Reassemble.GetSpell();
-        var wildfireSpell = SpellsDefine.Wildfire.GetSpell();
-        var airAnchorSpell = SpellsDefine.AirAnchor.GetSpell();
-        var drillSpell = SpellsDefine.Drill.GetSpell();
+        var wildfireSpell = MchSpells.Wildfire.GetSpell();
+        var airAnchorSpell = MchSpells.AirAnchor.GetSpell();
+        var drillSpell = MchSpells.Drill.GetSpell();
 
         // 如果整备技能还没有准备好
-        if (!reassembleSpell.IsReadyWithCanCast()) return -1;
+        if (!MchSpells.Reassemble.GetSpell().IsReadyWithCanCast()) return -1;
 
         // 判断 GCD 冷却时间是否足够
-        if (GCDHelper.GetGCDCooldown() <= 600) return -2;
+        if (!CombatHelper.IsCooldownWithin(MchSettings.Instance.GcdCooldownLimit)) return -2;
 
-        // 检查是否已经有过热状态
+        // 检查是否已经有整备状态
         if (Core.Me.HasAura(AurasDefine.Reassembled)) return -3;
 
         // 检查整备是否在最近 1200 毫秒内已经使用过
-        if (reassembleSpell.RecentlyUsed(1200)) return -1;
+        if (CombatHelper.ReassembledUsed(1200)) return -4;
 
         // 检查是否能进行强威力 GCD 的释放
-        if (!MchSpellHelper.CheckReassmableGcd(GCDHelper.GetGCDCooldown(), out var strongGcd)) return -4;
+        if (!MchSpellHelper.CheckReassmableGcd(GCDHelper.GetGCDCooldown(), out var strongGcd)) return -5;
 
         // 如果当前强威力 GCD 是 HotShot，则不使用整备
-        if (strongGcd == SpellsDefine.HotShot) return -5;
+        if (strongGcd == MchSpells.HotShot) return -6;
 
         // 检查是否处于过热状态
-        if (Core.Resolve<JobApi_Machinist>().OverHeated) return -1;
+        if (CombatHelper.IsOverheated()) return -1;
 
         // 判断是否进入野火阶段，且在 GCD 内没有强威力技能可以使用
         if (wildfireSpell.IsReadyWithCanCast())
