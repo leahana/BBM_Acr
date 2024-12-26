@@ -1,5 +1,7 @@
 using AEAssist.CombatRoutine.Module;
 using AEAssist.Helper;
+using BBM.MCH.Data;
+using BBM.MCH.Extensions;
 
 namespace BBM.MCH.Ability;
 
@@ -12,11 +14,10 @@ public class MchAbilityBarrelStabilizer : ISlotResolver
 
     public int Check()
     {
-        // 高于50热量
-        // if (Core.Resolve<JobApi_Machinist>().GetHeat > 50)
-        //     return -1;
-        if (!SpellsDefine.BarrelStabilizer.GetSpell().IsReadyWithCanCast())
+        if (this.IsReady(MchSpells.BarrelStabilizer))
             return -1;
+        if (!this.CanInsertAbility())
+            return -2;
         return 1;
     }
 

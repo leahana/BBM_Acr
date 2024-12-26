@@ -19,7 +19,6 @@ public class MchGcdBaseCombo : ISlotResolver
         {
             return -1;
         }
-
         return 0;
     }
 

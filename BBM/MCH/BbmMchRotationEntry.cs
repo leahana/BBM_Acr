@@ -4,6 +4,7 @@ using AEAssist.CombatRoutine.Module.Opener;
 using AEAssist.CombatRoutine.View.JobView;
 using AEAssist.CombatRoutine.View.JobView.HotkeyResolver;
 using BBM.MCH.Ability;
+using BBM.MCH.Data;
 using BBM.MCH.GCD;
 using BBM.MCH.Opener;
 using BBM.MCH.Settings;
@@ -39,8 +40,8 @@ public class BbmMchRotationEntry : IRotationEntry
         new(new MchAbilityReassemble(), SlotMode.OffGcd),
         new(new MchAbilityBarrelStabilizer(), SlotMode.OffGcd),
         new(new MchAbilityHyperCharge(), SlotMode.OffGcd),
-        new(new MchMatecheckAbility(), SlotMode.OffGcd),
-        new(new MchCheckmateAbility(), SlotMode.OffGcd)
+        new(new MchAbilityCheckMate(), SlotMode.OffGcd),
+        new(new MchAbilityDoubleCheck(), SlotMode.OffGcd)
     ];
 
 
@@ -88,11 +89,12 @@ public class BbmMchRotationEntry : IRotationEntry
         Qt.AddTab("Dev", DrawQtDev);
 
         // 添加QT开关 第二个参数是默认值 (开or关) 第三个参数是鼠标悬浮时的tips
-        Qt.AddQt(QTKey.UsePotion, false, "自动吃爆发药");
-        Qt.AddQt(QTKey.FullMetalField, true, "全金属爆发");
-        Qt.AddQt(QTKey.AOE, false, "使用aoe");
-        Qt.AddQt(QTKey.Test1, false, "测试01");
-        Qt.AddQt(QTKey.Test2, false);
+        Qt.AddQt(QtKey.UsePotion, false, "自动吃爆发药");
+        Qt.AddQt(QtKey.FullMetalField, true, MchQtConstantsCn.FullMetalField);
+        Qt.AddQt(QtKey.Excavator, true, MchQtConstantsCn.Excavator);
+        
+        Qt.AddQt(QtKey.Aoe, false, "使用aoe");
+        Qt.AddQt(QtKey.Test1, false, "测试01");
 
         // 添加快捷按钮 (带技能图标)
         Qt.AddHotkey("爆发药", new HotKeyResolver_Potion());

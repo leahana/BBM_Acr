@@ -1,96 +1,38 @@
 using AEAssist;
 using AEAssist.Extension;
-using AEAssist.Helper;
-using AEAssist.JobApi;
-using AEAssist.MemoryApi;
 using BBM.MCH.Data;
 
 namespace BBM.MCH.Utils;
 
 /**
- * 战斗条件判断工具类
+ * 一般战斗条件判断工具
  */
 public abstract class CombatHelper
 {
     /// <summary>
-    /// 判断技能是否可以使用
+    /// 自身获取当前血量
     /// </summary>
-    /// <param name="spellId">技能 ID</param>
-    /// <returns>是否可以使用</returns>
-    public static bool IsSpellReady(uint spellId)
-    {
-        // 使用 Spell的拓展方法
-        return spellId.GetSpell().IsReadyWithCanCast();
-    }
-
-    /// <summary>
-    /// 判断技能是否处于指定冷却时间内
-    /// </summary>
-    /// <param name="spellId">技能 ID</param>
-    /// <param name="cooldownThresholdMs">冷却时间阈值（毫秒）</param>
-    /// <returns>是否在GCD后半段</returns>
-    public static bool CanInsertAbility(double cooldownThresholdMs)
-    {
-        return GCDHelper.GetGCDCooldown() >= cooldownThresholdMs;
-    }
-
-
-    /// <summary>
-    /// 判断玩家是否存在特定 Buff
-    /// </summary>
-    /// <param name="buffId">Buff ID</param>
-    /// <returns>是否存在 Buff</returns>
-    public static bool HasBuff(uint buffId)
-    {
-        return Core.Me.HasAura(auraId: buffId);
-    }
-
-
-    /// <summary>
-    /// 判断当前热量是否低于指定的阈值。
-    /// </summary>
-    /// <param name="threshold">指定的热量阈值（整数值）。</param>
-    /// <returns>
-    /// 如果当前热量小于指定的阈值，则返回 true；否则返回 false。
-    /// </returns>
-    /// <remarks>
-    /// 该方法依赖于 JobApi_Machinist 类，获取当前角色的热量值进行比较。
-    /// 可用于执行技能前的条件判断，例如判断是否需要过热技能或进入特殊状态。
-    /// </remarks>
-    public static bool IsHeatBelow(int threshold)
-    {
-        return Core.Resolve<JobApi_Machinist>().GetHeat < threshold;
-    }
-    
-
-    /// <summary>
-    /// 检查角色是否处于过热状态。
-    /// </summary>
-    /// <returns>如果角色处于过热状态，则返回 true；否则返回 false。</returns>
-    public static bool IsOverheated()
-    {
-        return Core.Resolve<MemApiBuff>().BuffStackCount(Core.Me, MchBuffs.Overheated) > 0;
-    }
-    
-    public static bool ReassembledUsed(int threshold)
-    {
-        return MchSpells.Reassemble.RecentlyUsed(threshold);
-    }
-
-    public static bool QtFullMetalField()
-    {
-        return BbmMchRotationEntry.Qt.GetQt(MchSpellsCnConstants.FullMetalField);
-    }
-
-    /// <summary>
-    /// 获取最后一次连击的id
-    /// </summary>
+    /// <param name="limit"></param>
     /// <returns></returns>
-    public static uint GetLastComboSpellId() => Core.Resolve<MemApiSpell>().GetLastComboSpellId();
-
     public static bool GetHpPercent(float limit) => Core.Me.CurrentHpPercent() > limit;
 
-    
-    
+    public static bool 能力技封印() => Core.Me.HasAura(1092U, 0);
+    public static bool 战技封印() => Core.Me.HasAura(620U, 0);
 
+    public static bool 敌人无敌或自身受限制()
+    {
+        var battleChara = Core.Me.GetCurrTarget();
+        return
+            battleChara != null
+            && (battleChara.HasAnyAura(Buff.敌人无敌BUFF)
+                || battleChara.HasAnyAura(Buff.远程物理攻击无效化)
+                || Core.Me.HasAnyAura(Buff.无法造成伤害)
+                || (!Core.Me.HasAnyAura(Buff.加速度炸弹, 1500)));
+    }
+
+    public static bool 选择目标()
+    {
+        var battleChara = Core.Me.GetCurrTarget();
+        return battleChara == null;
+    }
 }

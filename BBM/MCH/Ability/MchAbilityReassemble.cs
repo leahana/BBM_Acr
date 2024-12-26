@@ -7,7 +7,7 @@ using BBM.MCH.Utils;
 namespace BBM.MCH.Ability;
 
 /**
- * off gcd 整备
+ * 整备
  */
 public class MchAbilityReassemble : ISlotResolver
 {
@@ -15,8 +15,6 @@ public class MchAbilityReassemble : ISlotResolver
 
     public int Check()
     {
-  
-
         // 如果整备技能还没有准备好
         if (!this.IsReady(MchSpells.Reassemble))
             return -1;
@@ -29,10 +27,10 @@ public class MchAbilityReassemble : ISlotResolver
         if (this.HasAura(MchBuffs.Reassembled)) return -3;
 
         // 检查整备是否在最近 1200 毫秒内已经使用过
-        if (CombatHelper.ReassembledUsed(1200)) return -4;
+        if (MchSpellHelper.ReassembledUsed(1200)) return -4;
 
         // 检查是否能进行强威力 GCD 的释放
-        if (!MchSpellHelper.CheckReassmableGcd(GCDHelper.GetGCDCooldown(), out var strongGcd)) return -5;
+        if (!MchSpellHelper.CheckReassembleGcd(GCDHelper.GetGCDCooldown(), out var strongGcd)) return -5;
 
         // 如果当前强威力 GCD 是 HotShot，则不使用整备
         if (strongGcd == MchSpells.HotShot) return -6;
@@ -41,17 +39,18 @@ public class MchAbilityReassemble : ISlotResolver
         if (this.HasAura(MchBuffs.Overheated)) return -7;
 
         if (!this.IsReady(MchSpells.Wildfire)) return 0; // 野火未准备好
+
         if (strongGcd != MchSpells.ChainSaw) return 0; // 当前 GCD 不是回转飞锯
-        
+
         // 如果回转飞锯被选中 检查空气矛和钻头是否准备好
         if (!this.IsReady(MchSpells.AirAnchor) && !this.IsReady(MchSpells.Drill))
             return -8;
+
         return 0;
     }
 
     public void Build(Slot slot)
     {
-        // 添加整备技能到槽位
-        slot.Add(SpellsDefine.Reassemble.GetSpell());
+        slot.Add(MchSpells.Reassemble.GetSpell());
     }
 }

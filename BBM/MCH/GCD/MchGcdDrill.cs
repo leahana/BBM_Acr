@@ -10,12 +10,12 @@ public class MchGcdDrill : ISlotResolver
 {
     public int Check()
     {
-        if (this.IsComboTimeWithin(3000) && CombatHelper.GetLastComboSpellId() != MchSpells.CleanShot)
-            return -3;
+        if (this.IsComboTimeWithin(3000) && MchSpellHelper.GetLastComboSpellId() != MchSpells.CleanShot)
+            return -2;
         if (this.IsCooldownWithin(MchSpells.AirAnchor, 1200.0))
-            return -31;
+            return -3;
         if (this.IsCooldownWithin(MchSpells.ChainSaw, 1200.0))
-            return -10;
+            return -4;
         return this.IsGcdReadySoon() && this.IsCooldownWithin(MchSpells.Drill, 21000.0)
             ? 1
             : -1;

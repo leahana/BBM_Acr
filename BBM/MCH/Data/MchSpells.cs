@@ -187,4 +187,5 @@ public static class MchSpells
     /// 全金属爆发 - 超荷二段
     /// </summary>
     public const uint FullMetalField = 36982;
+    
 }

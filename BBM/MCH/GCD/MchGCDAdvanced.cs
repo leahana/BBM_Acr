@@ -14,15 +14,16 @@ public class MchGcdAdvanced : ISlotResolver
 {
     public int Check()
     {
-        if (!MchSpellHelper.CheckReassmableGcd((SettingMgr.GetSetting<GeneralSettings>().ActionQueueInMs + 700),
+        if (!MchSpellHelper.CheckReassembleGcd((SettingMgr.GetSetting<GeneralSettings>().ActionQueueInMs + 700),
                 out var _))
             return -1;
-        return Core.Resolve<JobApi_Machinist>().OverHeated ? -2 : 0;
+        // 过热不打高伤害技能
+        return MchSpellHelper.OverHeated() ? -2 : 0;
     }
 
     public void Build(Slot slot)
     {
-        MchSpellHelper.CheckReassmableGcd(SettingMgr.GetSetting<GeneralSettings>().ActionQueueInMs + 700,
+        MchSpellHelper.CheckReassembleGcd(SettingMgr.GetSetting<GeneralSettings>().ActionQueueInMs + 700,
             out var spellId);
         slot.Add(spellId.GetSpell());
     }

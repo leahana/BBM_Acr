@@ -13,8 +13,13 @@ public class MchGcdAirAnchor : ISlotResolver
 {
     public int Check()
     {
-        // 上一个连击是狙击弹 不打空气矛
-        if (this.IsComboTimeWithin(3000.0) && CombatHelper.GetLastComboSpellId() != MchSpells.CleanShot)
+        if (!this.IsReady(MchSpells.AirAnchor))
+        {
+            return -1;
+        }
+
+        // 上一个连击不是狙击弹且连击buff小于3000ms
+        if (this.IsComboTimeWithin(3000.0) && MchSpellHelper.GetLastComboSpellId() != MchSpells.CleanShot)
         {
             return -3;
         }

@@ -1,7 +1,7 @@
-using AEAssist;
 using AEAssist.CombatRoutine.Module;
-using AEAssist.Extension;
 using AEAssist.Helper;
+using BBM.MCH.Data;
+using BBM.MCH.Extensions;
 using BBM.MCH.Settings;
 using BBM.MCH.Utils;
 
@@ -16,17 +16,18 @@ public class MchAbilitySecondWind : ISlotResolver
 
     public int Check()
     {
-        if (!SpellsDefine.SecondWind.GetSpell().IsReadyWithCanCast())
+        if (!this.IsReady(SpellsDefine.SecondWind))
             return -1;
 
-        if (!CombatHelper.CanInsertAbility(MchSettings.Instance.GcdCooldownLimit))
+        if (!this.CanInsertAbility())
         {
             return -2;
         }
 
+        // 自身血量 百分比大于 40%
         if (CombatHelper.GetHpPercent(0.4f))
         {
-            return -2;
+            return -3;
         }
 
         return 1;

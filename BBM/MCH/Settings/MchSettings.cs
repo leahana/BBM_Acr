@@ -54,7 +54,7 @@ namespace BBM.MCH.Settings
         public int StrongGcdCheckTime = 6000;
 
         public readonly double GcdCooldownLimit = 600f;
-        public int MinBattery = 50; // 最小电量
+        public int MinBattery = 90; // 最小电量
         public int MaxHeat = 50; // 最大热量
         public readonly JobViewSave JobViewSave = new(); // QT设置存档
         

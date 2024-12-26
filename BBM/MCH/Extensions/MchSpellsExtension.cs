@@ -1,15 +1,13 @@
 using AEAssist;
-using AEAssist.CombatRoutine;
 using AEAssist.CombatRoutine.Module;
 using AEAssist.Extension;
 using AEAssist.Helper;
-using AEAssist.JobApi;
 using AEAssist.MemoryApi;
 using BBM.MCH.Settings;
 
 namespace BBM.MCH.Extensions;
 
-public static class CommonExtensions
+public static class MchSpellsExtension
 {
     /// <summary>
     /// 通用的 IsReady 检查逻辑
@@ -34,43 +32,75 @@ public static class CommonExtensions
     }
 
     /// <summary>
-    /// 通用的 IsReady 检查逻辑
+    /// 判断自身是否有buff
     /// </summary>
-    /// <param name="resolver">当前的 ISlotResolver 实例</param>
+    /// <param name="resolver"></param>
     /// <param name="auraId"></param>
-    /// <returns>是否准备好</returns>
+    /// <returns></returns>
     public static bool HasAura(this ISlotResolver resolver, uint auraId)
     {
         return Core.Me.HasAura(auraId: auraId);
     }
 
+    /// <summary>
+    /// 连击时间小于等于
+    /// </summary>
+    /// <param name="resolver"></param>
+    /// <param name="comboTime"></param>
+    /// <returns></returns>
     public static bool IsComboTimeWithin(this ISlotResolver resolver, double comboTime)
     {
         return Core.Resolve<MemApiSpell>().GetComboTimeLeft().TotalMilliseconds <= comboTime;
     }
 
+
+    /// <summary>
+    /// 连击时间大于
+    /// </summary>
+    /// <param name="resolver"></param>
+    /// <param name="comboTime"></param>
+    /// <returns></returns>
     public static bool IsComboTimeWithOut(this ISlotResolver resolver, double comboTime)
     {
         return Core.Resolve<MemApiSpell>().GetComboTimeLeft().TotalMilliseconds > comboTime;
     }
 
+    /// <summary>
+    /// 冷却时间小于等于
+    /// </summary>
+    /// <param name="resolver"></param>
+    /// <param name="spellId"></param>
+    /// <param name="coolDownTime"></param>
+    /// <returns></returns>
     public static bool IsCooldownWithin(this ISlotResolver resolver, uint spellId, double coolDownTime)
     {
         return spellId.GetSpell().Cooldown.TotalMilliseconds <= coolDownTime;
     }
 
+    /// <summary>
+    /// 当前gcd还有 500ms转好
+    /// </summary>
+    /// <param name="resolver"></param>
+    /// <param name="cooldownTime"></param>
+    /// <returns></returns>
     public static bool IsGcdReadySoon(this ISlotResolver resolver, double cooldownTime = 500)
     {
         return GCDHelper.GetGCDCooldown() <= cooldownTime;
     }
 
+
+    /// <summary>
+    /// 技能充能层数
+    /// </summary>
+    /// <param name="spellId"></param>
+    /// <returns></returns>
     public static double GetCharges(this uint spellId)
     {
         return Core.Resolve<MemApiSpell>().GetCharges(spellId);
     }
 
-    public static int GetHeat(this ISlotResolver resolver)
+    public static double Cooldown(this uint spellId)
     {
-        return Core.Resolve<JobApi_Machinist>().GetHeat;
+        return spellId.GetSpell().Cooldown.TotalMilliseconds;
     }
 }
