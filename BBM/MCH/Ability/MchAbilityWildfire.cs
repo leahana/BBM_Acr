@@ -16,8 +16,14 @@ public class MchAbilityWildfire : ISlotResolver
             return -1;
         if (!this.CanInsertAbility())
             return -2;
-        if (!this.HasAura(MchBuffs.过热))
+
+        if (MchSpells.将死.GetCharges().Equals(3.0) && MchSpells.双将.GetCharges().Equals(3.0))
+        {
             return -3;
+        }
+        if (!this.HasAura(MchBuffs.过热))
+            return -4;
+
         return 0;
     }
 

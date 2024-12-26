@@ -31,6 +31,16 @@ public static class MchSpellsExtension
         return GCDHelper.GetGCDCooldown() >= MchSettings.Instance.GcdCooldownLimit;
     }
 
+    public static bool CheckActionCanUse(this uint spellId)
+    {
+        return Core.Resolve<MemApiSpell>().CheckActionCanUse(spellId);
+    }
+
+    public static uint LastAbility(this ISlotResolver resolver)
+    {
+        return Core.Resolve<MemApiSpellCastSuccess>().LastAbility;
+    }
+
     /// <summary>
     /// 判断自身是否有buff
     /// </summary>

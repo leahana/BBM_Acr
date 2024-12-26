@@ -14,7 +14,7 @@ public class MchAbilityBarrelStabilizer : ISlotResolver
 
     public int Check()
     {
-        if (this.IsReady(MchSpells.BarrelStabilizer))
+        if (!this.IsReady(MchSpells.BarrelStabilizer))
             return -1;
         if (!this.CanInsertAbility())
             return -2;

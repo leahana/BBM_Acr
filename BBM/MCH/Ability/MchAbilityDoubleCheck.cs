@@ -20,13 +20,11 @@ public class MchAbilityDoubleCheck : ISlotResolver
         // 过热状态  虹吸cd 小于 弹射
         if (MchSpellHelper.OverHeated() && MchSpells.双将.GetCharges() >= 1)
         {
-            return MchSpells.双将.Cooldown() > MchSpells.将死.Cooldown()
-                ? -3
-                : 3;
+            return MchSpells.双将.Cooldown() > MchSpells.将死.Cooldown() ? -3 : 3;
         }
 
         // 好了就打
-        return MchSpells.双将.GetCharges() >= 1 ? 0 : -1;
+        return MchSpells.双将.GetCharges() >= 1 && this.LastAbility() != MchSpells.双将 ? 0 : -1;
 
         // if (!MCHRotationEntry.QT.GetQt("爆发"))
         // return -3;

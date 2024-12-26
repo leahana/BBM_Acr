@@ -16,7 +16,7 @@ public class MchGcdDrill : ISlotResolver
             return -3;
         if (this.IsCooldownWithin(MchSpells.ChainSaw, 1200.0))
             return -4;
-        return this.IsGcdReadySoon() && this.IsCooldownWithin(MchSpells.Drill, 21000.0)
+        return this.IsGcdReadySoon() && this.IsCooldownWithin(MchSpells.Drill, 20500.0)
             ? 1
             : -1;
     }

@@ -1,7 +1,5 @@
-using AEAssist;
 using AEAssist.CombatRoutine.Module;
 using AEAssist.Helper;
-using AEAssist.JobApi;
 using BBM.MCH.Data;
 using BBM.MCH.Extensions;
 using BBM.MCH.Utils;
@@ -15,6 +13,7 @@ public class MchAbilityCheckMate : ISlotResolver
 {
     public int Check()
     {
+        
         if (!this.IsReady(MchSpells.将死))
             return -1;
         if (!this.CanInsertAbility())
@@ -23,7 +22,7 @@ public class MchAbilityCheckMate : ISlotResolver
         if (MchSpellHelper.OverHeated() && MchSpells.将死.GetCharges() >= 1)
             return MchSpells.将死.Cooldown() > MchSpells.双将.Cooldown() ? -3 : 3;
 
-        return MchSpells.将死.GetCharges() >= 1 ? 0 : -3;
+        return MchSpells.将死.GetCharges() >= 1 && this.LastAbility() != MchSpells.将死 ? 0 : -3;
     }
 
     public void Build(Slot slot) => slot.Add(MchSpells.将死.GetSpell());

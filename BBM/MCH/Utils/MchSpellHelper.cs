@@ -1,7 +1,5 @@
 using AEAssist;
 using AEAssist.CombatRoutine;
-using AEAssist.CombatRoutine.Module;
-using AEAssist.Extension;
 using AEAssist.Helper;
 using AEAssist.JobApi;
 using AEAssist.MemoryApi;
@@ -49,7 +47,7 @@ public static class MchSpellHelper
     {
         // 检查空气矛（优先级最高）
         var airAnchor = MchSpells.AirAnchor.GetSpell();
-        if (airAnchor.IsReadyWithCanCast() && airAnchor.Cooldown.TotalMilliseconds < timeleft)
+        if (airAnchor.Cooldown.TotalMilliseconds < timeleft || airAnchor.IsReadyWithCanCast())
         {
             spellId = MchSpells.AirAnchor;
             return true;
@@ -57,7 +55,7 @@ public static class MchSpellHelper
 
         // 检查钻头
         var drill = MchSpells.Drill.GetSpell();
-        if (drill.IsReadyWithCanCast() && drill.Cooldown.TotalMilliseconds < timeleft)
+        if (drill.Cooldown.TotalMilliseconds < timeleft || drill.IsReadyWithCanCast())
         {
             spellId = MchSpells.Drill;
             return true;
@@ -65,7 +63,7 @@ public static class MchSpellHelper
 
         // 检查回转飞锯
         var chainSaw = MchSpells.ChainSaw.GetSpell();
-        if (chainSaw.IsReadyWithCanCast() && chainSaw.Cooldown.TotalMilliseconds < timeleft)
+        if (chainSaw.Cooldown.TotalMilliseconds < timeleft || chainSaw.IsReadyWithCanCast())
         {
             // 额外判断野火和钻头的情况
             var wildfire = MchSpells.Wildfire.GetSpell();
@@ -148,5 +146,4 @@ public static class MchSpellHelper
     {
         return Core.Resolve<JobApi_Machinist>().SummonRemain;
     }
-    
 }

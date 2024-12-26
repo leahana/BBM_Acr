@@ -45,8 +45,11 @@ public class MchAbilityReassemble : ISlotResolver
         // 如果回转飞锯被选中 检查空气矛和钻头是否准备好
         if (!this.IsReady(MchSpells.AirAnchor) && !this.IsReady(MchSpells.Drill))
             return -8;
+        // 如果回转飞锯被选中 检查空气矛和钻头是否准备好
+        if (MchSpellHelper.GetLastComboSpellId() == MchSpells.Wildfire)
+            return -9;
 
-        return 0;
+        return 1;
     }
 
     public void Build(Slot slot)

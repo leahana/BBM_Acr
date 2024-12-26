@@ -32,7 +32,7 @@ public class MchAbilityUseBattery : ISlotResolver
         if (MchSpellHelper.SummonRemain() > TimeSpan.Zero.Ticks) return -6;
 
         // 7. 检查蓄电量是否足够
-        if (MchSpellHelper.GetBattery() <= 50) return -7;
+        if (MchSpellHelper.GetBattery() < 50) return -7;
 
         // 8. 大于90放机器人
         return MchSpellHelper.GetBattery() >= MchSettings.Instance.MinBattery ? 2 : -1;
