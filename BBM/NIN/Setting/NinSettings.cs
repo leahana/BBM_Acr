@@ -37,7 +37,7 @@ public class NinSettings
 
     public void Save()
     {
-        Directory.CreateDirectory(Path.GetDirectoryName(path));
+        Directory.CreateDirectory(Path.GetDirectoryName(path) ?? string.Empty);
         File.WriteAllText(path, JsonHelper.ToJson(this));
     }
     #endregion
