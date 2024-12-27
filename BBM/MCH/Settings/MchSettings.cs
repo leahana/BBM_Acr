@@ -1,3 +1,4 @@
+using System.Numerics;
 using AEAssist.CombatRoutine.View.JobView;
 using AEAssist.Extension;
 using AEAssist.Helper;
@@ -48,19 +49,14 @@ namespace BBM.MCH.Settings
 
         #endregion
 
+        public int Opener = 0; // 起手选择
         public bool UsePeloton = true; // 使用速行 默认开启
         public bool WildfireFirst = true; // 提前野火
-
-        public int StrongGcdCheckTime = 6000;
+        public bool UsePotionInOpener = false; // 是否在开场使用药水
 
         public readonly double GcdCooldownLimit = 600.0;
         public int MinBattery = 90; // 最小电量
         public int MaxHeat = 50; // 最大热量
-        public readonly JobViewSave JobViewSave = new(); // QT设置存档
-        
-        
-        
-        
+
     }
-    
 }

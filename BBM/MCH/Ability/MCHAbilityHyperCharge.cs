@@ -45,8 +45,8 @@ public class MchAbilityHyperCharge : ISlotResolver
 
         // 120 超荷+野火
         if (this.HasAura(MchBuffs.超荷预备))
-            return 1;
-   
+            return 2;
+
 
         return MchSpellHelper.GetHeat() >= 50 ? 2 : -10;
     }

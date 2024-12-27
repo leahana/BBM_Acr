@@ -35,7 +35,7 @@ public class MchAbilityUseBattery : ISlotResolver
         if (MchSpellHelper.GetBattery() < 50) return -7;
 
         // 8. 大于90放机器人
-        return MchSpellHelper.GetBattery() >= MchSettings.Instance.MinBattery ? 2 : -1;
+        return MchSpellHelper.GetBattery() >= MchSettings.Instance.MinBattery ? 2 : -8;
     }
 
 

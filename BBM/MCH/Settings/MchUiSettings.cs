@@ -1,3 +1,5 @@
+using System.Numerics;
+using AEAssist.CombatRoutine.View.JobView;
 using AEAssist.GUI;
 using ImGuiNET;
 
@@ -7,7 +9,7 @@ public class MchUiSettings
 {
     public static readonly MchUiSettings Instance = new();
 
-    private MchSettings MchSettings => MchSettings.Instance;
+    private static MchSettings MchSettings => MchSettings.Instance;
 
     public void Draw()
     {
@@ -19,4 +21,11 @@ public class MchUiSettings
             MchSettings.Instance.Save();
         }
     }
+
+    public readonly JobViewSave JobViewSave = new()
+    {
+        MainColor = new Vector4(217f, 0.158f, 171f, 1f), //樱桃粉红
+        QtLineCount = 2,
+        QtWindowBgAlpha = 0.1f,
+    }; // QT设置存档
 }

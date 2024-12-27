@@ -28,7 +28,7 @@ public class MchAbilitySecondWind : ISlotResolver
             return -3;
         }
 
-        return 1;
+        return 0;
     }
 
     public void Build(Slot slot)

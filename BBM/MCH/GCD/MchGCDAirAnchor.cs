@@ -17,8 +17,7 @@ public class MchGcdAirAnchor : ISlotResolver
         {
             return -1;
         }
-
-        // 上一个连击不是狙击弹且连击buff小于3000ms
+        // 防止短连击
         if (this.IsComboTimeWithin(3000.0) && MchSpellHelper.GetLastComboSpellId() != MchSpells.CleanShot)
         {
             return -3;

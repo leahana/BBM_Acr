@@ -14,7 +14,8 @@ public class MchGcdAdvanced : ISlotResolver
 {
     public int Check()
     {
-        if (!MchSpellHelper.CheckReassembleGcd((SettingMgr.GetSetting<GeneralSettings>().ActionQueueInMs + 700),
+        if (!MchSpellHelper.CheckReassembleGcd(
+                (SettingMgr.GetSetting<GeneralSettings>().ActionQueueInMs + 700),
                 out var _))
             return -1;
         // 过热不打高伤害技能
