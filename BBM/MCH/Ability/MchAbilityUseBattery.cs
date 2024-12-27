@@ -34,8 +34,19 @@ public class MchAbilityUseBattery : ISlotResolver
         // 7. 检查蓄电量是否足够
         if (MchSpellHelper.GetBattery() < 50) return -7;
 
-        // 8. 大于90放机器人
-        return MchSpellHelper.GetBattery() >= MchSettings.Instance.MinBattery ? 2 : -8;
+        var heat = MchSpellHelper.GetHeat();
+
+        if (heat == 60 && this.IsCooldownWithin(MchSpells.ChainSaw, 2100.0))
+        {
+            return -8;
+        }
+
+        if (heat == 80 && this.HasAura(MchBuffs.ExcavatorReady))
+        {
+            return -9;
+        }
+
+        return MchSpellHelper.GetBattery() >= MchSettings.Instance.MinBattery ? 2 : -14;
     }
 
 

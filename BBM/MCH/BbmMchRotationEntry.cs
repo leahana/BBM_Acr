@@ -11,6 +11,8 @@ using BBM.MCH.GCD;
 using BBM.MCH.Opener;
 using BBM.MCH.Settings;
 using BBM.MCH.Triggers;
+using BBM.MCH.Utils;
+using BBM.NIN;
 using ImGuiNET;
 
 namespace BBM.MCH;
@@ -27,17 +29,16 @@ public class BbmMchRotationEntry : IRotationEntry
 
     private readonly List<SlotResolverData> _slotResolvers =
     [
+        new(new MchAbilityUseBattery(), SlotMode.OffGcd),
         new(new MchGcdBlazingShot(), SlotMode.Gcd),
         new(new MchGcdChainsaw(), SlotMode.Gcd),
         new(new MchGcdAirAnchor(), SlotMode.Gcd),
         new(new MchGcdDrill(), SlotMode.Gcd),
-        new(new MchGcdExcavator(), SlotMode.Gcd),
+        new(new MchGcdExcavator([MchQtConstantsCn.UseExcavator]), SlotMode.Gcd),
         new(new MchGcdFullMetalField(), SlotMode.Gcd),
         new(new MchGcdAdvanced(), SlotMode.Gcd),
         new(new MchGcdBaseCombo(), SlotMode.Gcd),
-
         new(new MchAbilityBarrelStabilizer(), SlotMode.OffGcd),
-        new(new MchAbilityUseBattery(), SlotMode.OffGcd),
         new(new MchAbilityHyperCharge(), SlotMode.OffGcd),
         new(new MchAbilityWildfire(), SlotMode.OffGcd),
         new(new MchAbilityReassemble(), SlotMode.OffGcd),
@@ -59,8 +60,7 @@ public class BbmMchRotationEntry : IRotationEntry
             AcrType = AcrType.HighEnd,
             MinLevel = 100,
             MaxLevel = 100,
-            Description = "木桩测试123123123" +
-                          "\n 绝赞测试中",
+            Description = "绝赞测试中",
         };
 
         rot.AddOpener(GetOpener);
@@ -90,27 +90,20 @@ public class BbmMchRotationEntry : IRotationEntry
     private void BuildQt()
     {
         // JobViewSave是AE底层提供的QT设置存档类 在你自己的设置里定义即可
-        Qt = new JobViewWindow(MchUiSettings.Instance.JobViewSave, MchSettings.Instance.Save, "bbm Mch jobView");
+        Qt = new JobViewWindow(MchSettings.Instance.JobViewSave, MchSettings.Instance.Save, "bbm Mch jobView");
+
+
         // 第二个参数是你设置文件的Save类 第三个参数是QT窗口标题
         // QT.SetUpdateAction(OnUIUpdate); // 设置QT中的Update回调 不需要就不设置
 
         //添加QT分页 第一个参数是分页标题 第二个是分页里的内容
-        Qt.AddTab("通用", DrawQtGeneral);
-        Qt.AddTab("Dev", DrawQtDev);
+        AddQtTab();
 
         // 添加QT开关 第二个参数是默认值 (开or关) 第三个参数是鼠标悬浮时的tips
-        // Qt.AddQt(QtKey.UsePotion, false, "自动吃爆发药");
-        Qt.AddQt(QtKey.FullMetalField, true, MchQtConstantsCn.FullMetalField);
-        Qt.AddQt(QtKey.Excavator, true, MchQtConstantsCn.Excavator);
-        Qt.SetQtToolTip("SetQtToolTip我也不知道这是做什么的先试试");
-        // Qt.AddQt(QtKey.Aoe, false, "使用aoe");
-        Qt.AddQt(QtKey.Test1, false, "测试01");
+        AddQt();
 
         // 添加快捷按钮 (带技能图标)
-        Qt.AddHotkey("爆发药", new HotKeyResolver_Potion());
-        Qt.AddHotkey("极限技", new HotKeyResolver_LB());
-        Qt.AddHotkey("冲刺", new HotKeyResolver_疾跑());
-
+        AddQtKey();
 
         /*
     // 这是一个自定义的快捷按钮 一般用不到
@@ -124,25 +117,73 @@ public class BbmMchRotationEntry : IRotationEntry
     */
     }
 
-    private static string UpdateLog = "这里是是更新新消息" +
-                                      "\n第二行" +
-                                      "\n第三行";
+    private void AddQtTab()
+    {
+        Qt.AddTab("通用", DrawQtGeneral);
+        Qt.AddTab("Dev", DrawQtDev);
+    }
+
+    private void AddQtKey()
+    {
+        Qt.AddHotkey("爆发药", new HotKeyResolver_Potion());
+        Qt.AddHotkey("极限技", new HotKeyResolver_LB());
+        Qt.AddHotkey("冲刺", new HotKeyResolver_疾跑());
+        Qt.AddHotkey("冲刺", new HotKeyResolver_疾跑());
+    }
+
+    private void AddQt()
+    {   
+
+        Qt.AddQt(QtKey.UsePotion, false, MchQtConstantsCn.UsePotion);
+        Qt.AddQt(QtKey.UseFullMetalField, true, MchQtConstantsCn.UseFullMetalField);
+        Qt.AddQt(QtKey.ReserveCheckMate, false, MchQtConstantsCn.ReserveCheckMate);
+        Qt.AddQt(QtKey.ReserveDoubleCheck, false, MchQtConstantsCn.ReserveDoubleCheck);
+        Qt.AddQt(QtKey.UseChainSaw, true, MchQtConstantsCn.UseChainSaw);
+        Qt.AddQt(QtKey.UseExcavator, false, MchQtConstantsCn.UseExcavator);
+        Qt.AddQt(QtKey.UseAirAnchor, true, MchQtConstantsCn.UseAirAnchor);
+        Qt.AddQt(QtKey.UseDrill, true, MchQtConstantsCn.UseDrill);
+        Qt.AddQt(QtKey.UseOutbreak, false, MchQtConstantsCn.UseOutbreak);
+        Qt.AddQt(QtKey.UseLastOutbreak, false, MchQtConstantsCn.UseLastOutbreak);
+        
+    }
+
+    private static string UpdateLog = "2024.12.27 新增标准起手" +
+                                      "\n第二行些什么我还没想好";
 
     private void DrawQtGeneral(JobViewWindow jobViewWindow)
     {
-        ImGui.Text("画通用信息");
+        if (ImGui.CollapsingHeader("   更新日志"))
+        {
+            ImGui.Text(UpdateLog);
+        }
+
+        ImGui.Separator();
         if (ImGui.CollapsingHeader("   重要说明"))
         {
-            ImGui.Text("这里是text连续两个能力技插入间隔在620ms以下（可在FFLogs上查）");
-            ImGui.SameLine();
-            // var hyperlink = new Hyperlink("FuckAnimationLock", "https://github.com/NiGuangOwO/DalamudPlugins");
-            // hyperlink.Render();
+            ImGui.Text("能力及插入相关：连续两个能力技插入间隔在620ms以下（可在FFLogs上查）");
+            ImGui.Text("推荐使用NiGuangOwO佬的三插插件，我自己用的是最优双插模式550ms。开了更流畅，兄弟们开。");
+            if (ImGui.Button("FuckAnimationLock"))
+            {
+                string url = "https://github.com/NiGuangOwO/DalamudPlugins";
+                try
+                {
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = url,
+                        UseShellExecute = true // 在默认浏览器中打开
+                    });
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"打开浏览器失败：{ex.Message}");
+                }
+            }
+
             ImGui.Separator();
-            ImGui.Text(UpdateLog);
-            ImGui.Separator();
+
             if (ImGui.Button("反馈问题"))
             {
-                string url = "https://www.baidu.com";
+                string url = "https://discord.com/channels/1191648233454313482/1191649639796064346";
                 try
                 {
                     Process.Start(new ProcessStartInfo
@@ -180,19 +221,44 @@ public class BbmMchRotationEntry : IRotationEntry
             }
 
             ImGui.Separator();
-            ImGui.Text("爆发药设置：" + (MchSettings.Instance.UsePotionInOpener ? "起手吃" : "2分钟爆发吃"));
-            // if (!QT.GetQt("爆发药"))
-            // ImGui.TextColored(new Vector4(0.7f, 0.8f, 0.0f, 1.0000f), "如果你希望使用爆发药，请在QT面板中开启爆发药开关");
+
+            ImGui.Text("设置抢开延迟:");
+            // 拖动条
+            if (ImGui.SliderInt("延迟 (ms)", ref MchSettings.Instance.GrabItLimit, 0, 1000))
+            {
+                // 拖动条调整后逻辑处理
+            }
+
+            ImGui.Text($"当前延迟: {MchSettings.Instance.GrabItLimit} ms");
+            ImGui.Separator();
+            ImGui.Text("设置电量阈值:");
+            // 拖动条
+            var instanceMinBattery = MchSettings.Instance.MinBattery;
+            int step = 10; // 设置步长值
+            if (ImGui.SliderInt("电量", ref instanceMinBattery, 0, 100))
+            {
+                // 拖动条调整后逻辑处理
+                instanceMinBattery = (instanceMinBattery / step) * step;
+                // 确保不超过范围
+                instanceMinBattery = Math.Clamp(instanceMinBattery, 0, 100);
+                // 拖动条调整后逻辑处理
+                MchSettings.Instance.MinBattery = instanceMinBattery;
+            }
+
+            ImGui.Text($"当前电量: {MchSettings.Instance.MinBattery}");
+            ImGui.Separator();
+            if (!Qt.GetQt("爆发药"))
+                ImGui.TextColored(new(0.866f, 0.609f, 0.278f, 1.000f), "如果你希望使用爆发药，请在QT面板中开启爆发药开关");
             ImGui.Checkbox("起手吃爆发药", ref MchSettings.Instance.UsePotionInOpener);
             ImGui.Separator();
             var noClipGcd3 = SettingMgr.GetSetting<GeneralSettings>().NoClipGCD3;
-            if (noClipGcd3)
-                ImGui.TextColored(new Vector4(1, 0.7f, 0, 1), "警告，你开启了全局能力技能不卡GCD，可能导致本ACR产生能力技插入问题，建议关闭");
+            if (!noClipGcd3)
+                ImGui.TextColored(new Vector4(0.866f, 0.609f, 0.278f, 1.000f)
+                    , "  未开启全局能力技能不卡GCD，可能导致本ACR产生能力技插入问题，建议开启"
+                      + "\n  开启方法：AE首页→左侧ACR→设置→能力技→勾选 “全局能力技能不卡GCD”");
             ImGui.Checkbox("全局能力技能不卡GCD", ref noClipGcd3);
             ImGui.Separator();
-            ImGui.Text("UsePeloton：");
-            if (MchSettings.Instance.UsePeloton)
-                ImGui.TextColored(new Vector4(0.7f, 0.8f, 0.0f, 1.0000f), "如果你希望使用需速行，请在QT面板中开启速行开关");
+            ImGui.Text("勾了也没用 还没写 哈哈：");
             ImGui.Checkbox("速行", ref MchSettings.Instance.UsePeloton);
             ImGui.SameLine();
             ImGui.Separator();
@@ -218,15 +284,13 @@ public class BbmMchRotationEntry : IRotationEntry
             }
 
             if (AI.Instance.BattleData.HighPrioritySlots_GCD.Count > 0)
-                foreach (object obj in AI.Instance.BattleData.HighPrioritySlots_GCD)
+                foreach (var obj in AI.Instance.BattleData.HighPrioritySlots_GCD)
                     ImGui.Text(" ==" + obj);
             if (AI.Instance.BattleData.HighPrioritySlots_OffGCD.Count > 0)
-                foreach (object obj in AI.Instance.BattleData.HighPrioritySlots_OffGCD)
+                foreach (var obj in AI.Instance.BattleData.HighPrioritySlots_OffGCD)
                     ImGui.Text(" --" + obj);
             ImGui.Separator();
         }
-
-        ImGui.PopStyleColor(2);
     }
 
 

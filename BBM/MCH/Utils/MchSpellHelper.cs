@@ -117,6 +117,10 @@ public static class MchSpellHelper
     {
         return MchSpells.Reassemble.RecentlyUsed(threshold);
     }
+    public static bool WildFireRecentlyUsed(int threshold)
+    {
+        return MchSpells.Wildfire.RecentlyUsed(threshold);
+    }
 
 
     /// <summary>
@@ -135,6 +139,11 @@ public static class MchSpellHelper
     public static int GetBattery()
     {
         return Core.Resolve<JobApi_Machinist>().GetBattery;
+    }
+
+    public static long OverheatRemain()
+    {
+        return Core.Resolve<JobApi_Machinist>().OverheatRemain;
     }
 
 

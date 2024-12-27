@@ -13,7 +13,6 @@ public class MchAbilityCheckMate : ISlotResolver
 {
     public int Check()
     {
-        
         if (!this.IsReady(MchSpells.将死))
             return -1;
         if (!this.CanInsertAbility())
@@ -21,7 +20,6 @@ public class MchAbilityCheckMate : ISlotResolver
         // 过热状态 冷却cd 将死>双将
         if (MchSpellHelper.OverHeated() && MchSpells.将死.GetCharges() >= 1)
             return MchSpells.将死.Cooldown() > MchSpells.双将.Cooldown() ? -3 : 3;
-        
         // 
         return MchSpells.将死.GetCharges() >= 1 && this.LastAbility() != MchSpells.将死 ? 0 : -3;
     }

@@ -1,9 +1,7 @@
 using System.Numerics;
 using AEAssist.CombatRoutine.View.JobView;
-using AEAssist.Extension;
 using AEAssist.Helper;
 using AEAssist.IO;
-using Dalamud.Game.ClientState.Objects.Types;
 
 namespace BBM.MCH.Settings
 {
@@ -55,8 +53,19 @@ namespace BBM.MCH.Settings
         public bool UsePotionInOpener = false; // 是否在开场使用药水
 
         public readonly double GcdCooldownLimit = 600.0;
-        public int MinBattery = 90; // 最小电量
+        public int MinBattery = 50; // 最小电量
         public int MaxHeat = 50; // 最大热量
-
+        public int GrabItLimit = 300;
+        
+        public readonly JobViewSave JobViewSave = new()
+        {
+            MainColor = new Vector4(0.336f, 0.278f, 0.866f, 0.700f), //
+            QtLineCount = 2,
+            
+            QtWindowBgAlpha = 0.1f,
+            QtHotkeySize = new Vector2(60, 60)
+        }; // QT设置存档
     }
+
+    
 }

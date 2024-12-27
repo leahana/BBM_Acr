@@ -21,7 +21,7 @@ public class MchAbilityHyperCharge : ISlotResolver
         if (!this.CanInsertAbility())
             return -2;
 
-        // 电量小于50 且没有超荷预备buff
+        // 热量小于50 且没有超荷预备buff
         if (MchSpellHelper.IsHeatBelow(50) && !this.HasAura(MchBuffs.超荷预备))
             return -3;
 
@@ -36,17 +36,16 @@ public class MchAbilityHyperCharge : ISlotResolver
             return -6;
 
         // 能量小于100 且枪管加热cd35s内。存资源 
-        if (MchSpellHelper.GetHeat() < 100
-            && this.IsCooldownWithin(MchSpells.BarrelStabilizer, 35000.0))
-            return -7;
+        // if (MchSpellHelper.GetHeat() < 100
+        //     && this.IsCooldownWithin(MchSpells.BarrelStabilizer, 35000.0))
+        //     return -7;
 
         if (this.HasAura(MchBuffs.掘地飞轮预备) || this.HasAura(MchBuffs.全金属爆发预备))
             return -8;
 
         // 120 超荷+野火
-        if (this.HasAura(MchBuffs.超荷预备))
-            return 2;
-
+        if (this.HasAura(MchBuffs.超荷预备) && this.IsReady(MchSpells.Wildfire)) return 2;
+        ;
 
         return MchSpellHelper.GetHeat() >= 50 ? 2 : -10;
     }

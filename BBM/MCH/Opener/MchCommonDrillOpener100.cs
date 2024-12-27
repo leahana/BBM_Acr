@@ -1,10 +1,12 @@
 using AEAssist;
+using AEAssist.CombatRoutine;
 using AEAssist.CombatRoutine.Module;
 using AEAssist.CombatRoutine.Module.Opener;
 using AEAssist.Extension;
 using AEAssist.Helper;
 using BBM.MCH.Data;
-using BBM.MCH.Extensions;
+using BBM.MCH.Settings;
+using BBM.MCH.Utils;
 
 namespace BBM.MCH.Opener;
 
@@ -32,7 +34,15 @@ public class MchCommonDrillOpener100 : IOpener, ISlotSequence
         return 0;
     }
 
-    public int StopCheck() => -1;
+    public int StopCheck()
+    {
+        if (!MchSpells.Hypercharge.RecentlyUsed() && MchSpellHelper.OverheatRemain() <= 100)
+        {
+            return 0;
+        }
+
+        return -1;
+    }
 
     public List<Action<Slot>> Sequence { get; } =
     [
@@ -41,8 +51,7 @@ public class MchCommonDrillOpener100 : IOpener, ISlotSequence
         Step3Gcd,
         Step4Gcd,
         Step5Gcd,
-        Step6_,
-        Step7
+        Step6Gcd,
     ];
 
     public void InitCountDown(CountDownHandler countDownHandler)
@@ -50,13 +59,18 @@ public class MchCommonDrillOpener100 : IOpener, ISlotSequence
         // 倒计时4.8s 整备
         countDownHandler.AddAction(4800, MchSpells.Reassemble);
         // 2s吃爆发药
-        countDownHandler.AddPotionAction(2000);
+        if (MchSettings.Instance.UsePotionInOpener)
+        {
+            countDownHandler.AddPotionAction(2000);
+        }
+
+        // 倒计时300ms 抢开
+        countDownHandler.AddAction(MchSettings.Instance.GrabItLimit, MchSpells.Drill, SpellTargetType.Target);
     }
 
     // 1g 钻头+双蛋 曹飞惊喜蛋 
     private static void Step1Gcd(Slot slot)
     {
-        slot.Add(MchSpells.Drill.GetSpell());
         slot.Add(MchSpells.将死.GetSpell());
         slot.Add(MchSpells.双将.GetSpell());
     }
@@ -100,25 +114,5 @@ public class MchCommonDrillOpener100 : IOpener, ISlotSequence
     }
 
     // 热冲击x5 7.5s
-
-    private static void Step6_(Slot slot)
-    {
-        for (var i = 1; i <= 5; i++)
-        {
-            slot.Add(MchSpells.BlazingShot.GetSpell());
-            slot.Add(!(MchSpells.将死.GetCharges() > MchSpells.双将.GetCharges())
-                ? MchSpells.将死.GetSpell()
-                : MchSpells.双将.GetSpell()
-            );
-        }
-    }
-
-    // 钻头 双插 双蛋
-    private static void Step7(Slot slot)
-    {
-        slot.Add(MchSpells.Drill.GetSpell());
-        if (MchSpells.将死.GetCharges() > 0) slot.Add(MchSpells.将死.GetSpell());
-        if (MchSpells.双将.GetCharges() > 0) slot.Add(MchSpells.双将.GetSpell());
-    }
     // 后面就是123了
 }

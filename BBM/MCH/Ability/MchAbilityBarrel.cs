@@ -23,6 +23,6 @@ public class MchAbilityBarrelStabilizer : ISlotResolver
 
     public void Build(Slot slot)
     {
-        slot.Add(SpellsDefine.BarrelStabilizer.GetSpell());
+        slot.Add(MchSpells.BarrelStabilizer.GetSpell());
     }
 }
