@@ -9,8 +9,10 @@ namespace BBM.MCH.Ability;
 /**
  * 整备
  */
-public class MchAbilityReassemble : ISlotResolver
+public class MchAbilityReassemble(params string[] qtKeys) : ISlotResolver
 {
+    private readonly List<string> _qtKeys = qtKeys.ToList(); // 支持多种 Qt 的判断逻辑
+
     public SlotMode SlotMode { get; } = SlotMode.OffGcd;
 
     public int Check()
@@ -37,6 +39,27 @@ public class MchAbilityReassemble : ISlotResolver
 
         // 检查是否处于过热状态
         if (this.HasAura(MchBuffs.Overheated)) return -7;
+
+        var qtResult = 101;
+        switch (strongGcd)
+        {
+            case MchSpells.AirAnchor:
+                qtResult = MchQtHelper.ValidateQtKeys(new List<string>() { MchQtConstantsCn.UseAirAnchor });
+                break;
+            case MchSpells.Drill:
+                qtResult = MchQtHelper.ValidateQtKeys(new List<string>() { MchQtConstantsCn.UseDrill });
+                break;
+            case MchSpells.ChainSaw:
+                qtResult = MchQtHelper.ValidateQtKeys(new List<string>() { MchQtConstantsCn.UseChainSaw });
+                break;
+        }
+
+        // 有qt限制不准放技能 那就整备也不放
+        if (qtResult == -101)
+        {
+            return qtResult;
+        }
+
 
         if (!this.IsReady(MchSpells.Wildfire)) return 0; // 野火未准备好
 

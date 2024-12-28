@@ -5,66 +5,99 @@ namespace BBM.MCH.Utils;
 
 public static class MchQtHelper
 {
+    private const int QtYes = 101;
+    private const int QtNo = -101;
+
+    private static int _qtResult(bool result) => result ? QtYes : QtNo;
+
     // 飞轮QT
-    public static int QtExcavator()
+    private static int QtExcavator()
     {
-        return BbmMchRotationEntry.Qt.GetQt(MchQtConstantsCn.UseExcavator) ? 101 : -101;
+        var result = BbmMchRotationEntry.Qt.GetQt(MchQtConstantsCn.UseExcavator);
+        return _qtResult(result);
     }
 
-    // 添加一个字典来存储不同 Qt 对应的逻辑
-    public static readonly Dictionary<string, Func<int>> QtResolvers = new()
+// 添加一个字典来存储不同 Qt 对应的逻辑
+    private static readonly Dictionary<string, Func<int>> QtResolvers = new()
     {
         { MchQtConstantsCn.UseExcavator, QtExcavator },
-        // { MchQtConstantsCn.UseFullMetalField, QtFullMetalField }
+        { MchQtConstantsCn.UseFullMetalField, QtFullMetalField },
+        { MchQtConstantsCn.UseChainSaw, QtUseChainSaw },
+        { MchQtConstantsCn.UseAirAnchor, QtUseAirAnchor },
+        { MchQtConstantsCn.UseDrill, QtUseDrill },
+        { MchQtConstantsCn.ReserveDoubleCheck, QtReserveDoubleCheck },
+        { MchQtConstantsCn.UseOutbreak, QtUseOutbreak },
+        { MchQtConstantsCn.UseLastOutbreak, QtUseLastOutbreak }
     };
 
-    // 全金属爆发
-    public static bool QtFullMetalField()
+// 全金属爆发Qt
+    private static int QtFullMetalField()
     {
-        return BbmMchRotationEntry.Qt.GetQt(MchQtConstantsCn.UseFullMetalField);
+        var result = BbmMchRotationEntry.Qt.GetQt(MchQtConstantsCn.UseFullMetalField);
+        return _qtResult(BbmMchRotationEntry.Qt.GetQt(MchQtConstantsCn.UseFullMetalField));
     }
 
 
-    // 飞锯QT
-    public static bool QtUseChainSaw()
+// 飞锯QT
+    private static int QtUseChainSaw()
     {
-        return BbmMchRotationEntry.Qt.GetQt(MchQtConstantsCn.UseChainSaw);
+        var result = BbmMchRotationEntry.Qt.GetQt(MchQtConstantsCn.UseChainSaw);
+        return _qtResult(result);
     }
 
-    // 空气锚QT
-    public static bool QtUseAirAnchor()
+// 空气锚QT
+    private static int QtUseAirAnchor()
     {
-        return BbmMchRotationEntry.Qt.GetQt(MchQtConstantsCn.UseAirAnchor);
+        var result = BbmMchRotationEntry.Qt.GetQt(MchQtConstantsCn.UseAirAnchor);
+        return _qtResult(result);
     }
 
-    // 钻头QT
-    public static bool QtUseDrill()
+// 钻头QT
+    private static int QtUseDrill()
     {
-        return BbmMchRotationEntry.Qt.GetQt(MchQtConstantsCn.UseDrill);
+        var result = BbmMchRotationEntry.Qt.GetQt(MchQtConstantsCn.UseDrill);
+        return _qtResult(result);
     }
 
-    // 将死Qt
-    public static bool QtReserveCheckMate()
+// 将死Qt
+    private static int QtReserveCheckMate()
     {
-        return BbmMchRotationEntry.Qt.GetQt(MchQtConstantsCn.ReserveCheckMate);
+        var chargeFlag = true;
+        var qt = BbmMchRotationEntry.Qt.GetQt(MchQtConstantsCn.ReserveCheckMate);
+        // qt开启是保留
+        if (qt)
+        {
+            chargeFlag = MchSpells.将死.GetSpell().Charges >= 2;
+        }
+
+        return _qtResult(chargeFlag);
     }
 
-    // 双将Qt
-    public static bool QtReserveDoubleCheck()
+// 双将Qt
+    private static int QtReserveDoubleCheck()
     {
-        return BbmMchRotationEntry.Qt.GetQt(MchQtConstantsCn.ReserveDoubleCheck);
+        var chargeFlag = true;
+        var qt = BbmMchRotationEntry.Qt.GetQt(MchQtConstantsCn.ReserveDoubleCheck);
+        if (qt)
+        {
+            chargeFlag = MchSpells.双将.GetSpell().Charges >= 2;
+        }
+
+        return _qtResult(chargeFlag);
     }
 
-    // 爆发Qt
-    public static bool QtUseOutbreak()
+// 爆发Qt
+    private static int QtUseOutbreak()
     {
-        return BbmMchRotationEntry.Qt.GetQt(MchQtConstantsCn.UseOutbreak);
+        var qt = BbmMchRotationEntry.Qt.GetQt(MchQtConstantsCn.UseOutbreak);
+        return _qtResult(qt);
     }
 
-    // 最终爆发Qt
-    public static bool QtUseOutUseLastOutbreak()
+// 最终爆发Qt
+    private static int QtUseLastOutbreak()
     {
-        return BbmMchRotationEntry.Qt.GetQt(MchQtConstantsCn.UseLastOutbreak);
+        var qt = BbmMchRotationEntry.Qt.GetQt(MchQtConstantsCn.UseLastOutbreak);
+        return _qtResult(qt);
     }
 
 
@@ -77,9 +110,11 @@ public static class MchQtHelper
                 return -99; // Qt 未配置
             }
 
+            LogHelper.Debug($"Qt {qtKey} 判断未通过.");
+            var value = qtFunc();
+            if (value == -101)
             {
-                LogHelper.Debug($"Qt {qtKey} 判断未通过.");
-                return qtFunc();
+                return value;
             }
         }
 

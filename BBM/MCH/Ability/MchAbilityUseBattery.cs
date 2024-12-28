@@ -7,8 +7,11 @@ using BBM.MCH.Utils;
 
 namespace BBM.MCH.Ability;
 
-public class MchAbilityUseBattery : ISlotResolver
+public class MchAbilityUseBattery(params string[] qtKeys) : ISlotResolver
 {
+    
+    private readonly List<string> _qtKeys = qtKeys.ToList(); // 支持多种 Qt 的判断逻辑
+
     public SlotMode SlotMode { get; } = SlotMode.OffGcd;
 
     public int Check()

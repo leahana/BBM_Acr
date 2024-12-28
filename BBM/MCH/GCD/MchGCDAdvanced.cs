@@ -8,8 +8,11 @@ namespace BBM.MCH.GCD;
 /**
  * 空气矛 钻头 飞锯
  */
-public class MchGcdAdvanced : ISlotResolver
+public class MchGcdAdvanced(params string[] qtKeys) : ISlotResolver
 {
+    
+    private readonly List<string> _qtKeys = qtKeys.ToList(); // 支持多种 Qt 的判断逻辑
+
     public int Check()
     {
         if (!MchSpellHelper.CheckReassembleGcd(

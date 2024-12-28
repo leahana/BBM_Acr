@@ -11,8 +11,6 @@ using BBM.MCH.GCD;
 using BBM.MCH.Opener;
 using BBM.MCH.Settings;
 using BBM.MCH.Triggers;
-using BBM.MCH.Utils;
-using BBM.NIN;
 using ImGuiNET;
 
 namespace BBM.MCH;
@@ -21,6 +19,10 @@ public class BbmMchRotationEntry : IRotationEntry
 {
     public string AuthorName { get; set; } = "BBM";
     public static JobViewWindow Qt { get; private set; }
+
+
+    private static string UpdateLog = "2024.12.27 新增标准起手" +
+                                      "2024.12.28 第二行些什么我还没想好";
 
     public void Dispose()
     {
@@ -31,12 +33,12 @@ public class BbmMchRotationEntry : IRotationEntry
     [
         new(new MchAbilityUseBattery(), SlotMode.OffGcd),
         new(new MchGcdBlazingShot(), SlotMode.Gcd),
-        new(new MchGcdChainsaw(), SlotMode.Gcd),
-        new(new MchGcdAirAnchor(), SlotMode.Gcd),
-        new(new MchGcdDrill(), SlotMode.Gcd),
+        new(new MchGcdDrill(MchQtConstantsCn.UseDrill), SlotMode.Gcd),
+        new(new MchGcdAirAnchor(MchQtConstantsCn.UseAirAnchor), SlotMode.Gcd),
+        new(new MchGcdChainsaw(MchQtConstantsCn.UseChainSaw), SlotMode.Gcd),
         new(new MchGcdExcavator([MchQtConstantsCn.UseExcavator]), SlotMode.Gcd),
-        new(new MchGcdFullMetalField(), SlotMode.Gcd),
-        new(new MchGcdAdvanced(), SlotMode.Gcd),
+        new(new MchGcdFullMetalField([MchQtConstantsCn.UseFullMetalField]), SlotMode.Gcd),
+        // new(new MchGcdAdvanced(), SlotMode.Gcd),
         new(new MchGcdBaseCombo(), SlotMode.Gcd),
         new(new MchAbilityBarrelStabilizer(), SlotMode.OffGcd),
         new(new MchAbilityHyperCharge(), SlotMode.OffGcd),
@@ -132,32 +134,21 @@ public class BbmMchRotationEntry : IRotationEntry
     }
 
     private void AddQt()
-    {   
-
+    {
         Qt.AddQt(QtKey.UsePotion, false, MchQtConstantsCn.UsePotion);
         Qt.AddQt(QtKey.UseFullMetalField, true, MchQtConstantsCn.UseFullMetalField);
         Qt.AddQt(QtKey.ReserveCheckMate, false, MchQtConstantsCn.ReserveCheckMate);
         Qt.AddQt(QtKey.ReserveDoubleCheck, false, MchQtConstantsCn.ReserveDoubleCheck);
         Qt.AddQt(QtKey.UseChainSaw, true, MchQtConstantsCn.UseChainSaw);
-        Qt.AddQt(QtKey.UseExcavator, false, MchQtConstantsCn.UseExcavator);
+        Qt.AddQt(QtKey.UseExcavator, true, MchQtConstantsCn.UseExcavator);
         Qt.AddQt(QtKey.UseAirAnchor, true, MchQtConstantsCn.UseAirAnchor);
         Qt.AddQt(QtKey.UseDrill, true, MchQtConstantsCn.UseDrill);
         Qt.AddQt(QtKey.UseOutbreak, false, MchQtConstantsCn.UseOutbreak);
         Qt.AddQt(QtKey.UseLastOutbreak, false, MchQtConstantsCn.UseLastOutbreak);
-        
     }
-
-    private static string UpdateLog = "2024.12.27 新增标准起手" +
-                                      "\n第二行些什么我还没想好";
 
     private void DrawQtGeneral(JobViewWindow jobViewWindow)
     {
-        if (ImGui.CollapsingHeader("   更新日志"))
-        {
-            ImGui.Text(UpdateLog);
-        }
-
-        ImGui.Separator();
         if (ImGui.CollapsingHeader("   重要说明"))
         {
             ImGui.Text("能力及插入相关：连续两个能力技插入间隔在620ms以下（可在FFLogs上查）");
@@ -291,6 +282,13 @@ public class BbmMchRotationEntry : IRotationEntry
                     ImGui.Text(" --" + obj);
             ImGui.Separator();
         }
+
+        if (ImGui.CollapsingHeader("   更新日志"))
+        {
+            ImGui.Text(UpdateLog);
+        }
+
+        ImGui.Separator();
     }
 
 

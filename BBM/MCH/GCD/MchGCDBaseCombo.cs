@@ -8,8 +8,10 @@ namespace BBM.MCH.GCD;
 /**
  * 基础123
  */
-public class MchGcdBaseCombo : ISlotResolver
+public class MchGcdBaseCombo(params string[] qtKeys) : ISlotResolver
 {
+    private readonly List<string> _qtKeys = qtKeys.ToList(); // 支持多种 Qt 的判断逻辑
+
     public SlotMode SlotMode { get; } = SlotMode.Gcd;
 
     public int Check()

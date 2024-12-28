@@ -8,8 +8,11 @@ namespace BBM.MCH.GCD;
 /**
  * 热冲击
  */
-public class MchGcdBlazingShot : ISlotResolver
+public class MchGcdBlazingShot(params string[] qtKeys) : ISlotResolver
 {
+    
+    private readonly List<string> _qtKeys = qtKeys.ToList(); // 支持多种 Qt 的判断逻辑
+
     public SlotMode SlotMode { get; } = SlotMode.Gcd;
 
     public int Check()

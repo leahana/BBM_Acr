@@ -9,8 +9,10 @@ namespace BBM.MCH.GCD;
 /**
  * 全金属爆发好了就用
  */
-public class MchGcdFullMetalField : ISlotResolver
+public class MchGcdFullMetalField(params string[] qtKeys) : ISlotResolver
 {
+    private readonly List<string> _qtKeys = qtKeys.ToList(); // 支持多种 Qt 的判断逻辑
+
     public int Check()
     {
         // 全金属爆发状态就绪
@@ -22,7 +24,8 @@ public class MchGcdFullMetalField : ISlotResolver
         // 空气锚冷却小于1000ms
         if (MchSpells.AirAnchor.GetSpell().Cooldown.TotalMilliseconds <= 1000.0) return -3;
         // 全金属爆发qt开启状态
-        return !MchQtHelper.QtFullMetalField() ? -10 : 0;
+        var validationResult = MchQtHelper.ValidateQtKeys(_qtKeys);
+        return validationResult != 0 ? validationResult : 0;
     }
 
     public void Build(Slot slot) => slot.Add(MchSpells.FullMetalField.GetSpell());

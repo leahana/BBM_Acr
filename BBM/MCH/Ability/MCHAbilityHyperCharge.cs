@@ -9,8 +9,10 @@ namespace BBM.MCH.Ability;
 /**
  *  超 荷
  */
-public class MchAbilityHyperCharge : ISlotResolver
+public class MchAbilityHyperCharge(params string[] qtKeys) : ISlotResolver
 {
+    private readonly List<string> _qtKeys = qtKeys.ToList(); // 支持多种 Qt 的判断逻辑
+
     public SlotMode SlotMode { get; } = SlotMode.OffGcd;
 
     public int Check()

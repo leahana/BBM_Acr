@@ -8,8 +8,11 @@ namespace BBM.MCH.Ability;
 /**
  * 野火
  */
-public class MchAbilityWildfire : ISlotResolver
+public class MchAbilityWildfire (params string[] qtKeys): ISlotResolver
 {
+    
+    private readonly List<string> _qtKeys = qtKeys.ToList(); // 支持多种 Qt 的判断逻辑
+
     public int Check()
     {
         if (!this.IsReady(MchSpells.Wildfire))

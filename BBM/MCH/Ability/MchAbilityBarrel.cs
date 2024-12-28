@@ -8,8 +8,10 @@ namespace BBM.MCH.Ability;
 /**
  * 枪管加热
  */
-public class MchAbilityBarrelStabilizer : ISlotResolver
+public class MchAbilityBarrelStabilizer(params string[] qtKeys) : ISlotResolver
 {
+    private readonly List<string> _qtKeys = qtKeys.ToList(); // 支持多种 Qt 的判断逻辑
+
     public SlotMode SlotMode { get; } = SlotMode.OffGcd;
 
     public int Check()
