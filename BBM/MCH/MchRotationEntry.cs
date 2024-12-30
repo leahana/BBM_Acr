@@ -3,6 +3,7 @@ using System.Numerics;
 using AEAssist.CombatRoutine;
 using AEAssist.CombatRoutine.Module;
 using AEAssist.CombatRoutine.Module.Opener;
+using AEAssist.CombatRoutine.Trigger;
 using AEAssist.CombatRoutine.View.JobView;
 using AEAssist.CombatRoutine.View.JobView.HotkeyResolver;
 using BBM.MCH.Ability;
@@ -12,7 +13,10 @@ using BBM.MCH.GCD;
 using BBM.MCH.Opener;
 using BBM.MCH.Settings;
 using BBM.MCH.Triggers;
+using BBM.MCH.Triggers.Actions;
+using BBM.MCH.Triggers.Conditions;
 using BBM.NIN;
+using BBM.NIN.Triggers;
 using ImGuiNET;
 
 namespace BBM.MCH;
@@ -126,9 +130,26 @@ public class MchRotationEntry : IRotationEntry
         // rot.SetRotationEventHandler(new MchRotationEventHandler());
 
         // 添加QT开关的时间轴行为
-        rot.AddTriggerAction(new MchTriggerActionQt());
+        AddTriggerActions(rot);
+
+        AddTriggerConditions(rot);
+
         return rot;
     }
+
+    private void AddTriggerConditions(Rotation rot)
+    {
+        rot.AddTriggerCondition(new MchTriggerConditionBattery());
+    }
+
+    private void AddTriggerActions(Rotation rot)
+    {
+        rot.AddTriggerAction(new TriggerActionQt());
+        rot.AddTriggerAction(new MchTriggersActionBattery());
+    }
+
+
+    private readonly List<ITriggerAction> _triggerActions = [];
 
     private static IOpener? GetOpener(uint level)
     {

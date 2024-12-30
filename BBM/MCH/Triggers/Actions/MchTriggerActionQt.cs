@@ -2,12 +2,12 @@ using AEAssist.CombatRoutine.Trigger;
 using AEAssist.GUI;
 using ImGuiNET;
 
-namespace BBM.MCH.Triggers;
+namespace BBM.MCH.Triggers.Actions;
 
 // 时间轴qt
 public class MchTriggerActionQt : ITriggerAction
 {
-    public string DisplayName { get; } = "Bard/QT";
+    public string DisplayName { get; } = "Mch/QT";
     public string Remark { get; set; }
 
     public string Key = "";

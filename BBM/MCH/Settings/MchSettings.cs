@@ -51,7 +51,6 @@ namespace BBM.MCH.Settings
         public bool UsePeloton = true; // 使用速行 默认开启
         public bool WildfireFirst = true; // 提前野火
         public bool UsePotionInOpener = false; // 是否在开场使用药水
-
         public readonly double GcdCooldownLimit = 600.0;
         public int MinBattery = 50; // 最小电量
         public int MaxHeat = 50; // 最大热量
