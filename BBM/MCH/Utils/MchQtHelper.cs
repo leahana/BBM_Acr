@@ -1,5 +1,6 @@
 using AEAssist.Helper;
 using BBM.MCH.Data;
+using BBM.NIN;
 
 namespace BBM.MCH.Utils;
 
@@ -24,6 +25,7 @@ public static class MchQtHelper
         { MchQtConstantsCn.UseChainSaw, QtUseChainSaw },
         { MchQtConstantsCn.UseAirAnchor, QtUseAirAnchor },
         { MchQtConstantsCn.UseDrill, QtUseDrill },
+        { MchQtConstantsCn.ReserveCheckMate, QtReserveCheckMate },
         { MchQtConstantsCn.ReserveDoubleCheck, QtReserveDoubleCheck },
         { MchQtConstantsCn.UseOutbreak, QtUseOutbreak },
     };
@@ -31,7 +33,6 @@ public static class MchQtHelper
 // 全金属爆发Qt
     private static int QtFullMetalField()
     {
-        var result = MchRotationEntry.Qt.GetQt(MchQtConstantsCn.UseFullMetalField);
         return _qtResult(MchRotationEntry.Qt.GetQt(MchQtConstantsCn.UseFullMetalField));
     }
 
@@ -60,28 +61,27 @@ public static class MchQtHelper
 // 将死Qt
     private static int QtReserveCheckMate()
     {
-        var chargeFlag = true;
+        //  开启 说明 保留不用 大于两层返回复数
         var qt = MchRotationEntry.Qt.GetQt(MchQtConstantsCn.ReserveCheckMate);
-        // qt开启是保留
-        if (qt)
+        if (qt && MchSpells.CheckMate.GetSpell().Charges < 2.9)
         {
-            chargeFlag = MchSpells.CheckMate.GetSpell().Charges >= 2;
+            return MchSpells.CheckMate.GetSpell().Charges >= 2.0 && MchSpellHelper.GetHeat() >= 45 ? 1 : -45;
         }
 
-        return _qtResult(chargeFlag);
+        return MchSpells.CheckMate.GetSpell().Charges >= 2.5 ? 99 : _qtResult(!qt);
     }
 
 // 双将Qt
     private static int QtReserveDoubleCheck()
     {
-        var chargeFlag = true;
+        //  开启 说明 保留不用 大于两层返回复数
         var qt = MchRotationEntry.Qt.GetQt(MchQtConstantsCn.ReserveDoubleCheck);
-        if (qt)
+        if (qt && MchSpells.DoubleCheck.GetSpell().Charges < 2.9)
         {
-            chargeFlag = MchSpells.DoubleCheck.GetSpell().Charges >= 2;
+            return MchSpells.DoubleCheck.GetSpell().Charges >= 2.0 && MchSpellHelper.GetHeat() >= 45 ? 1 : -45;
         }
 
-        return _qtResult(chargeFlag);
+        return MchSpells.DoubleCheck.GetSpell().Charges >= 2.5 ? 99 : _qtResult(!qt);
     }
 
 // 爆发Qt
@@ -90,7 +90,6 @@ public static class MchQtHelper
         var qt = MchRotationEntry.Qt.GetQt(MchQtConstantsCn.UseOutbreak);
         return _qtResult(qt);
     }
-    
 
 
     public static int ValidateQtKeys(IEnumerable<string> qtKeys)
@@ -104,7 +103,7 @@ public static class MchQtHelper
 
             LogHelper.Debug($"Qt {qtKey} 判断未通过.");
             var value = qtFunc();
-            if (value == -101)
+            if (value < 0)
             {
                 return value;
             }
