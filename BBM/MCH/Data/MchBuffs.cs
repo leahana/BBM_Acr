@@ -14,6 +14,14 @@ public static class MchBuffs
     public const uint 掘地飞轮预备 = 3865;
 
     /// <summary>
+    /// self 策动
+    /// </summary>
+    public const uint Tactician = 1951;
+    
+    // target 扳手状态
+    public const uint BeDismantle = 860;
+
+    /// <summary>
     /// 整备buff 851
     /// </summary>
     public const uint Reassembled = 851;
@@ -26,7 +34,7 @@ public static class MchBuffs
     /// <summary>
     /// 全金属爆发 3866
     /// </summary>
-    public const uint FullMetalFieldReady = 0xF1A;
+    public const uint FullMetalFieldReady = 3866;
 
     /// <summary>
     /// 掘地飞轮预备 3865

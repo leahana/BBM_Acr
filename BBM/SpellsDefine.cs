@@ -28,16 +28,31 @@ namespace BBM
 
         #region DPS Role
 
+        // 内丹
         public const uint SecondWind = 7541;
+
+        // 浴血？
         public const uint Bloodbath = 7542;
         public const uint TrueNorth = 7546;
         public const uint ArmsLength = 7548;
         public const uint Feint = 7549;
+
+        // 伤头
         public const uint HeadGraze = 7551;
+
+        // 伤足
         public const uint FootGraze = 7553;
+
+        // 伤腿？
         public const uint LegGraze = 7554;
+        
+        // 速行
         public const uint Peloton = 7557;
+
+        
         public const uint LegSweep = 7863;
+
+        // 药水
         public const uint Potion = 846;
 
         #endregion
@@ -483,12 +498,12 @@ namespace BBM
         public const uint AirAnchor = 16500; // 76级 空气矛
         public const uint AutomationQueen = 16501; // 80级 机器人
         public const uint QueenOverdrive = 16502; // 80级 机器人结算
-        public const uint Detonator = 16766;  // 起爆 野火结算
+        public const uint Detonator = 16766; // 起爆 野火结算
         public const uint Tactician = 16889; // 策动
         public const uint Hypercharge = 17209; // 超荷
         public const uint Scattergun = 25786; // 霰弹枪
         public const uint ChainSaw = 25788; // 回转飞锯
-        
+
 
         public const uint PvpDrill = 17749;
         public const uint PvpRicochet = 17753;

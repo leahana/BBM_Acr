@@ -8,9 +8,15 @@ public static class MchQtConstantsCn
     public const string UseExcavator = "掘地飞轮";
     public const string UseAirAnchor = "空气锚";
     public const string UseDrill = "钻头";
-    public const string ReserveDoubleCheck = "2层双将";
-    public const string ReserveCheckMate = "2层将死";
+    public const string ReserveDoubleCheck = "(保留)2层双将";
+    public const string ReserveCheckMate = "(保留)2层将死";
     public const string UsePotion = "爆发药";
+
     public const string UseOutbreak = "爆发";
-    public const string UseLastOutbreak = "最终爆发";
+
+    // 应该是qtHotKey或者交给时间轴控制 倾斜资源
+    // public const string UseLastOutbreak = "";
+    public const string UseBaseCombo = "基础连击";
+    public const string UseAoe = "AOE";
+    public const string UseReassemble = "整备";
 }

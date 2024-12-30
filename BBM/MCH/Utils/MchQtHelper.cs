@@ -7,13 +7,12 @@ public static class MchQtHelper
 {
     private const int QtYes = 101;
     private const int QtNo = -101;
-
     private static int _qtResult(bool result) => result ? QtYes : QtNo;
 
     // 飞轮QT
     private static int QtExcavator()
     {
-        var result = BbmMchRotationEntry.Qt.GetQt(MchQtConstantsCn.UseExcavator);
+        var result = MchRotationEntry.Qt.GetQt(MchQtConstantsCn.UseExcavator);
         return _qtResult(result);
     }
 
@@ -27,35 +26,34 @@ public static class MchQtHelper
         { MchQtConstantsCn.UseDrill, QtUseDrill },
         { MchQtConstantsCn.ReserveDoubleCheck, QtReserveDoubleCheck },
         { MchQtConstantsCn.UseOutbreak, QtUseOutbreak },
-        { MchQtConstantsCn.UseLastOutbreak, QtUseLastOutbreak }
     };
 
 // 全金属爆发Qt
     private static int QtFullMetalField()
     {
-        var result = BbmMchRotationEntry.Qt.GetQt(MchQtConstantsCn.UseFullMetalField);
-        return _qtResult(BbmMchRotationEntry.Qt.GetQt(MchQtConstantsCn.UseFullMetalField));
+        var result = MchRotationEntry.Qt.GetQt(MchQtConstantsCn.UseFullMetalField);
+        return _qtResult(MchRotationEntry.Qt.GetQt(MchQtConstantsCn.UseFullMetalField));
     }
 
 
 // 飞锯QT
     private static int QtUseChainSaw()
     {
-        var result = BbmMchRotationEntry.Qt.GetQt(MchQtConstantsCn.UseChainSaw);
+        var result = MchRotationEntry.Qt.GetQt(MchQtConstantsCn.UseChainSaw);
         return _qtResult(result);
     }
 
 // 空气锚QT
     private static int QtUseAirAnchor()
     {
-        var result = BbmMchRotationEntry.Qt.GetQt(MchQtConstantsCn.UseAirAnchor);
+        var result = MchRotationEntry.Qt.GetQt(MchQtConstantsCn.UseAirAnchor);
         return _qtResult(result);
     }
 
 // 钻头QT
     private static int QtUseDrill()
     {
-        var result = BbmMchRotationEntry.Qt.GetQt(MchQtConstantsCn.UseDrill);
+        var result = MchRotationEntry.Qt.GetQt(MchQtConstantsCn.UseDrill);
         return _qtResult(result);
     }
 
@@ -63,11 +61,11 @@ public static class MchQtHelper
     private static int QtReserveCheckMate()
     {
         var chargeFlag = true;
-        var qt = BbmMchRotationEntry.Qt.GetQt(MchQtConstantsCn.ReserveCheckMate);
+        var qt = MchRotationEntry.Qt.GetQt(MchQtConstantsCn.ReserveCheckMate);
         // qt开启是保留
         if (qt)
         {
-            chargeFlag = MchSpells.将死.GetSpell().Charges >= 2;
+            chargeFlag = MchSpells.CheckMate.GetSpell().Charges >= 2;
         }
 
         return _qtResult(chargeFlag);
@@ -77,10 +75,10 @@ public static class MchQtHelper
     private static int QtReserveDoubleCheck()
     {
         var chargeFlag = true;
-        var qt = BbmMchRotationEntry.Qt.GetQt(MchQtConstantsCn.ReserveDoubleCheck);
+        var qt = MchRotationEntry.Qt.GetQt(MchQtConstantsCn.ReserveDoubleCheck);
         if (qt)
         {
-            chargeFlag = MchSpells.双将.GetSpell().Charges >= 2;
+            chargeFlag = MchSpells.DoubleCheck.GetSpell().Charges >= 2;
         }
 
         return _qtResult(chargeFlag);
@@ -89,16 +87,10 @@ public static class MchQtHelper
 // 爆发Qt
     private static int QtUseOutbreak()
     {
-        var qt = BbmMchRotationEntry.Qt.GetQt(MchQtConstantsCn.UseOutbreak);
+        var qt = MchRotationEntry.Qt.GetQt(MchQtConstantsCn.UseOutbreak);
         return _qtResult(qt);
     }
-
-// 最终爆发Qt
-    private static int QtUseLastOutbreak()
-    {
-        var qt = BbmMchRotationEntry.Qt.GetQt(MchQtConstantsCn.UseLastOutbreak);
-        return _qtResult(qt);
-    }
+    
 
 
     public static int ValidateQtKeys(IEnumerable<string> qtKeys)

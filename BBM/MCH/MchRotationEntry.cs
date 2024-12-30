@@ -7,46 +7,102 @@ using AEAssist.CombatRoutine.View.JobView;
 using AEAssist.CombatRoutine.View.JobView.HotkeyResolver;
 using BBM.MCH.Ability;
 using BBM.MCH.Data;
+using BBM.MCH.Data.HotKeys;
 using BBM.MCH.GCD;
 using BBM.MCH.Opener;
 using BBM.MCH.Settings;
 using BBM.MCH.Triggers;
+using BBM.NIN;
 using ImGuiNET;
 
 namespace BBM.MCH;
 
-public class BbmMchRotationEntry : IRotationEntry
+public class MchRotationEntry : IRotationEntry
 {
     public string AuthorName { get; set; } = "BBM";
     public static JobViewWindow Qt { get; private set; }
 
+    private static readonly MchSettings MchSettings = MchSettings.Instance;
 
-    private static string UpdateLog = "2024.12.27 新增标准起手" +
-                                      "2024.12.28 第二行些什么我还没想好";
+    private static readonly string UpdateLog = "2024.12.27 新增标准起手" +
+                                               "2024.12.28 第二行些什么我还没想好" +
+                                               "2024.12.30 增加很多qt控制";
 
     public void Dispose()
     {
     }
 
-
     private readonly List<SlotResolverData> _slotResolvers =
     [
-        new(new MchAbilityUseBattery(), SlotMode.OffGcd),
+        // 机器人电量slotResolver, qt:  爆发 
+        new(new MchAbilityUseBattery([
+                MchQtConstantsCn.UseOutbreak
+            ]),
+            SlotMode.OffGcd),
+        // 热冲击slotResolver, qt:无
         new(new MchGcdBlazingShot(), SlotMode.Gcd),
-        new(new MchGcdDrill(MchQtConstantsCn.UseDrill), SlotMode.Gcd),
-        new(new MchGcdAirAnchor(MchQtConstantsCn.UseAirAnchor), SlotMode.Gcd),
-        new(new MchGcdChainsaw(MchQtConstantsCn.UseChainSaw), SlotMode.Gcd),
-        new(new MchGcdExcavator([MchQtConstantsCn.UseExcavator]), SlotMode.Gcd),
-        new(new MchGcdFullMetalField([MchQtConstantsCn.UseFullMetalField]), SlotMode.Gcd),
+        // 钻头slotResolver, qt:  爆发 钻头
+        new(new MchGcdDrill([
+            MchQtConstantsCn.UseOutbreak,
+            MchQtConstantsCn.UseDrill
+        ]), SlotMode.Gcd),
+        // 空气矛slotResolver, qt:  爆发 空气矛
+        new(new MchGcdAirAnchor([
+            MchQtConstantsCn.UseOutbreak,
+            MchQtConstantsCn.UseAirAnchor
+        ]), SlotMode.Gcd),
+        // 回转飞锯slotResolver, qt:  爆发 回转飞锯
+        new(new MchGcdChainsaw([
+            MchQtConstantsCn.UseOutbreak,
+            MchQtConstantsCn.UseChainSaw
+        ]), SlotMode.Gcd),
+        // 掘地飞轮slotResolver, qt： 爆发 掘地飞轮
+        new(new MchGcdExcavator([
+            MchQtConstantsCn.UseOutbreak,
+            MchQtConstantsCn.UseExcavator
+        ]), SlotMode.Gcd),
+        // 全金属爆发slotResolver, qt： 爆发 全金属爆发
+        new(new MchGcdFullMetalField([
+            MchQtConstantsCn.UseOutbreak,
+            MchQtConstantsCn.UseFullMetalField
+        ]), SlotMode.Gcd),
+
         // new(new MchGcdAdvanced(), SlotMode.Gcd),
+        // 基础123Gcd slotResolver  qt: 无
         new(new MchGcdBaseCombo(), SlotMode.Gcd),
+
+        // 枪管加热slotResolver qt:  爆发
         new(new MchAbilityBarrelStabilizer(), SlotMode.OffGcd),
-        new(new MchAbilityHyperCharge(), SlotMode.OffGcd),
-        new(new MchAbilityWildfire(), SlotMode.OffGcd),
-        new(new MchAbilityReassemble(), SlotMode.OffGcd),
-        new(new MchAbilityCheckMate(), SlotMode.OffGcd),
-        new(new MchAbilityDoubleCheck(), SlotMode.OffGcd),
-        new(new MchAbilitySecondWind(), SlotMode.OffGcd)
+
+        // 超荷slotResolver qt:  爆发
+        new(new MchAbilityHyperCharge([
+            MchQtConstantsCn.UseOutbreak
+        ]), SlotMode.OffGcd),
+
+        // 野火slotResolver qt：  爆发
+        new(new MchAbilityWildfire([
+            MchQtConstantsCn.UseOutbreak
+        ]), SlotMode.OffGcd),
+
+        // 整备slotResolver qt:  爆发 保留整备
+        new(new MchAbilityReassemble([
+            MchQtConstantsCn.UseOutbreak
+        ]), SlotMode.OffGcd),
+
+        // 将死slotResolver  qt:  爆发 (保留)2层双将
+        new(new MchAbilityCheckMate([
+            MchQtConstantsCn.UseOutbreak,
+            MchQtConstantsCn.ReserveCheckMate
+        ]), SlotMode.OffGcd),
+
+        // 双将slotResolver  qt:  爆发 (保留)2层双将
+        new(new MchAbilityDoubleCheck([
+            MchQtConstantsCn.UseOutbreak,
+            MchQtConstantsCn.ReserveDoubleCheck
+        ]), SlotMode.OffGcd),
+
+        new(new MchAbilitySecondWind([
+        ]), SlotMode.OffGcd)
     ];
 
     public Rotation? Build(string settingFolder)
@@ -70,7 +126,7 @@ public class BbmMchRotationEntry : IRotationEntry
         // rot.SetRotationEventHandler(new MchRotationEventHandler());
 
         // 添加QT开关的时间轴行为
-        rot.AddTriggerAction(new TriggerActionQt());
+        rot.AddTriggerAction(new MchTriggerActionQt());
         return rot;
     }
 
@@ -130,7 +186,11 @@ public class BbmMchRotationEntry : IRotationEntry
         Qt.AddHotkey("爆发药", new HotKeyResolver_Potion());
         Qt.AddHotkey("极限技", new HotKeyResolver_LB());
         Qt.AddHotkey("冲刺", new HotKeyResolver_疾跑());
-        Qt.AddHotkey("冲刺", new HotKeyResolver_疾跑());
+        Qt.AddHotkey("防击退", new NormalSpellHotKeyResolver(SpellsDefine.ArmsLength, SpellTargetType.Target));
+        Qt.AddHotkey("内丹", new NormalSpellHotKeyResolver(SpellsDefine.SecondWind, SpellTargetType.Target));
+        Qt.AddHotkey("策动", new NormalSpellHotKeyResolver(SpellsDefine.Tactician, SpellTargetType.Target));
+        Qt.AddHotkey("武装解除", new NormalSpellHotKeyResolver(MchSpells.Dismantle, SpellTargetType.Target));
+        Qt.AddHotkey("停止自动移动", new HotKeyStopMove());
     }
 
     private void AddQt()
@@ -143,8 +203,7 @@ public class BbmMchRotationEntry : IRotationEntry
         Qt.AddQt(QtKey.UseExcavator, true, MchQtConstantsCn.UseExcavator);
         Qt.AddQt(QtKey.UseAirAnchor, true, MchQtConstantsCn.UseAirAnchor);
         Qt.AddQt(QtKey.UseDrill, true, MchQtConstantsCn.UseDrill);
-        Qt.AddQt(QtKey.UseOutbreak, false, MchQtConstantsCn.UseOutbreak);
-        Qt.AddQt(QtKey.UseLastOutbreak, false, MchQtConstantsCn.UseLastOutbreak);
+        Qt.AddQt(QtKey.UseOutbreak, true, MchQtConstantsCn.UseOutbreak);
     }
 
     private void DrawQtGeneral(JobViewWindow jobViewWindow)

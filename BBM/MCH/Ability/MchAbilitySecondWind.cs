@@ -8,15 +8,16 @@ namespace BBM.MCH.Ability;
 /**
  *  内丹
  */
-public class MchAbilitySecondWind (params string[] qtKeys): ISlotResolver
+public class MchAbilitySecondWind(params string[] qtKeys) : ISlotResolver
 {
     private readonly List<string> _qtKeys = qtKeys.ToList(); // 支持多种 Qt 的判断逻辑
-
     public SlotMode SlotMode { get; } = SlotMode.OffGcd;
+    private const uint SecondWind = SpellsDefine.SecondWind;
+
 
     public int Check()
     {
-        if (!this.IsReady(SpellsDefine.SecondWind))
+        if (!this.IsReady(SecondWind))
             return -1;
 
         if (!this.CanInsertAbility())
@@ -35,6 +36,6 @@ public class MchAbilitySecondWind (params string[] qtKeys): ISlotResolver
 
     public void Build(Slot slot)
     {
-        slot.Add(SpellsDefine.SecondWind.GetSpell());
+        slot.Add(SecondWind.GetSpell());
     }
 }

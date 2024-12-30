@@ -8,9 +8,8 @@ namespace BBM.MCH.Ability;
 /**
  * 野火
  */
-public class MchAbilityWildfire (params string[] qtKeys): ISlotResolver
+public class MchAbilityWildfire(params string[] qtKeys) : ISlotResolver
 {
-    
     private readonly List<string> _qtKeys = qtKeys.ToList(); // 支持多种 Qt 的判断逻辑
 
     public int Check()
@@ -19,12 +18,12 @@ public class MchAbilityWildfire (params string[] qtKeys): ISlotResolver
             return -1;
         if (!this.CanInsertAbility())
             return -2;
-
-        if (MchSpells.将死.GetCharges().Equals(3.0) && MchSpells.双将.GetCharges().Equals(3.0))
+        if (MchSpells.CheckMate.GetCharges().Equals(3.0) && MchSpells.DoubleCheck.GetCharges().Equals(3.0))
         {
             return -3;
         }
-        if (!this.HasAura(MchBuffs.过热))
+
+        if (!this.HasAura(MchBuffs.Overheated))
             return -4;
 
         return 0;

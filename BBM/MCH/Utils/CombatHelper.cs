@@ -1,6 +1,7 @@
 using AEAssist;
 using AEAssist.Extension;
 using BBM.MCH.Data;
+using Dalamud.Game.ClientState.Objects.Types;
 
 namespace BBM.MCH.Utils;
 
@@ -15,6 +16,17 @@ public abstract class CombatHelper
     /// <param name="limit"></param>
     /// <returns></returns>
     public static bool GetHpPercent(float limit) => Core.Me.CurrentHpPercent() > limit;
+
+    /// <summary>
+    /// 是否有远敏减
+    /// </summary>
+    /// <returns></returns>
+    public static bool HasRangedMitigation()
+    {
+        return Core.Me.HasAura(MchBuffs.Tactician)
+               || Core.Me.HasAura(AurasDefine.ShieldSamba)
+               || Core.Me.HasAura(AurasDefine.Troubadour);
+    }
 
     public static bool 能力技封印() => Core.Me.HasAura(1092U, 0);
     public static bool 战技封印() => Core.Me.HasAura(620U, 0);

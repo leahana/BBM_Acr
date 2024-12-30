@@ -1,14 +1,13 @@
 using AEAssist.CombatRoutine.Trigger;
 using AEAssist.GUI;
-using BBM.MCH;
 using ImGuiNET;
 
 namespace BBM.MCH.Triggers;
 
 // 时间轴qt
-public class TriggerActionQt : ITriggerAction
+public class MchTriggerActionQt : ITriggerAction
 {
-    public string DisplayName { get; } = "Mch/qt";
+    public string DisplayName { get; } = "Bard/QT";
     public string Remark { get; set; }
 
     public string Key = "";
@@ -18,9 +17,9 @@ public class TriggerActionQt : ITriggerAction
     private int _selectIndex;
     private string[] _qtArray;
 
-    public TriggerActionQt()
+    public MchTriggerActionQt()
     {
-        _qtArray = BbmMchRotationEntry.Qt.GetQtArray();
+        _qtArray = MchRotationEntry.Qt.GetQtArray();
     }
 
     public bool Draw()
@@ -31,20 +30,19 @@ public class TriggerActionQt : ITriggerAction
             _selectIndex = 0;
         }
 
-        ImGuiHelper.LeftCombo("选择Key", ref _selectIndex, _qtArray);
-        Key = _qtArray[_selectIndex];
+        ImGuiHelper.LeftCombo("选择QT", ref this._selectIndex, this._qtArray);
+        this.Key = this._qtArray[this._selectIndex];
+        ImGui.Text("勾选为开启QT，不勾选则关闭");
+        ImGui.Text("开/关  ");
         ImGui.SameLine();
         using (new GroupWrapper())
-        {
-            ImGui.Checkbox("", ref Value);
-        }
-
+            ImGui.Checkbox("", ref this.Value);
         return true;
     }
 
     public bool Handle()
     {
-        BbmMchRotationEntry.Qt.SetQt(Key, Value);
+        MchRotationEntry.Qt.SetQt(Key, Value);
         return true;
     }
 }

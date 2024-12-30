@@ -21,6 +21,7 @@ public class MchGcdBaseCombo(params string[] qtKeys) : ISlotResolver
         {
             return -1;
         }
+
         return 0;
     }
 

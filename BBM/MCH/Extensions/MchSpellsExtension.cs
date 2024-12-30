@@ -109,6 +109,12 @@ public static class MchSpellsExtension
         return Core.Resolve<MemApiSpell>().GetCharges(spellId);
     }
 
+
+    /// <summary>
+    /// 技能冷却时间
+    /// </summary>
+    /// <param name="spellId"></param>
+    /// <returns></returns>
     public static double Cooldown(this uint spellId)
     {
         return spellId.GetSpell().Cooldown.TotalMilliseconds;

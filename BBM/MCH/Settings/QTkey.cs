@@ -11,11 +11,8 @@ public static class QtKey
     public const string UseChainSaw = MchQtConstantsCn.UseChainSaw;
     public const string UseAirAnchor = MchQtConstantsCn.UseAirAnchor;
     public const string UseDrill = MchQtConstantsCn.UseDrill;
-
     public const string UseExcavator = MchQtConstantsCn.UseExcavator;
     public const string ReserveCheckMate = MchQtConstantsCn.ReserveCheckMate;
     public const string ReserveDoubleCheck = MchQtConstantsCn.ReserveDoubleCheck;
-
     public const string UseOutbreak = MchQtConstantsCn.UseOutbreak;
-    public const string UseLastOutbreak = MchQtConstantsCn.UseLastOutbreak;
 }

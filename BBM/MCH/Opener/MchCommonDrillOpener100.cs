@@ -71,8 +71,8 @@ public class MchCommonDrillOpener100 : IOpener, ISlotSequence
     // 1g 钻头+双蛋 曹飞惊喜蛋 
     private static void Step1Gcd(Slot slot)
     {
-        slot.Add(MchSpells.将死.GetSpell());
-        slot.Add(MchSpells.双将.GetSpell());
+        slot.Add(MchSpells.CheckMate.GetSpell());
+        slot.Add(MchSpells.DoubleCheck.GetSpell());
     }
 
     // 2g 空气矛+枪管加热 
@@ -101,7 +101,7 @@ public class MchCommonDrillOpener100 : IOpener, ISlotSequence
     private static void Step5Gcd(Slot slot)
     {
         slot.Add(MchSpells.Drill.GetSpell());
-        slot.Add(MchSpells.将死.GetSpell());
+        slot.Add(MchSpells.CheckMate.GetSpell());
         slot.Add(MchSpells.Wildfire.GetSpell());
     }
 
@@ -109,7 +109,7 @@ public class MchCommonDrillOpener100 : IOpener, ISlotSequence
     private static void Step6Gcd(Slot slot)
     {
         slot.Add(MchSpells.FullMetalField.GetSpell());
-        slot.Add(MchSpells.双将.GetSpell());
+        slot.Add(MchSpells.DoubleCheck.GetSpell());
         slot.Add(MchSpells.Hypercharge.GetSpell());
     }
 

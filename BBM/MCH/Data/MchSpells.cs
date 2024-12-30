@@ -29,9 +29,14 @@ public static class MchSpells
     public const uint 毒菌冲击 = 16499;
     public const uint 速行 = 7557;
     public const uint 超档后式人偶 = 16502;
-
-
     public const uint RookAutoturret = 2864;
+
+
+    // 双将
+    public const uint DoubleCheck = 36979;
+    // 将死
+    public const uint CheckMate = 36980;
+
 
     /// <summary>
     /// 分裂弹 - 基础连击 1
@@ -187,5 +192,4 @@ public static class MchSpells
     /// 全金属爆发 - 超荷二段
     /// </summary>
     public const uint FullMetalField = 36982;
-    
 }
