@@ -14,7 +14,6 @@ using BBM.MCH.Settings;
 using BBM.MCH.Triggers.Actions;
 using BBM.MCH.Triggers.Conditions;
 using BBM.MCH.Utils;
-using BBM.NIN.Triggers;
 using ImGuiNET;
 
 namespace BBM.MCH;
@@ -38,43 +37,44 @@ public class MchRotationEntry : IRotationEntry
     [
         // 机器人电量slotResolver, qt:  爆发 
         new(new MchAbilityUseBattery([
-                MchQtConstantsCn.UseOutbreak
+                MchQtKeys.UseOutbreak
             ]),
             SlotMode.OffGcd),
         // 热冲击slotResolver, qt:无
         new(new MchGcdBlazingShot(
-            MchQtConstantsCn.UseBaseComboFirst
-            ), SlotMode.Gcd),
-        
-        // 钻头slotResolver, qt:  爆发 钻头
-        new(new MchGcdDrill([
-            MchQtConstantsCn.UseOutbreak,
-            MchQtConstantsCn.UseDrill,
-            MchQtConstantsCn.UseBaseComboFirst
-        ]), SlotMode.Gcd),
+            MchQtKeys.UseBaseComboFirst
+        ), SlotMode.Gcd),
         // 空气矛slotResolver, qt:  爆发 空气矛
         new(new MchGcdAirAnchor([
-            MchQtConstantsCn.UseOutbreak,
-            MchQtConstantsCn.UseAirAnchor,
-            MchQtConstantsCn.UseBaseComboFirst
+            MchQtKeys.UseOutbreak,
+            MchQtKeys.UseAirAnchor,
+            MchQtKeys.UseBaseComboFirst
         ]), SlotMode.Gcd),
         // 回转飞锯slotResolver, qt:  爆发 回转飞锯
         new(new MchGcdChainsaw([
-            MchQtConstantsCn.UseOutbreak,
-            MchQtConstantsCn.UseChainSaw,
-            MchQtConstantsCn.UseBaseComboFirst
+            MchQtKeys.UseOutbreak,
+            MchQtKeys.UseChainSaw,
+            MchQtKeys.UseBaseComboFirst
         ]), SlotMode.Gcd),
         // 掘地飞轮slotResolver, qt： 爆发 掘地飞轮
         new(new MchGcdExcavator([
-            MchQtConstantsCn.UseOutbreak,
-            MchQtConstantsCn.UseExcavator,
-            MchQtConstantsCn.UseBaseComboFirst,
+            MchQtKeys.UseOutbreak,
+            MchQtKeys.UseExcavator,
+            MchQtKeys.UseBaseComboFirst,
         ]), SlotMode.Gcd),
+        // 钻头slotResolver, qt:  爆发 钻头
+        new(new MchGcdDrill([
+            MchQtKeys.UseOutbreak,
+            MchQtKeys.UseDrill,
+            MchQtKeys.UseBaseComboFirst
+        ]), SlotMode.Gcd),
+
+
         // 全金属爆发slotResolver, qt： 爆发 全金属爆发
         new(new MchGcdFullMetalField([
-            MchQtConstantsCn.UseOutbreak,
-            MchQtConstantsCn.UseFullMetalField,
-            MchQtConstantsCn.UseBaseComboFirst,
+            MchQtKeys.UseOutbreak,
+            MchQtKeys.UseFullMetalField,
+            MchQtKeys.UseBaseComboFirst,
         ]), SlotMode.Gcd),
 
         // new(new MchGcdAdvanced(), SlotMode.Gcd),
@@ -83,37 +83,38 @@ public class MchRotationEntry : IRotationEntry
 
         // 枪管加热slotResolver qt:  爆发
         new(new MchAbilityBarrelStabilizer([
-                    MchQtConstantsCn.UseOutbreak,
+                    MchQtKeys.UseOutbreak,
                 ]
             ),
             SlotMode.OffGcd),
 
         // 超荷slotResolver qt:  爆发
         new(new MchAbilityHyperCharge([
-            MchQtConstantsCn.UseOutbreak,
+            MchQtKeys.UseOutbreak,
+            MchQtKeys.UseHyperCharge
         ]), SlotMode.OffGcd),
 
         // 野火slotResolver qt：  爆发
         new(new MchAbilityWildfire([
-            MchQtConstantsCn.UseOutbreak,
+            MchQtKeys.UseOutbreak,
         ]), SlotMode.OffGcd),
 
         // 整备slotResolver qt:  爆发 保留整备
         new(new MchAbilityReassemble([
-            MchQtConstantsCn.UseOutbreak,
-            MchQtConstantsCn.UseReassemble,
+            MchQtKeys.UseOutbreak,
+            MchQtKeys.UseReassemble,
         ]), SlotMode.OffGcd),
 
         // 将死slotResolver  qt:  爆发 (保留)2层双将
         new(new MchAbilityCheckMate([
-            MchQtConstantsCn.UseOutbreak,
-            MchQtConstantsCn.ReserveCheckMate,
+            MchQtKeys.UseOutbreak,
+            MchQtKeys.ReserveCheckMate,
         ]), SlotMode.OffGcd),
 
         // 双将slotResolver  qt:  爆发 (保留)2层双将
         new(new MchAbilityDoubleCheck([
-            MchQtConstantsCn.UseOutbreak,
-            MchQtConstantsCn.ReserveDoubleCheck
+            MchQtKeys.UseOutbreak,
+            MchQtKeys.ReserveDoubleCheck
         ]), SlotMode.OffGcd),
 
         new(new MchAbilitySecondWind([
@@ -161,11 +162,9 @@ public class MchRotationEntry : IRotationEntry
 
     private void AddTriggerActions(Rotation rot)
     {
-        // qt行为
-        rot.AddTriggerAction(new TriggerActionQt());
         // 电量行为
         rot.AddTriggerAction(new MchTriggersActionBattery());
-        // 热量条件
+        // Qt行为
         rot.AddTriggerAction(new MchTriggerActionQt());
     }
 
@@ -190,7 +189,6 @@ public class MchRotationEntry : IRotationEntry
     {
         // JobViewSave是AE底层提供的QT设置存档类 在你自己的设置里定义即可
         Qt = new JobViewWindow(MchSettings.JobViewSave, MchSettings.Save, "bbm Mch jobView");
-
 
         // 第二个参数是你设置文件的Save类 第三个参数是QT窗口标题
         // QT.SetUpdateAction(OnUIUpdate); // 设置QT中的Update回调 不需要就不设置
@@ -229,27 +227,30 @@ public class MchRotationEntry : IRotationEntry
         Qt.AddHotkey("冲刺", new HotKeyResolver_疾跑());
         Qt.AddHotkey("防击退", new NormalSpellHotKeyResolver(SpellsDefine.ArmsLength, SpellTargetType.Target, func: null));
         Qt.AddHotkey("内丹", new NormalSpellHotKeyResolver(SpellsDefine.SecondWind, SpellTargetType.Target, func: null));
-        Qt.AddHotkey("策动", new NormalSpellHotKeyResolver(SpellsDefine.Tactician, SpellTargetType.Target,
-            MchSpellHelper.HotkeyCondDismantle));
-        Qt.AddHotkey("武装解除", new NormalSpellHotKeyResolver(MchSpells.Dismantle, SpellTargetType.Target,
-            MchSpellHelper.HotkeyCondTactician));
+        Qt.AddHotkey("策动",
+            new NormalSpellHotKeyResolver(SpellsDefine.Tactician, SpellTargetType.Target,
+                MchSpellHelper.HotkeyCondTactician));
+        Qt.AddHotkey("武装解除",
+            new NormalSpellHotKeyResolver(MchSpells.Dismantle, SpellTargetType.Target,
+                MchSpellHelper.HotkeyCondDismantle));
         // Qt.AddHotkey("停止自动移动", new HotKeyStopMove());
     }
 
     private void AddQt()
     {
-        Qt.AddQt(QtKey.UsePotion, false, MchQtConstantsCn.UsePotion);
-        Qt.AddQt(QtKey.UseFullMetalField, true, MchQtConstantsCn.UseFullMetalField);
-        Qt.AddQt(QtKey.ReserveCheckMate, false, MchQtConstantsCn.ReserveCheckMate);
-        Qt.AddQt(QtKey.ReserveDoubleCheck, false, MchQtConstantsCn.ReserveDoubleCheck);
-        Qt.AddQt(QtKey.UseChainSaw, true, MchQtConstantsCn.UseChainSaw);
-        Qt.AddQt(QtKey.UseExcavator, true, MchQtConstantsCn.UseExcavator);
-        Qt.AddQt(QtKey.UseAirAnchor, true, MchQtConstantsCn.UseAirAnchor);
-        Qt.AddQt(QtKey.UseDrill, true, MchQtConstantsCn.UseDrill);
-        Qt.AddQt(QtKey.UseOutbreak, true, MchQtConstantsCn.UseOutbreak);
-        Qt.AddQt(QtKey.Aoe, false, MchQtConstantsCn.UseAoe);
-        Qt.AddQt(QtKey.UseBaseComboFirst, false, MchQtConstantsCn.UseBaseComboFirst);
-        Qt.AddQt(QtKey.UseReassemble, true, MchQtConstantsCn.UseBaseComboFirst);
+        Qt.AddQt(MchQtKeys.UsePotion, false, MchQtKeys.UsePotion);
+        Qt.AddQt(MchQtKeys.UseOutbreak, true, MchQtKeys.UseOutbreak);
+        Qt.AddQt(MchQtKeys.UseBaseComboFirst, false, MchQtKeys.UseBaseComboFirst);
+        Qt.AddQt(MchQtKeys.UseChainSaw, true, MchQtKeys.UseChainSaw);
+        Qt.AddQt(MchQtKeys.ReserveCheckMate, false, MchQtKeys.ReserveCheckMate);
+        Qt.AddQt(MchQtKeys.ReserveDoubleCheck, false, MchQtKeys.ReserveDoubleCheck);
+        Qt.AddQt(MchQtKeys.UseExcavator, true, MchQtKeys.UseExcavator);
+        Qt.AddQt(MchQtKeys.UseFullMetalField, true, MchQtKeys.UseFullMetalField);
+        Qt.AddQt(MchQtKeys.UseDrill, true, MchQtKeys.UseDrill);
+        Qt.AddQt(MchQtKeys.UseAirAnchor, true, MchQtKeys.UseAirAnchor);
+        Qt.AddQt(MchQtKeys.Aoe, false, MchQtKeys.Aoe);
+        Qt.AddQt(MchQtKeys.UseReassemble, true, MchQtKeys.UseBaseComboFirst);
+        Qt.AddQt(MchQtKeys.UseHyperCharge, true, MchQtKeys.UseHyperCharge);
     }
 
     private void DrawQtGeneral(JobViewWindow jobViewWindow)
@@ -385,7 +386,6 @@ public class MchRotationEntry : IRotationEntry
             if (AI.Instance.BattleData.HighPrioritySlots_OffGCD.Count > 0)
                 foreach (var obj in AI.Instance.BattleData.HighPrioritySlots_OffGCD)
                     ImGui.Text(" --" + obj);
-            ImGui.Separator();
         }
 
         ImGui.Separator();

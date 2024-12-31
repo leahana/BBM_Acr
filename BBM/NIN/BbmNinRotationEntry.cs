@@ -4,7 +4,6 @@ using AEAssist.CombatRoutine.View.JobView;
 using AEAssist.CombatRoutine.View.JobView.HotkeyResolver;
 using BBM.NIN.Setting;
 using BBM.NIN.SlotResolvers;
-using BBM.NIN.Triggers;
 using ImGuiNET;
 
 namespace BBM.NIN;
@@ -41,7 +40,7 @@ public class BbmNinRotationEntry : IRotationEntry
         // 添加各种事件回调
         // rot.SetRotationEventHandler(new BardRotationEventHandler());
         // 添加QT开关的时间轴行为
-        rot.AddTriggerAction(new TriggerActionQt());
+        // rot.AddTriggerAction(new TriggerActionQt());
         return rot;
     }
 
@@ -67,8 +66,8 @@ public class BbmNinRotationEntry : IRotationEntry
         QT.AddTab("Dev", DrawQtDev);
 
         // 添加QT开关 第二个参数是默认值 (开or关) 第三个参数是鼠标悬浮时的tips
-        QT.AddQt(QTKey.Base_01, true, "da1");
-        QT.AddQt(QTKey.AOE, false);
+        QT.AddQt(NinQtKeys.Base_01, true, "da1");
+        QT.AddQt(NinQtKeys.AOE, false);
 
         // 添加快捷按钮 (带技能图标)
         QT.AddHotkey("爆发药", new HotKeyResolver_Potion());

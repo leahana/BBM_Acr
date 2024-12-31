@@ -1,6 +1,6 @@
 ﻿namespace BBM.NIN;
 // 直接定义好 方便编码
-public static class QTKey
+public static class NinQtKeys
 {
     public const string Base_01 = "Base_01111111";
     public const string AOE = "AOE";

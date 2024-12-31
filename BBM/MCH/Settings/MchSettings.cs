@@ -34,7 +34,7 @@ namespace BBM.MCH.Settings
             }
             catch (Exception e)
             {
-                Instance = new();
+                Instance = new MchSettings();
                 LogHelper.Error(e.ToString());
             }
         }
@@ -55,16 +55,14 @@ namespace BBM.MCH.Settings
         public int MinBattery = 50; // 最小电量
         public int MinHeat = 50; // 最大热量
         public int GrabItLimit = 300;
-        
-        public readonly JobViewSave JobViewSave = new()
+
+        public static readonly JobViewSave JobViewSave = new()
         {
+            QtLineCount = 3,
             MainColor = new Vector4(0.336f, 0.278f, 0.866f, 0.700f), //
-            QtLineCount = 2,
-            
-            QtWindowBgAlpha = 0.1f,
+            // MainColor = new Vector4(0.030f, 0.286f, 0.955f, 0.700f), //
+            QtWindowBgAlpha = 0.0f,
             QtHotkeySize = new Vector2(60, 60)
         }; // QT设置存档
     }
-
-    
 }

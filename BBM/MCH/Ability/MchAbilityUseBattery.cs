@@ -36,10 +36,11 @@ public class MchAbilityUseBattery(params string[] qtKeys) : ISlotResolver
         // 7. 检查蓄电量是否足够
         if (MchSpellHelper.GetBattery() < 50) return -7;
 
-        var heat = MchSpellHelper.GetHeat();
-        
+        var battery = MchSpellHelper.GetBattery();
+        var instanceMinBattery = MchSettings.Instance.MinBattery;
+        // LogHelper.Print($"用户手动设置电量阈值：{instanceMinBattery}");
         // 电量大于用户设定值再开
-        return heat >= MchSettings.Instance.MinBattery ? 2 : -14;
+        return battery >= instanceMinBattery ? 2 : -14;
 
         // 电量60。下一G是回转飞锯
         // if (heat == 60 && this.IsCooldownWithin(MchSpells.ChainSaw, 2100.0))

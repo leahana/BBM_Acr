@@ -60,10 +60,11 @@ public class MchCommonDrillOpener100 : IOpener, ISlotSequence
         // 倒计时4.8s 整备
         countDownHandler.AddAction(4800, MchSpells.Reassemble);
         // 2s吃爆发药
-        if (MchSettings.Instance.UsePotionInOpener)
+        if (MchSettings.Instance.UsePotionInOpener && MchRotationEntry.Qt.GetQt(MchQtKeys.UsePotion))
         {
             countDownHandler.AddPotionAction(2000);
         }
+
         // 倒计时300ms 抢开
         countDownHandler.AddAction(MchSettings.Instance.GrabItLimit, MchSpells.Drill, SpellTargetType.Target);
     }

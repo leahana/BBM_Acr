@@ -45,6 +45,12 @@ public class MchAbilityHyperCharge(params string[] qtKeys) : ISlotResolver, IQtC
 
         if (this.HasAura(MchBuffs.掘地飞轮预备) || this.HasAura(MchBuffs.全金属爆发预备))
             return -8;
+        // 120快好了 不打
+        if (MchSpellHelper.GetHeat() < 100 &&
+            MchSpells.BarrelStabilizer.Cooldown() <= 35000.0)
+        {
+            return -9;
+        }
 
         var checkQt = CheckQt();
         if (checkQt != 0)
