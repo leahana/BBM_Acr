@@ -28,23 +28,16 @@ public abstract class CombatHelper
                || Core.Me.HasAura(AurasDefine.Troubadour);
     }
 
-    public static bool 能力技封印() => Core.Me.HasAura(1092U, 0);
-    public static bool 战技封印() => Core.Me.HasAura(620U, 0);
-
-    public static bool 敌人无敌或自身受限制()
+    public static bool IsOffGcdLocked => Core.Me.HasAura(1092U, 0);
+    public static bool IsGcdLocked() => Core.Me.HasAura(620U, 0);
+    
+    public static bool IsTargetImmune()
     {
         var battleChara = Core.Me.GetCurrTarget();
         return
             battleChara != null
             && (battleChara.HasAnyAura(Buff.敌人无敌BUFF)
                 || battleChara.HasAnyAura(Buff.远程物理攻击无效化)
-                || Core.Me.HasAnyAura(Buff.无法造成伤害)
-                || (!Core.Me.HasAnyAura(Buff.加速度炸弹, 1500)));
-    }
-
-    public static bool 选择目标()
-    {
-        var battleChara = Core.Me.GetCurrTarget();
-        return battleChara == null;
+                || Core.Me.HasAnyAura(Buff.无法造成伤害));
     }
 }

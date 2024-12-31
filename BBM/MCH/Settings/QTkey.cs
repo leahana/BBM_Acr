@@ -6,6 +6,7 @@ namespace BBM.MCH.Settings;
 public static class QtKey
 {
     public const string Aoe = "AOE";
+    public const string UseBaseComboFirst = MchQtConstantsCn.UseBaseComboFirst;
     public const string UsePotion = MchQtConstantsCn.UsePotion;
     public const string UseFullMetalField = MchQtConstantsCn.UseFullMetalField;
     public const string UseChainSaw = MchQtConstantsCn.UseChainSaw;
@@ -15,4 +16,5 @@ public static class QtKey
     public const string ReserveCheckMate = MchQtConstantsCn.ReserveCheckMate;
     public const string ReserveDoubleCheck = MchQtConstantsCn.ReserveDoubleCheck;
     public const string UseOutbreak = MchQtConstantsCn.UseOutbreak;
+    public const string UseReassemble = MchQtConstantsCn.UseReassemble;
 }

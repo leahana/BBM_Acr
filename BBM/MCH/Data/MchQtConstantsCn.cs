@@ -11,12 +11,11 @@ public static class MchQtConstantsCn
     public const string ReserveDoubleCheck = "(保留)2层双将";
     public const string ReserveCheckMate = "(保留)2层将死";
     public const string UsePotion = "爆发药";
-
     public const string UseOutbreak = "爆发";
-
-    // 应该是qtHotKey或者交给时间轴控制 倾斜资源
-    // public const string UseLastOutbreak = "";
-    public const string UseBaseCombo = "基础连击";
     public const string UseAoe = "AOE";
     public const string UseReassemble = "整备";
+    public const string UseBaseComboFirst = "优先打123";
+    
+    // 应该是qtHotKey或者交给时间轴控制 倾泻资源
+    // public const string UseLastOutbreak = "";
 }

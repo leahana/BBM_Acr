@@ -9,7 +9,7 @@ namespace BBM.MCH.Triggers.Conditions;
 
 public class MchCondAfterBattleStart : ITriggerCond, ITriggerlineCheck
 {
-    public string DisplayName => "General/战斗开始后多少秒";
+    public string DisplayName => "BBM-Mch/条件/战斗开始后多少秒";
     public string Remark { get; set; }
     public int Delay { get; set; }
 
@@ -33,5 +33,9 @@ public class MchCondAfterBattleStart : ITriggerCond, ITriggerlineCheck
     public void Check(TreeCompBase parent, TreeNodeBase currNode, TriggerLine triggerLine, Env env,
         TriggerlineCheckResult checkResult)
     {
+        if (Delay <= 0)
+        {
+            checkResult.AddError(currNode, "战斗时间应该大于0");
+        }
     }
 }

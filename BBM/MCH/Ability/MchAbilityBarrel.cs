@@ -16,7 +16,6 @@ public class MchAbilityBarrelStabilizer(params string[] qtKeys) : ISlotResolver,
 
     public SlotMode SlotMode { get; } = SlotMode.OffGcd;
 
-
     public int Check()
     {
         if (!this.IsReady(MchSpells.BarrelStabilizer))

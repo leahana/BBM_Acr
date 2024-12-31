@@ -2,6 +2,7 @@ using AEAssist.CombatRoutine.Module;
 using AEAssist.Helper;
 using BBM.MCH.Data;
 using BBM.MCH.Extensions;
+using BBM.MCH.Interfaces;
 using BBM.MCH.Utils;
 
 namespace BBM.MCH.GCD;
@@ -9,7 +10,7 @@ namespace BBM.MCH.GCD;
 /**
  * 回转飞锯
  */
-public class MchGcdChainsaw(params string[] qtKeys) : ISlotResolver
+public class MchGcdChainsaw(params string[] qtKeys) : ISlotResolver, IQtChecker
 {
     private readonly List<string> _qtKeys = qtKeys.ToList(); // 支持多种 Qt 的判断逻辑
 
@@ -19,10 +20,15 @@ public class MchGcdChainsaw(params string[] qtKeys) : ISlotResolver
         {
             return -1;
         }
+
         // 调用通用方法进行 Qt 判断
-        var validationResult = MchQtHelper.ValidateQtKeys(_qtKeys);
-        return validationResult != 0 ? validationResult : 0;
+        return CheckQt();
     }
 
     public void Build(Slot slot) => slot.Add(MchSpells.ChainSaw.GetSpell());
+
+    public int CheckQt()
+    {
+        return MchQtHelper.ValidateQtKeys(_qtKeys);
+    }
 }

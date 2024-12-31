@@ -15,7 +15,7 @@ namespace BBM.MCH.Data.HotKeys;
 /// </summary>
 /// <param name="spellId">技能Id</param>
 /// <param name="targetType">目标类型</param>
-public class NormalSpellHotKeyResolver(uint spellId, SpellTargetType targetType) : IHotkeyResolver
+public class NormalSpellHotKeyResolver(uint spellId, SpellTargetType targetType, Func<int>? func) : IHotkeyResolver
 {
     public void Draw(Vector2 size)
     {
@@ -63,6 +63,12 @@ public class NormalSpellHotKeyResolver(uint spellId, SpellTargetType targetType)
 
     public int Check()
     {
+        
+        if (func != null)
+        {
+            return func();
+        }
+
         return spellId.GetSpell().IsReadyWithCanCast() ? 0 : -1;
     }
 

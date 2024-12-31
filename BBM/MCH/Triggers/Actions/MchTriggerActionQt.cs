@@ -7,7 +7,7 @@ namespace BBM.MCH.Triggers.Actions;
 // 时间轴qt
 public class MchTriggerActionQt : ITriggerAction
 {
-    public string DisplayName { get; } = "Mch/QT";
+    public string DisplayName { get; } = "BBM-Mch/行为/QT";
     public string Remark { get; set; }
 
     public string Key = "";
@@ -27,6 +27,7 @@ public class MchTriggerActionQt : ITriggerAction
         _selectIndex = Array.IndexOf(_qtArray, Key);
         if (_selectIndex == -1)
         {
+            _selectIndex = 0;
             _selectIndex = 0;
         }
 

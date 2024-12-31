@@ -9,14 +9,10 @@ namespace BBM.MCH.Triggers.Actions;
 /// </summary>
 public class MchTriggersActionBattery : ITriggerAction, ITriggerBase
 {
-    public string DisplayName { get; } = "Mch/电量设置";
+    public string DisplayName => "BBM-Mch/行为/电量控制";
 
     private int Battery { get; set; } = 0;
-
-    public void Check()
-    {
-    }
-
+    
     public string Remark { get; set; }
 
     public bool Draw()

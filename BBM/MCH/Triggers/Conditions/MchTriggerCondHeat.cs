@@ -1,15 +1,16 @@
 using AEAssist.CombatRoutine.Trigger;
-using AEAssist.GUI;
+using AEAssist.CombatRoutine.Trigger.Node;
+using AEAssist.GUI.Tree;
 using BBM.MCH.Utils;
 using ImGuiNET;
 
 namespace BBM.MCH.Triggers.Conditions;
 
-public class MchTriggerCondHeat : ITriggerCond, ITriggerBase
+public class MchTriggerCondHeat : ITriggerCond, ITriggerBase, ITriggerlineCheck
 {
-    [LabelName("机工量谱_热量")] public int Heat { get; set; }
+    public int Heat { get; set; } = 50;
 
-    public string DisplayName { get; } = "Mch/热量设置";
+    public string DisplayName { get; } = "BBM-Mch/条件/热量设置";
 
     public string Remark { get; set; }
 
@@ -24,5 +25,13 @@ public class MchTriggerCondHeat : ITriggerCond, ITriggerBase
     public bool Handle(ITriggerCondParams triggerCondParams)
     {
         return GetHeat() >= Heat;
+    }
+
+    public void Check(TreeCompBase parent, TreeNodeBase currNode, TriggerLine triggerLine, Env env,
+        TriggerlineCheckResult checkResult)
+    {
+        if (Heat is >= 50 and <= 100)
+            return;
+        checkResult.AddError(currNode, "热量需要在50-100之间");
     }
 }

@@ -11,10 +11,21 @@ using BBM.MCH.Utils;
 namespace BBM.MCH.Opener;
 
 /// <summary>
-/// 标准钻头起手
+/// 100级空气矛起手
 /// </summary>
-public class MchCommonDrillOpener100 : IOpener, ISlotSequence
+public class MchAirAnchorOpener100 : IOpener, ISlotSequence
 {
+    public List<Action<Slot>> Sequence { get; } =
+    [
+        Step1Gcd,
+        Step2Gcd,
+        Step3Gcd,
+        Step4Gcd,
+        Step5Gcd,
+        Step6Gcd,
+    ];
+
+
     public int StartCheck()
     {
         var battleChara = (Core.Me).GetCurrTarget();
@@ -43,20 +54,9 @@ public class MchCommonDrillOpener100 : IOpener, ISlotSequence
         return -1;
     }
 
-
-    public List<Action<Slot>> Sequence { get; } =
-    [
-        Step1Gcd,
-        Step2Gcd,
-        Step3Gcd,
-        Step4Gcd,
-        Step5Gcd,
-        Step6Gcd,
-    ];
-
     public void InitCountDown(CountDownHandler countDownHandler)
     {
-        LogHelper.Print("BBM-Mch_100标准钻头起手");
+        LogHelper.Print("BBM-Mch_100空气锚起手");
         // 倒计时4.8s 整备
         countDownHandler.AddAction(4800, MchSpells.Reassemble);
         // 2s吃爆发药
@@ -64,21 +64,23 @@ public class MchCommonDrillOpener100 : IOpener, ISlotSequence
         {
             countDownHandler.AddPotionAction(2000);
         }
+
         // 倒计时300ms 抢开
         countDownHandler.AddAction(MchSettings.Instance.GrabItLimit, MchSpells.Drill, SpellTargetType.Target);
     }
 
-    // 1g 钻头+双蛋 曹飞惊喜蛋 
+
+    // 1g 空气锚+双蛋 
     private static void Step1Gcd(Slot slot)
     {
         slot.Add(MchSpells.CheckMate.GetSpell());
         slot.Add(MchSpells.DoubleCheck.GetSpell());
     }
 
-    // 2g 空气矛+枪管加热 
+    // 2g 钻头+枪管加热 
     private static void Step2Gcd(Slot slot)
     {
-        slot.Add(MchSpells.AirAnchor.GetSpell());
+        slot.Add(MchSpells.Drill.GetSpell());
         slot.Add(MchSpells.BarrelStabilizer.GetSpell());
     }
 
@@ -112,7 +114,6 @@ public class MchCommonDrillOpener100 : IOpener, ISlotSequence
         slot.Add(MchSpells.DoubleCheck.GetSpell());
         slot.Add(MchSpells.Hypercharge.GetSpell());
     }
-
     // 热冲击x5 7.5s
     // 后面就是123了
 }

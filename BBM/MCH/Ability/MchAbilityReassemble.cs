@@ -2,6 +2,7 @@ using AEAssist.CombatRoutine.Module;
 using AEAssist.Helper;
 using BBM.MCH.Data;
 using BBM.MCH.Extensions;
+using BBM.MCH.Interfaces;
 using BBM.MCH.Utils;
 
 namespace BBM.MCH.Ability;
@@ -9,7 +10,7 @@ namespace BBM.MCH.Ability;
 /**
  * 整备
  */
-public class MchAbilityReassemble(params string[] qtKeys) : ISlotResolver
+public class MchAbilityReassemble(params string[] qtKeys) : ISlotResolver, IQtChecker
 {
     private readonly List<string> _qtKeys = qtKeys.ToList(); // 支持多种 Qt 的判断逻辑
 
@@ -40,26 +41,11 @@ public class MchAbilityReassemble(params string[] qtKeys) : ISlotResolver
         // 检查是否处于过热状态
         if (this.HasAura(MchBuffs.Overheated)) return -7;
 
-        var qtResult = 101;
-        switch (strongGcd)
+        var checkQt = CheckQt();
+        if (checkQt < 0)
         {
-            case MchSpells.AirAnchor:
-                qtResult = MchQtHelper.ValidateQtKeys(new List<string>() { MchQtConstantsCn.UseAirAnchor });
-                break;
-            case MchSpells.Drill:
-                qtResult = MchQtHelper.ValidateQtKeys(new List<string>() { MchQtConstantsCn.UseDrill });
-                break;
-            case MchSpells.ChainSaw:
-                qtResult = MchQtHelper.ValidateQtKeys(new List<string>() { MchQtConstantsCn.UseChainSaw });
-                break;
+            return checkQt;
         }
-
-        // 有qt限制不准放技能 那就整备也不放
-        if (qtResult == -101)
-        {
-            return qtResult;
-        }
-
 
         if (!this.IsReady(MchSpells.Wildfire)) return 0; // 野火未准备好
 
@@ -78,5 +64,10 @@ public class MchAbilityReassemble(params string[] qtKeys) : ISlotResolver
     public void Build(Slot slot)
     {
         slot.Add(MchSpells.Reassemble.GetSpell());
+    }
+
+    public int CheckQt()
+    {
+        return MchQtHelper.ValidateQtKeys(_qtKeys);
     }
 }

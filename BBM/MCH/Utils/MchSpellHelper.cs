@@ -1,9 +1,11 @@
 using AEAssist;
 using AEAssist.CombatRoutine;
+using AEAssist.Extension;
 using AEAssist.Helper;
 using AEAssist.JobApi;
 using AEAssist.MemoryApi;
 using BBM.MCH.Data;
+using BBM.MCH.Extensions;
 
 namespace BBM.MCH.Utils;
 
@@ -83,6 +85,47 @@ public static class MchSpellHelper
         return false;
     }
 
+    /// <summary>
+    /// 武装解除Hotkey判断条件
+    /// </summary>
+    /// <returns></returns>
+    public static int HotkeyCondDismantle()
+    {
+        if (!MchSpells.Dismantle.GetSpell().IsReadyWithCanCast())
+        {
+            LogHelper.Print("hotkey", "扳手 cd");
+            return -1;
+        }
+
+        if (Core.Me.GetCurrTarget().HasAura(MchBuffs.BeDismantle, 0))
+        {
+            LogHelper.Print("hotkey", "目标已经有扳手DeBuff了");
+            return -2;
+        }
+
+        return MchSpells.Dismantle.RecentlyUsed() ? -3 : 0;
+    }
+
+    /// <summary>
+    /// 策动hotkey判断条件
+    /// </summary>
+    /// <returns></returns>
+    public static int HotkeyCondTactician()
+    {
+        if (!MchSpells.Tactician.GetSpell().IsReadyWithCanCast())
+        {
+            LogHelper.Print("hotkey", "策动CD");
+            return -1;
+        }
+
+        if (CombatHelper.HasRangedMitigation())
+        {
+            LogHelper.Print("hotkey", "已经有远敏减伤Buff了");
+            return -2;
+        }
+
+        return MchSpells.Tactician.GetSpell().RecentlyUsed() ? -3 : 0;
+    }
 
     /// <summary>
     /// 是否有机器人
@@ -117,6 +160,7 @@ public static class MchSpellHelper
     {
         return MchSpells.Reassemble.RecentlyUsed(threshold);
     }
+
     public static bool WildFireRecentlyUsed(int threshold)
     {
         return MchSpells.Wildfire.RecentlyUsed(threshold);

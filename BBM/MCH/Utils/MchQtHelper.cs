@@ -1,6 +1,6 @@
 using AEAssist.Helper;
 using BBM.MCH.Data;
-using BBM.NIN;
+
 
 namespace BBM.MCH.Utils;
 
@@ -28,9 +28,39 @@ public static class MchQtHelper
         { MchQtConstantsCn.ReserveCheckMate, QtReserveCheckMate },
         { MchQtConstantsCn.ReserveDoubleCheck, QtReserveDoubleCheck },
         { MchQtConstantsCn.UseOutbreak, QtUseOutbreak },
+        { MchQtConstantsCn.UseAoe, QtAoe },
+        { MchQtConstantsCn.UseReassemble, QtUseReassemble },
+        { MchQtConstantsCn.UseBaseComboFirst, QtUseBaseComboFirst }
     };
 
-// 全金属爆发Qt
+    /// <summary>
+    /// 只打123
+    /// </summary>
+    /// <returns></returns>
+    private static int QtUseBaseComboFirst()
+    {
+        return _qtResult(!MchRotationEntry.Qt.GetQt(MchQtConstantsCn.UseBaseComboFirst));
+    }
+
+    /// <summary>
+    /// 整备qt
+    /// </summary>
+    /// <returns></returns>
+    private static int QtUseReassemble()
+    {
+        return _qtResult(MchRotationEntry.Qt.GetQt(MchQtConstantsCn.UseReassemble));
+    }
+
+    /// <summary>
+    /// AOEqt 暂时无用
+    /// </summary>
+    /// <returns></returns>
+    private static int QtAoe()
+    {
+        return _qtResult(MchRotationEntry.Qt.GetQt(MchQtConstantsCn.UseAoe));
+    }
+
+    // 全金属爆发Qt
     private static int QtFullMetalField()
     {
         return _qtResult(MchRotationEntry.Qt.GetQt(MchQtConstantsCn.UseFullMetalField));
@@ -98,11 +128,12 @@ public static class MchQtHelper
         {
             if (!QtResolvers.TryGetValue(qtKey, out var qtFunc))
             {
+                LogHelper.Debug($"Invalid QtKey: {qtKey}");
                 return -99; // Qt 未配置
             }
 
-            LogHelper.Debug($"Qt {qtKey} 判断未通过.");
             var value = qtFunc();
+            LogHelper.Debug($"Qt {qtKey} 判断 qtFunc={qtFunc()},qtValue={value}");
             if (value < 0)
             {
                 return value;

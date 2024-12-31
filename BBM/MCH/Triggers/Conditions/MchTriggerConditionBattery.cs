@@ -1,20 +1,22 @@
 using AEAssist.CombatRoutine.Trigger;
-using AEAssist.GUI;
+using AEAssist.CombatRoutine.Trigger.Node;
+using AEAssist.GUI.Tree;
 using BBM.MCH.Utils;
 using ImGuiNET;
 
 namespace BBM.MCH.Triggers.Conditions;
 
-public class MchTriggerConditionBattery : ITriggerCond, ITriggerBase
+public class MchTriggerConditionBattery : ITriggerCond, ITriggerBase, ITriggerlineCheck
 {
-    [LabelName("机工量谱_电量")] public int Battery { get; set; }
+    public int Battery { get; set; } = 50;
 
-    public string DisplayName { get; } = "Mch/电量设置";
+    public string DisplayName { get; } = "BBM-Mch/条件/电量设置";
 
     public string Remark { get; set; }
 
     public bool Draw()
     {
+        ImGui.Text("数值应为0-100之间");
         ImGui.Text($"电量>={Battery}时使用机器人");
         return false;
     }
@@ -24,5 +26,13 @@ public class MchTriggerConditionBattery : ITriggerCond, ITriggerBase
     public bool Handle(ITriggerCondParams triggerCondParams)
     {
         return GetBattery() >= Battery;
+    }
+
+    public void Check(TreeCompBase parent, TreeNodeBase currNode, TriggerLine triggerLine, Env env,
+        TriggerlineCheckResult checkResult)
+    {
+        if (Battery is >= 50 and <= 100)
+            return;
+        checkResult.AddError(currNode, "电量需要在50-100之间");
     }
 }
