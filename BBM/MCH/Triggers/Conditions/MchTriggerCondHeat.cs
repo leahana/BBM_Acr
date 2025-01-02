@@ -10,13 +10,13 @@ public class MchTriggerCondHeat : ITriggerCond, ITriggerBase, ITriggerlineCheck
 {
     public int Heat { get; set; } = 50;
 
-    public string DisplayName { get; } = "BBM-Mch/条件/热量设置";
+    public string DisplayName { get; } = "BBM-Mch/条件/热量";
 
     public string Remark { get; set; }
 
     public bool Draw()
     {
-        ImGui.Text($"热量>={Heat}时使用超荷");
+        ImGui.Text($"热量是否>={Heat}");
         return false;
     }
 

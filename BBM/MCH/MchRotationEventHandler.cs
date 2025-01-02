@@ -1,9 +1,12 @@
+using AEAssist;
 using AEAssist.CombatRoutine;
 using AEAssist.CombatRoutine.Module;
+using AEAssist.Extension;
 using AEAssist.Helper;
 using BBM.MCH.Data;
 using BBM.MCH.Managers;
 using BBM.MCH.Settings;
+using BBM.MCH.Utils;
 
 namespace BBM.MCH;
 
@@ -14,19 +17,19 @@ public class MchRotationEventHandler : IRotationEventHandler
     /// </summary>
     public async Task OnPreCombat()
     {
-        // 生成 0 到 1500 毫秒之间的随机延迟
-        Random random = new Random();
-        int delay = random.Next(0, 1501); // 上限为 1501，因为上限不包含在随机范围内
+        // // 生成 0 到 1500 毫秒之间的随机延迟
+        // Random random = new Random();
+        // int delay = random.Next(0, 1501); // 上限为 1501，因为上限不包含在随机范围内
 
         // 应用随机延迟
-        await Task.Delay(delay);
-
-        // 如果开启了远敏技能 Peloton 的使用选项
-        if (MchSettings.Instance.UsePeloton)
-        {
-            // 尝试释放 Peloton 技能
-            await SpellsDefine.Peloton.GetSpell().Cast();
-        }
+        await Task.CompletedTask;
+        //
+        // // 如果开启了远敏技能 Peloton 的使用选项
+        // if (MchSettings.Instance.UsePeloton && !Core.Me.HasAura(AurasDefine.Peloton))
+        // {
+        //     // 尝试释放 Peloton 技能
+        //     await SpellsDefine.Peloton.GetSpell().Cast();
+        // }
     }
 
 
@@ -42,7 +45,7 @@ public class MchRotationEventHandler : IRotationEventHandler
         if (!MchSettings.Instance.AutoResetBattleData)
             return;
         // 重制Qt设置
-        MchQtManager.Qt.Reset();
+        MchQtManager.Instance.ResetQt();
         // 重制电量热量
         MchSettings.Instance.MinBattery = 50;
         MchSettings.Instance.MinHeat = 50;

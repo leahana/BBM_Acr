@@ -23,11 +23,11 @@ public class MchQtManager
                                                "\n2025.1.2" +
                                                "重构了一下入口类，提取相关qt时间轴设置";
 
-    public static readonly MchQtManager Instance;
+    public static readonly MchQtManager Instance = new();
 
-    public static readonly JobViewWindow Qt;
+    public static JobViewWindow Qt;
 
-    private static readonly MchSettings MchSettings;
+    private static  MchSettings MchSettings;
 
     // JobViewSave是AE底层提供的QT设置存档类 在你自己的设置里定义即可
     private static readonly JobViewSave QtViewSave = new()
@@ -37,17 +37,13 @@ public class MchQtManager
         QtWindowBgAlpha = 0.0f,
         QtHotkeySize = new Vector2(60, 60)
     }; // QT设置存档
-
-    static MchQtManager()
     
-    {
-        Qt = new JobViewWindow(QtViewSave, MchSettings.Instance.Save, "bbm Mch jobView");
-        Instance = new MchQtManager();
-        MchSettings = MchSettings.Instance;
-    }
 
     public void BuildQt()
     {
+
+        MchSettings = MchSettings.Instance;
+        Qt = new JobViewWindow(QtViewSave, MchSettings.Save, "bbm Mch jobView");
         // 第二个参数是你设置文件的Save类 第三个参数是QT窗口标题
         // QT.SetUpdateAction(OnUIUpdate); // 设置QT中的Update回调 不需要就不设置
 
@@ -215,7 +211,6 @@ public class MchQtManager
             ImGui.Text($"当前延迟: {MchSettings.GrabItLimit} ms");
             ImGui.Separator();
             ImGui.Text("设置电量阈值:");
-
             // 拖动条
             var instanceMinBattery = MchSettings.MinBattery;
             int step = 10; // 设置步长值
@@ -292,5 +287,22 @@ public class MchQtManager
         {
             ImGui.Text($"Hotkey按钮: {v}");
         }
+    }
+
+    public void ResetQt()
+    {
+        Qt.SetQt(MchQtKeys.UsePotion, false);
+        Qt.SetQt(MchQtKeys.UseOutbreak, true);
+        Qt.SetQt(MchQtKeys.UseBaseComboFirst, false);
+        Qt.SetQt(MchQtKeys.UseChainSaw, true);
+        Qt.SetQt(MchQtKeys.ReserveCheckMate, false);
+        Qt.SetQt(MchQtKeys.ReserveDoubleCheck, false);
+        Qt.SetQt(MchQtKeys.UseExcavator, true);
+        Qt.SetQt(MchQtKeys.UseFullMetalField, true);
+        Qt.SetQt(MchQtKeys.UseDrill, true);
+        Qt.SetQt(MchQtKeys.UseAirAnchor, true);
+        Qt.SetQt(MchQtKeys.Aoe, false);
+        Qt.SetQt(MchQtKeys.UseReassemble, true);
+        Qt.SetQt(MchQtKeys.UseHyperCharge, true);
     }
 }

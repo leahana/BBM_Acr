@@ -47,7 +47,7 @@ public static class MchQtHelper
     /// <returns></returns>
     private static int QtUseHyperCharge()
     {
-        return _qtResult(!MchQtManager.Qt.GetQt(MchQtKeys.UseHyperCharge));
+        return _qtResult(MchQtManager.Qt.GetQt(MchQtKeys.UseHyperCharge));
     }
 
     /// <summary>

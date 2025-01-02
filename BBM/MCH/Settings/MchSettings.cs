@@ -13,7 +13,6 @@ namespace BBM.MCH.Settings;
 public class MchSettings
 {
     public static MchSettings Instance;
-
     public int Opener = 0; // 起手选择
     public bool UsePeloton = false; // 使用速行 默认关闭
     public bool UsePotionInOpener = false; // 是否在开场使用药水
@@ -32,7 +31,7 @@ public class MchSettings
 
     private static string path;
 
-    public void Build(string settingPath)
+    public static void Build(string settingPath)
     {
         path = Path.Combine(settingPath, nameof(MchSettings) + ".json");
         if (!File.Exists(path))

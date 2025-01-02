@@ -40,9 +40,6 @@ public class MchRotationEntry : IRotationEntry
         // rot.AddHotkeyEventHandlers();
         // 添加时间轴触发器
         rot.AddTriggers();
-        
-        
-
         return rot;
     }
 

@@ -22,7 +22,6 @@ public class MchAbilityWildfire(params string[] qtKeys) : ISlotResolver
         {
             return -3;
         }
-
         if (!this.HasAura(MchBuffs.Overheated))
             return -4;
 

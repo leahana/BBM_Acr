@@ -10,14 +10,14 @@ public class MchTriggerConditionBattery : ITriggerCond, ITriggerBase, ITriggerli
 {
     public int Battery { get; set; } = 50;
 
-    public string DisplayName { get; } = "BBM-Mch/条件/电量设置";
+    public string DisplayName { get; } = "BBM-Mch/条件/电量";
 
     public string Remark { get; set; }
 
     public bool Draw()
     {
         ImGui.Text("数值应为0-100之间");
-        ImGui.Text($"电量>={Battery}时使用机器人");
+        ImGui.Text($"电量是否>={Battery}");
         return false;
     }
 

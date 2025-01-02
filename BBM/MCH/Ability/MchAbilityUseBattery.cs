@@ -38,7 +38,7 @@ public class MchAbilityUseBattery(params string[] qtKeys) : ISlotResolver
 
         var battery = MchSpellsHelper.GetBattery();
         var instanceMinBattery = MchSettings.Instance.MinBattery;
-        // LogHelper.Print($"用户手动设置电量阈值：{instanceMinBattery}");
+        LogHelper.Print($"用户手动设置电量阈值：{instanceMinBattery}");
         // 电量大于用户设定值再开
         return battery >= instanceMinBattery ? 2 : -14;
 
