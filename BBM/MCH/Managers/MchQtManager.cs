@@ -39,6 +39,7 @@ public class MchQtManager
     }; // QT设置存档
 
     static MchQtManager()
+    
     {
         Qt = new JobViewWindow(QtViewSave, MchSettings.Instance.Save, "bbm Mch jobView");
         Instance = new MchQtManager();

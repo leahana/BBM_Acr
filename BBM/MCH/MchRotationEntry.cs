@@ -35,8 +35,8 @@ public class MchRotationEntry : IRotationEntry
         rot.AddOpener(MchOpenerManager.GetOpener);
 
         // 添加各种事件回调
-        // rot.SetRotationEventHandler(new MchRotationEventHandler());
-
+        rot.SetRotationEventHandler(new MchRotationEventHandler());
+        // rot.AddHotkeyEventHandlers();
         // 添加时间轴触发器
         rot.AddTriggers();
 

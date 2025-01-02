@@ -43,6 +43,7 @@ public class MchTriggerActionQtHotKey : ITriggerAction, ITriggerBase
 
     public bool Handle()
     {
+        // 激活单个快捷键
         MchQtManager.Qt.SetHotkey(Key);
         return true;
     }
