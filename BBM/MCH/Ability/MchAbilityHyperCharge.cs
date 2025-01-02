@@ -25,7 +25,7 @@ public class MchAbilityHyperCharge(params string[] qtKeys) : ISlotResolver, IQtC
             return -2;
 
         // 热量小于50 且没有超荷预备buff
-        if (MchSpellHelper.IsHeatBelow(50) && !this.HasAura(MchBuffs.超荷预备))
+        if (MchSpellsHelper.IsHeatBelow(50) && !this.HasAura(MchBuffs.HyperChargeReady))
             return -3;
 
         // 连击在0-9.5s不打超荷防止断连击
@@ -43,10 +43,11 @@ public class MchAbilityHyperCharge(params string[] qtKeys) : ISlotResolver, IQtC
         //     && this.IsCooldownWithin(MchSpells.BarrelStabilizer, 35000.0))
         //     return -7;
 
-        if (this.HasAura(MchBuffs.掘地飞轮预备) || this.HasAura(MchBuffs.全金属爆发预备))
+        if (this.HasAura(MchBuffs.ExcavatorReady) || this.HasAura(MchBuffs.FullMetalFieldReady))
             return -8;
+
         // 120快好了 不打
-        if (MchSpellHelper.GetHeat() < 100 &&
+        if (MchSpellsHelper.GetHeat() < 100 &&
             MchSpells.BarrelStabilizer.Cooldown() <= 35000.0)
         {
             return -9;
@@ -59,10 +60,10 @@ public class MchAbilityHyperCharge(params string[] qtKeys) : ISlotResolver, IQtC
         }
 
         // 120 超荷+野火
-        if (this.HasAura(MchBuffs.超荷预备) && this.IsReady(MchSpells.Wildfire)) return 2;
+        if (this.HasAura(MchBuffs.HyperChargeReady) && this.IsReady(MchSpells.Wildfire)) return 2;
         ;
 
-        return MchSpellHelper.GetHeat() >= 50 ? 2 : -10;
+        return MchSpellsHelper.GetHeat() >= 50 ? 2 : -10;
     }
 
 

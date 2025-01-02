@@ -12,7 +12,7 @@ namespace BBM.MCH.Utils;
 /**
  * 技工技能工具类。 用于复杂的判断
  */
-public static class MchSpellHelper
+public static class MchSpellsHelper
 {
     /// <summary>
     /// 获取最后一次连击的id
@@ -85,47 +85,7 @@ public static class MchSpellHelper
         return false;
     }
 
-    /// <summary>
-    /// 武装解除Hotkey判断条件
-    /// </summary>
-    /// <returns></returns>
-    public static int HotkeyCondDismantle()
-    {
-        if (!MchSpells.Dismantle.GetSpell().IsReadyWithCanCast())
-        {
-            LogHelper.Print("hotkey", "扳手 cd");
-            return -1;
-        }
 
-        if (Core.Me.GetCurrTarget().HasAura(MchBuffs.BeDismantle, 0))
-        {
-            LogHelper.Print("hotkey", "目标已经有扳手DeBuff了");
-            return -2;
-        }
-
-        return MchSpells.Dismantle.RecentlyUsed() ? -3 : 0;
-    }
-
-    /// <summary>
-    /// 策动hotkey判断条件
-    /// </summary>
-    /// <returns></returns>
-    public static int HotkeyCondTactician()
-    {
-        if (!MchSpells.Tactician.GetSpell().IsReadyWithCanCast())
-        {
-            LogHelper.Print("hotkey", "策动CD");
-            return -1;
-        }
-
-        if (CombatHelper.HasRangedMitigation())
-        {
-            LogHelper.Print("hotkey", "已经有远敏减伤Buff了");
-            return -2;
-        }
-
-        return MchSpells.Tactician.GetSpell().RecentlyUsed() ? -3 : 0;
-    }
 
     /// <summary>
     /// 是否有机器人
@@ -198,5 +158,17 @@ public static class MchSpellHelper
     public static long SummonRemain()
     {
         return Core.Resolve<JobApi_Machinist>().SummonRemain;
+    }
+
+    /// <summary>
+    /// 检查起手爆发技能 飞锯/空气矛/钻头/枪管加热/野火/
+    /// </summary>
+    public static bool CheckOpenerOutbreakSpells()
+    {
+        return MchSpells.ChainSaw.GetSpell().IsReadyWithCanCast()
+               && MchSpells.AirAnchor.GetSpell().IsReadyWithCanCast()
+               && MchSpells.Drill.IsMaxChargeReady()
+               && MchSpells.BarrelStabilizer.GetSpell().IsReadyWithCanCast()
+               && MchSpells.Wildfire.GetSpell().IsReadyWithCanCast();
     }
 }

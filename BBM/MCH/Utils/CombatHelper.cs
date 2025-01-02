@@ -8,7 +8,7 @@ namespace BBM.MCH.Utils;
 /**
  * 一般战斗条件判断工具
  */
-public abstract class CombatHelper
+public static class CombatHelper
 {
     /// <summary>
     /// 自身获取当前血量
@@ -28,9 +28,21 @@ public abstract class CombatHelper
                || Core.Me.HasAura(AurasDefine.Troubadour);
     }
 
+    /// <summary>
+    /// 能力技锁定判断
+    /// </summary>
     public static bool IsOffGcdLocked => Core.Me.HasAura(1092U, 0);
+
+    /// <summary>
+    /// GCD锁定判断
+    /// </summary>
+    /// <returns></returns>
     public static bool IsGcdLocked() => Core.Me.HasAura(620U, 0);
-    
+
+    /// <summary>
+    ///  目标无敌状态判断
+    /// </summary>
+    /// <returns></returns>
     public static bool IsTargetImmune()
     {
         var battleChara = Core.Me.GetCurrTarget();

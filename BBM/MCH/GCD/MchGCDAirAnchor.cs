@@ -22,7 +22,7 @@ public class MchGcdAirAnchor(params string[] qtKeys) : ISlotResolver, IQtChecker
         }
 
         // 防止断连击
-        if (this.IsComboTimeWithin(3000.0) && MchSpellHelper.GetLastComboSpellId() != MchSpells.CleanShot)
+        if (this.IsComboTimeWithin(3000.0) && MchSpellsHelper.GetLastComboSpellId() != MchSpells.CleanShot)
         {
             return -3;
         }

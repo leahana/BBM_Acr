@@ -13,6 +13,8 @@ public static class MchBuffs
     public const uint 超荷预备 = 3864;
     public const uint 掘地飞轮预备 = 3865;
 
+    
+    public const uint HyperChargeReady=3864;
     /// <summary>
     /// self 策动
     /// </summary>

@@ -29,7 +29,7 @@ public class MchAbilityCheckMate(params string[] qtKeys) : ISlotResolver, IQtChe
         }
 
         // 过热状态 将死>双将 防止出现 热冲击1+将死，热冲击2+将死的情况，看着难受！
-        if (MchSpellHelper.OverHeated() && MchSpells.CheckMate.GetCharges() >= 1)
+        if (MchSpellsHelper.OverHeated() && MchSpells.CheckMate.GetCharges() >= 1)
             return MchSpells.CheckMate.GetCharges() > MchSpells.DoubleCheck.GetCharges() ? 3 : -3;
 
         return MchSpells.CheckMate.GetCharges() >= 1 && this.LastAbility() != MchSpells.CheckMate ? 0 : -3;

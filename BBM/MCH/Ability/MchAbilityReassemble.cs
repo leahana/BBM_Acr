@@ -30,10 +30,10 @@ public class MchAbilityReassemble(params string[] qtKeys) : ISlotResolver, IQtCh
         if (this.HasAura(MchBuffs.Reassembled)) return -3;
 
         // 检查整备是否在最近 1200 毫秒内已经使用过
-        if (MchSpellHelper.ReassembledUsed(1200)) return -4;
+        if (MchSpellsHelper.ReassembledUsed(1200)) return -4;
 
         // 检查是否能进行强威力 GCD 的释放
-        if (!MchSpellHelper.CheckReassembleGcd(GCDHelper.GetGCDCooldown(), out var strongGcd)) return -5;
+        if (!MchSpellsHelper.CheckReassembleGcd(GCDHelper.GetGCDCooldown(), out var strongGcd)) return -5;
 
         // 如果当前强威力 GCD 是 HotShot，则不使用整备
         if (strongGcd == MchSpells.HotShot) return -6;
@@ -55,7 +55,7 @@ public class MchAbilityReassemble(params string[] qtKeys) : ISlotResolver, IQtCh
         if (!this.IsReady(MchSpells.AirAnchor) && !this.IsReady(MchSpells.Drill))
             return -8;
         // 如果回转飞锯被选中 检查空气矛和钻头是否准备好
-        if (MchSpellHelper.GetLastComboSpellId() == MchSpells.Wildfire)
+        if (MchSpellsHelper.GetLastComboSpellId() == MchSpells.Wildfire)
             return -9;
 
         return 1;

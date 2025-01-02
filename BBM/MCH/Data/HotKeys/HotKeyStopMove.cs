@@ -8,7 +8,7 @@ using ImGuiNET;
 namespace BBM.MCH.Data.HotKeys;
 
 /// <summary>
-/// 停手HotKey
+/// 停止移动HotKey
 /// </summary>
 public class HotKeyStopMove : IHotkeyResolver
 {

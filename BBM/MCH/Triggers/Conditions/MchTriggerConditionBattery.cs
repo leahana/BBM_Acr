@@ -21,7 +21,7 @@ public class MchTriggerConditionBattery : ITriggerCond, ITriggerBase, ITriggerli
         return false;
     }
 
-    private static int GetBattery() => MchSpellHelper.GetBattery();
+    private static int GetBattery() => MchSpellsHelper.GetBattery();
 
     public bool Handle(ITriggerCondParams triggerCondParams)
     {
@@ -31,8 +31,8 @@ public class MchTriggerConditionBattery : ITriggerCond, ITriggerBase, ITriggerli
     public void Check(TreeCompBase parent, TreeNodeBase currNode, TriggerLine triggerLine, Env env,
         TriggerlineCheckResult checkResult)
     {
-        if (Battery is >= 50 and <= 100)
+        if (Battery is >= 0 and <= 100)
             return;
-        checkResult.AddError(currNode, "电量需要在50-100之间");
+        checkResult.AddError(currNode, "电量需要在0-100之间");
     }
 }

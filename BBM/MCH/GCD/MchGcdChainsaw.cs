@@ -13,7 +13,6 @@ namespace BBM.MCH.GCD;
 public class MchGcdChainsaw(params string[] qtKeys) : ISlotResolver, IQtChecker
 {
     private readonly List<string> _qtKeys = qtKeys.ToList(); // 支持多种 Qt 的判断逻辑
-
     public int Check()
     {
         if (!this.IsReady(MchSpells.ChainSaw) || this.HasAura(MchBuffs.ExcavatorReady))

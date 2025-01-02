@@ -7,6 +7,9 @@ using BBM.MCH.Settings;
 
 namespace BBM.MCH.Extensions;
 
+/// <summary>
+/// 机工技能/buff 自定义拓展
+/// </summary>
 public static class MchSpellsExtension
 {
     /// <summary>
@@ -28,9 +31,14 @@ public static class MchSpellsExtension
     /// <returns>是否准备好</returns>
     public static bool CanInsertAbility(this ISlotResolver resolver)
     {
-        return GCDHelper.GetGCDCooldown() >= MchSettings.Instance.GcdCooldownLimit;
+        return GCDHelper.GetGCDCooldown() >= MchSettings.GcdCooldownLimit;
     }
 
+    /// <summary>
+    /// 检查技能是否可用
+    /// </summary>
+    /// <param name="spellId"></param>
+    /// <returns></returns>
     public static bool CheckActionCanUse(this uint spellId)
     {
         return Core.Resolve<MemApiSpell>().CheckActionCanUse(spellId);

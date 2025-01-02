@@ -5,6 +5,7 @@ using AEAssist.CombatRoutine.Module.Opener;
 using AEAssist.Extension;
 using AEAssist.Helper;
 using BBM.MCH.Data;
+using BBM.MCH.Managers;
 using BBM.MCH.Settings;
 using BBM.MCH.Utils;
 
@@ -28,15 +29,24 @@ public class MchAirAnchorOpener100 : IOpener, ISlotSequence
 
     public int StartCheck()
     {
-        var battleChara = (Core.Me).GetCurrTarget();
-        if (AI.Instance.BattleData.CurrBattleTimeInMs > 3000L)
+        // 检查爆发技能
+        if (MchSpellsHelper.CheckOpenerOutbreakSpells())
+        {
             return -1;
+        }
+
+        // 检查战斗时间
+        if (AI.Instance.BattleData.CurrBattleTimeInMs > 3000L)
+            return -2;
+
+        // 检查目标
+        var battleChara = (Core.Me).GetCurrTarget();
         if (PartyHelper.Party.Count <= 4
             && battleChara != null
             && battleChara.IsDummy()
             && !battleChara.IsBoss())
         {
-            return -2;
+            return -3;
         }
 
         return 0;
@@ -44,9 +54,10 @@ public class MchAirAnchorOpener100 : IOpener, ISlotSequence
 
     public int StopCheck(int index)
     {
+        // 自身等级非100 且 超荷未被使用 且 在过热状态
         if (Core.Me.Level != 100
             && !MchSpells.Hypercharge.RecentlyUsed()
-            && MchSpellHelper.OverheatRemain() <= 100)
+            && MchSpellsHelper.OverheatRemain() <= 100)
         {
             return 0;
         }
@@ -60,13 +71,16 @@ public class MchAirAnchorOpener100 : IOpener, ISlotSequence
         // 倒计时4.8s 整备
         countDownHandler.AddAction(4800, MchSpells.Reassemble);
         // 2s吃爆发药
-        if (MchSettings.Instance.UsePotionInOpener && MchRotationEntry.Qt.GetQt(MchQtKeys.UsePotion))
+        if (MchSettings.Instance.UsePotionInOpener && MchQtManager.Qt.GetQt(MchQtKeys.UsePotion))
         {
             countDownHandler.AddPotionAction(2000);
         }
 
         // 倒计时300ms 抢开
-        countDownHandler.AddAction(MchSettings.Instance.GrabItLimit, MchSpells.AirAnchor, SpellTargetType.Target);
+        countDownHandler.AddAction(
+            MchSettings.Instance.GrabItLimit,
+            MchSpells.AirAnchor,
+            SpellTargetType.Target);
     }
 
 

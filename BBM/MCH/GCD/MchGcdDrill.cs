@@ -15,7 +15,7 @@ public class MchGcdDrill(params string[] qtKeys) : ISlotResolver, IQtChecker
     {
         if (!this.IsReady(MchSpells.Drill))
             return -1;
-        if (this.IsComboTimeWithin(3000) && MchSpellHelper.GetLastComboSpellId() != MchSpells.CleanShot)
+        if (this.IsComboTimeWithin(3000) && MchSpellsHelper.GetLastComboSpellId() != MchSpells.CleanShot)
             return -2;
         if (this.IsCooldownWithin(MchSpells.AirAnchor, 1200.0))
             return -3;

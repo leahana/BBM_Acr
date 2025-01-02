@@ -11,10 +11,11 @@ using ImGuiNET;
 namespace BBM.MCH.Data.HotKeys;
 
 /// <summary>
-/// 通用技能HotKeyResolver
+/// 技能HotKeyResolver （通用）
 /// </summary>
 /// <param name="spellId">技能Id</param>
 /// <param name="targetType">目标类型</param>
+/// <param name="func">技能条件判断</param>
 public class NormalSpellHotKeyResolver(uint spellId, SpellTargetType targetType, Func<int>? func) : IHotkeyResolver
 {
     public void Draw(Vector2 size)
@@ -63,7 +64,6 @@ public class NormalSpellHotKeyResolver(uint spellId, SpellTargetType targetType,
 
     public int Check()
     {
-        
         if (func != null)
         {
             return func();
@@ -76,7 +76,7 @@ public class NormalSpellHotKeyResolver(uint spellId, SpellTargetType targetType,
     public new void Run()
     {
         Spell spell = Core.Resolve<MemApiSpell>().CheckActionChange(spellId).GetSpell(targetType);
-        if (!MchBattleData.Instance.HotkeyUseHighPrioritySlot)
+        if (!MchCacheBattleData.Instance.HotkeyUseHighPrioritySlot)
         {
             AI.Instance.BattleData.NextSlot ??= new Slot();
             AI.Instance.BattleData.NextSlot.Add(spell);

@@ -22,21 +22,21 @@ public class MchAbilityUseBattery(params string[] qtKeys) : ISlotResolver
         if (!this.CanInsertAbility()) return -2;
 
         // 3. 检查是否已经有机器人
-        if (MchSpellHelper.Robotactive()) return -3;
+        if (MchSpellsHelper.Robotactive()) return -3;
 
         // 4. 检查是否处于过热状态
-        if (MchSpellHelper.OverHeated()) return -4;
+        if (MchSpellsHelper.OverHeated()) return -4;
 
         // 5. 检查超负荷技能是否最近1200ms使用过
         if (MchSpells.Hypercharge.RecentlyUsed()) return -5;
 
         // 6. 检查召唤技能的剩余时间
-        if (MchSpellHelper.SummonRemain() > TimeSpan.Zero.Ticks) return -6;
+        if (MchSpellsHelper.SummonRemain() > TimeSpan.Zero.Ticks) return -6;
 
         // 7. 检查蓄电量是否足够
-        if (MchSpellHelper.GetBattery() < 50) return -7;
+        if (MchSpellsHelper.GetBattery() < 50) return -7;
 
-        var battery = MchSpellHelper.GetBattery();
+        var battery = MchSpellsHelper.GetBattery();
         var instanceMinBattery = MchSettings.Instance.MinBattery;
         // LogHelper.Print($"用户手动设置电量阈值：{instanceMinBattery}");
         // 电量大于用户设定值再开

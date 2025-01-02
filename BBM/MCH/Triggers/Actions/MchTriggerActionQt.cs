@@ -1,5 +1,7 @@
 using AEAssist.CombatRoutine.Trigger;
 using AEAssist.GUI;
+using BBM.MCH.Managers;
+using BBM.MCH.Settings;
 using ImGuiNET;
 
 namespace BBM.MCH.Triggers.Actions;
@@ -19,7 +21,7 @@ public class MchTriggerActionQt : ITriggerAction
 
     public MchTriggerActionQt()
     {
-        _qtArray = MchRotationEntry.Qt.GetQtArray();
+        _qtArray = MchQtManager.Qt.GetQtArray();
     }
 
     public bool Draw()
@@ -43,7 +45,7 @@ public class MchTriggerActionQt : ITriggerAction
 
     public bool Handle()
     {
-        MchRotationEntry.Qt.SetQt(Key, Value);
+        MchQtManager.Qt.SetQt(Key, Value);
         return true;
     }
 }

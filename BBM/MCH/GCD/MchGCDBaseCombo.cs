@@ -27,6 +27,6 @@ public class MchGcdBaseCombo(params string[] qtKeys) : ISlotResolver
 
     public void Build(Slot slot)
     {
-        slot.Add(MchSpellHelper.GetGcdBaseCombo());
+        slot.Add(MchSpellsHelper.GetGcdBaseCombo());
     }
 }

@@ -9,7 +9,7 @@ namespace BBM.MCH.Triggers.Actions;
 /// <summary>
 /// 时间轴电量控制行为
 /// </summary>
-public class MchTriggersActionBattery : ITriggerAction, ITriggerBase, ITriggerlineCheck
+public class MchTriggerActionBattery : ITriggerAction, ITriggerBase, ITriggerlineCheck
 {
     public string DisplayName => "BBM-Mch/行为/电量控制";
 

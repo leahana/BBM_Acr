@@ -1,10 +1,8 @@
-using System.Numerics;
-using AEAssist.CombatRoutine.View.JobView;
-using AEAssist.GUI;
-using ImGuiNET;
-
 namespace BBM.MCH.Settings;
 
+/// <summary>
+/// 机工士 Ui设置
+/// </summary>
 public class MchUiSettings
 {
     public static readonly MchUiSettings Instance = new();
@@ -14,5 +12,4 @@ public class MchUiSettings
     public void Draw()
     {
     }
-    
 }

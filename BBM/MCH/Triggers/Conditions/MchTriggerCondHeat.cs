@@ -20,7 +20,7 @@ public class MchTriggerCondHeat : ITriggerCond, ITriggerBase, ITriggerlineCheck
         return false;
     }
 
-    private static int GetHeat() => MchSpellHelper.GetHeat();
+    private static int GetHeat() => MchSpellsHelper.GetHeat();
 
     public bool Handle(ITriggerCondParams triggerCondParams)
     {

@@ -1,24 +1,30 @@
+using AEAssist.CombatRoutine.View.JobView;
 using AEAssist.Helper;
 using BBM.MCH.Data;
+using BBM.MCH.Managers;
 using BBM.MCH.Settings;
-
 
 namespace BBM.MCH.Utils;
 
+/// <summary>
+/// 机工士/ qt条件判断工具
+/// </summary>
 public static class MchQtHelper
 {
     private const int QtYes = 101;
     private const int QtNo = -101;
+
+    // 一般qt结果返回
     private static int _qtResult(bool result) => result ? QtYes : QtNo;
 
     // 飞轮QT
     private static int QtExcavator()
     {
-        var result = MchRotationEntry.Qt.GetQt(MchQtKeys.UseExcavator);
+        var result = MchQtManager.Qt.GetQt(MchQtKeys.UseExcavator);
         return _qtResult(result);
     }
 
-// 添加一个字典来存储不同 Qt 对应的逻辑
+    // 添加一个字典来存储不同 Qt 对应的逻辑
     private static readonly Dictionary<string, Func<int>> QtResolvers = new()
     {
         { MchQtKeys.UseExcavator, QtExcavator },
@@ -35,9 +41,13 @@ public static class MchQtHelper
         { MchQtKeys.UseHyperCharge, QtUseHyperCharge }
     };
 
+    /// <summary>
+    /// 超荷Qt
+    /// </summary>
+    /// <returns></returns>
     private static int QtUseHyperCharge()
     {
-        return _qtResult(!MchRotationEntry.Qt.GetQt(MchQtKeys.UseHyperCharge));
+        return _qtResult(!MchQtManager.Qt.GetQt(MchQtKeys.UseHyperCharge));
     }
 
     /// <summary>
@@ -46,7 +56,7 @@ public static class MchQtHelper
     /// <returns></returns>
     private static int QtUseBaseComboFirst()
     {
-        return _qtResult(!MchRotationEntry.Qt.GetQt(MchQtKeys.UseBaseComboFirst));
+        return _qtResult(!MchQtManager.Qt.GetQt(MchQtKeys.UseBaseComboFirst));
     }
 
     /// <summary>
@@ -55,7 +65,7 @@ public static class MchQtHelper
     /// <returns></returns>
     private static int QtUseReassemble()
     {
-        return _qtResult(MchRotationEntry.Qt.GetQt(MchQtKeys.UseReassemble));
+        return _qtResult(MchQtManager.Qt.GetQt(MchQtKeys.UseReassemble));
     }
 
     /// <summary>
@@ -64,34 +74,34 @@ public static class MchQtHelper
     /// <returns></returns>
     private static int QtAoe()
     {
-        return _qtResult(MchRotationEntry.Qt.GetQt(MchQtKeys.Aoe));
+        return _qtResult(MchQtManager.Qt.GetQt(MchQtKeys.Aoe));
     }
 
     // 全金属爆发Qt
     private static int QtFullMetalField()
     {
-        return _qtResult(MchRotationEntry.Qt.GetQt(MchQtKeys.UseFullMetalField));
+        return _qtResult(MchQtManager.Qt.GetQt(MchQtKeys.UseFullMetalField));
     }
 
 
 // 飞锯QT
     private static int QtUseChainSaw()
     {
-        var result = MchRotationEntry.Qt.GetQt(MchQtKeys.UseChainSaw);
+        var result = MchQtManager.Qt.GetQt(MchQtKeys.UseChainSaw);
         return _qtResult(result);
     }
 
 // 空气锚QT
     private static int QtUseAirAnchor()
     {
-        var result = MchRotationEntry.Qt.GetQt(MchQtKeys.UseAirAnchor);
+        var result = MchQtManager.Qt.GetQt(MchQtKeys.UseAirAnchor);
         return _qtResult(result);
     }
 
 // 钻头QT
     private static int QtUseDrill()
     {
-        var result = MchRotationEntry.Qt.GetQt(MchQtKeys.UseDrill);
+        var result = MchQtManager.Qt.GetQt(MchQtKeys.UseDrill);
         return _qtResult(result);
     }
 
@@ -99,10 +109,10 @@ public static class MchQtHelper
     private static int QtReserveCheckMate()
     {
         //  开启 说明 保留不用 大于两层返回复数
-        var qt = MchRotationEntry.Qt.GetQt(MchQtKeys.ReserveCheckMate);
+        var qt = MchQtManager.Qt.GetQt(MchQtKeys.ReserveCheckMate);
         if (qt && MchSpells.CheckMate.GetSpell().Charges < 2.9)
         {
-            return MchSpells.CheckMate.GetSpell().Charges >= 2.0 && MchSpellHelper.GetHeat() >= 45 ? 1 : -45;
+            return MchSpells.CheckMate.GetSpell().Charges >= 2.0 && MchSpellsHelper.GetHeat() >= 45 ? 1 : -45;
         }
 
         return MchSpells.CheckMate.GetSpell().Charges >= 2.5 ? 99 : _qtResult(!qt);
@@ -112,10 +122,10 @@ public static class MchQtHelper
     private static int QtReserveDoubleCheck()
     {
         //  开启 说明 保留不用 大于两层返回复数
-        var qt = MchRotationEntry.Qt.GetQt(MchQtKeys.ReserveDoubleCheck);
+        var qt = MchQtManager.Qt.GetQt(MchQtKeys.ReserveDoubleCheck);
         if (qt && MchSpells.DoubleCheck.GetSpell().Charges < 2.9)
         {
-            return MchSpells.DoubleCheck.GetSpell().Charges >= 2.0 && MchSpellHelper.GetHeat() >= 45 ? 1 : -45;
+            return MchSpells.DoubleCheck.GetSpell().Charges >= 2.0 && MchSpellsHelper.GetHeat() >= 45 ? 1 : -45;
         }
 
         return MchSpells.DoubleCheck.GetSpell().Charges >= 2.5 ? 99 : _qtResult(!qt);
@@ -124,7 +134,7 @@ public static class MchQtHelper
 // 爆发Qt
     private static int QtUseOutbreak()
     {
-        var qt = MchRotationEntry.Qt.GetQt(MchQtKeys.UseOutbreak);
+        var qt = MchQtManager.Qt.GetQt(MchQtKeys.UseOutbreak);
         return _qtResult(qt);
     }
 
@@ -149,4 +159,5 @@ public static class MchQtHelper
 
         return 0; // 所有 Qt 判断通过
     }
+
 }

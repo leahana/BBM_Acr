@@ -1,5 +1,7 @@
 namespace BBM.MCH.Data;
 
+
+// 技工士技能
 public static class MchSpells
 {
     public const uint 烈焰弹 = 36978;
@@ -24,11 +26,9 @@ public static class MchSpells
     public const uint 武装解除 = 2887;
     public const uint 策动 = 16889;
     public const uint 内丹 = 7541;
-    public const uint 霰弹枪 = 25786;
-    public const uint 自动弩 = 16497;
-    public const uint 毒菌冲击 = 16499;
     public const uint 速行 = 7557;
-    public const uint 超档后式人偶 = 16502;
+    
+    // 炮塔- 80变机器人
     public const uint RookAutoturret = 2864;
 
 
@@ -36,7 +36,6 @@ public static class MchSpells
     public const uint DoubleCheck = 36979;
     // 将死
     public const uint CheckMate = 36980;
-
 
     /// <summary>
     /// 分裂弹 - 基础连击 1
@@ -64,32 +63,32 @@ public static class MchSpells
     public const uint CleanShot = 2873;
 
     /// <summary>
-    /// 虹吸弹 - 即时技能，远程小爆发
+    /// 虹吸弹 
     /// </summary>
     public const uint GaussRound = 2874;
 
     /// <summary>
-    /// 整备 - 增强下一次技能效果
+    /// 整备
     /// </summary>
     public const uint Reassemble = 2876;
 
     /// <summary>
-    /// 野火 - 单体持续爆发，需连击触发
+    /// 野火
     /// </summary>
     public const uint Wildfire = 2878;
 
     /// <summary>
-    /// 武装解除 - 扳手技能，削弱敌方攻击
+    /// 武装解除 - 扳手技
     /// </summary>
     public const uint Dismantle = 2887;
 
     /// <summary>
-    /// 弹射 - AoE 即时技能
+    /// 弹射
     /// </summary>
     public const uint Ricochet = 2890;
 
     /// <summary>
-    /// 热冲击 - 超荷后的核心技能，低延迟高频率
+    /// 热冲击 
     /// </summary>
     public const uint HeatBlast = 7410;
 
@@ -109,7 +108,7 @@ public static class MchSpells
     public const uint HeatedCleanShot = 7413;
 
     /// <summary>
-    /// 枪管加热 - 快速填充热量条
+    /// 枪管加热
     /// </summary>
     public const uint BarrelStabilizer = 7414;
 
@@ -154,7 +153,7 @@ public static class MchSpells
     public const uint AutomationQueen = 16501;
 
     /// <summary>
-    /// 机器人结算 - 终结机器人技能
+    /// 超档后式人偶 - 机器人结算
     /// </summary>
     public const uint QueenOverdrive = 16502;
 

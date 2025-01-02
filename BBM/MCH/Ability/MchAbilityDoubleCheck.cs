@@ -22,7 +22,7 @@ public class MchAbilityDoubleCheck(params string[] qtKeys) : ISlotResolver
         if (!this.CanInsertAbility())
             return -2;
         // 过热状态 虹吸cd 小于 弹射
-        if (MchSpellHelper.OverHeated() && DoubleCheck.GetCharges() >= 1)
+        if (MchSpellsHelper.OverHeated() && DoubleCheck.GetCharges() >= 1)
         {
             return DoubleCheck.GetCharges() > CheckMate.GetCharges() ? 3 : -3;
         }

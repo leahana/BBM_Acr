@@ -1,5 +1,5 @@
 
-namespace BBM.MCH.Settings;
+namespace BBM.MCH.Data;
 
 // 直接定义好 方便编码
 public static class MchQtKeys
