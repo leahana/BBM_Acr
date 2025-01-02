@@ -28,7 +28,7 @@ public class MchAbilityUseBattery(params string[] qtKeys) : ISlotResolver
         if (MchSpellsHelper.OverHeated()) return -4;
 
         // 5. 检查超负荷技能是否最近1200ms使用过
-        if (MchSpells.Hypercharge.RecentlyUsed()) return -5;
+        if (MchSpells.HyperCharge.RecentlyUsed()) return -5;
 
         // 6. 检查召唤技能的剩余时间
         if (MchSpellsHelper.SummonRemain() > TimeSpan.Zero.Ticks) return -6;

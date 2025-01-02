@@ -170,7 +170,7 @@ public static class MchSpells
     /// <summary>
     /// 超荷 - 激活热冲击技能阶段
     /// </summary>
-    public const uint Hypercharge = 17209;
+    public const uint HyperCharge = 17209;
 
     /// <summary>
     /// 霰弹枪 - AoE 技能，范围更大

@@ -115,7 +115,7 @@ public class MchQtManager
         Qt.AddHotkey("防击退", new NormalSpellHotKeyResolver(SpellsDefine.ArmsLength, SpellTargetType.Target, func: null));
         Qt.AddHotkey("内丹", new NormalSpellHotKeyResolver(SpellsDefine.SecondWind, SpellTargetType.Target, func: null));
         Qt.AddHotkey("超荷",
-            new NormalSpellHotKeyResolver(MchSpells.Hypercharge, SpellTargetType.Target,
+            new NormalSpellHotKeyResolver(MchSpells.HyperCharge, SpellTargetType.Target,
                 func: MchHotKeyHelper.HotkeyHyperCharge));
         Qt.AddHotkey("策动",
             new NormalSpellHotKeyResolver(SpellsDefine.Tactician, SpellTargetType.Target,

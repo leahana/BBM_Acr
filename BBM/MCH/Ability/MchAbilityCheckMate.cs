@@ -13,10 +13,12 @@ namespace BBM.MCH.Ability;
 public class MchAbilityCheckMate(params string[] qtKeys) : ISlotResolver, IQtChecker
 {
     private readonly List<string> _qtKeys = qtKeys.ToList(); // 支持多种 Qt 的判断逻辑
+    private const uint CheckMate = MchSpells.CheckMate;
+    private const uint DoubleCheck = MchSpells.DoubleCheck;
 
     public int Check()
     {
-        if (!this.IsReady(MchSpells.CheckMate))
+        if (!this.IsReady(CheckMate))
             return -1;
         if (!this.CanInsertAbility())
             return -2;
@@ -29,13 +31,13 @@ public class MchAbilityCheckMate(params string[] qtKeys) : ISlotResolver, IQtChe
         }
 
         // 过热状态 将死>双将 防止出现 热冲击1+将死，热冲击2+将死的情况，看着难受！
-        if (MchSpellsHelper.OverHeated() && MchSpells.CheckMate.GetCharges() >= 1)
-            return MchSpells.CheckMate.GetCharges() > MchSpells.DoubleCheck.GetCharges() ? 3 : -3;
+        if (MchSpellsHelper.OverHeated() && CheckMate.GetCharges() >= 1)
+            return CheckMate.GetCharges() > DoubleCheck.GetCharges() ? 3 : -3;
 
-        return MchSpells.CheckMate.GetCharges() >= 1 && this.LastAbility() != MchSpells.CheckMate ? 0 : -3;
+        return CheckMate.GetCharges() >= 1 && this.LastAbility() != CheckMate ? 0 : -3;
     }
 
-    public void Build(Slot slot) => slot.Add(MchSpells.CheckMate.GetSpell());
+    public void Build(Slot slot) => slot.Add(CheckMate.GetSpell());
 
 
     public int CheckQt()

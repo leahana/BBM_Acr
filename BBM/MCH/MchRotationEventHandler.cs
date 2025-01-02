@@ -1,6 +1,9 @@
 using AEAssist.CombatRoutine;
 using AEAssist.CombatRoutine.Module;
 using AEAssist.Helper;
+using BBM.MCH.Data;
+using BBM.MCH.Managers;
+using BBM.MCH.Settings;
 
 namespace BBM.MCH;
 
@@ -9,9 +12,21 @@ public class MchRotationEventHandler : IRotationEventHandler
     /// <summary>
     /// 非战斗情况下的回调 例如远敏可以考虑此时唱跑步歌 T可以考虑切姿态
     /// </summary>
-    public Task OnPreCombat()
+    public async Task OnPreCombat()
     {
-        return Task.CompletedTask;
+        // 生成 0 到 1500 毫秒之间的随机延迟
+        Random random = new Random();
+        int delay = random.Next(0, 1501); // 上限为 1501，因为上限不包含在随机范围内
+
+        // 应用随机延迟
+        await Task.Delay(delay);
+
+        // 如果开启了远敏技能 Peloton 的使用选项
+        if (MchSettings.Instance.UsePeloton)
+        {
+            // 尝试释放 Peloton 技能
+            await SpellsDefine.Peloton.GetSpell().Cast();
+        }
     }
 
 
@@ -20,14 +35,27 @@ public class MchRotationEventHandler : IRotationEventHandler
     /// </summary>
     public void OnResetBattle()
     {
+        if (!SettingMgr.GetSetting<GeneralSettings>().NoClipGCD3)
+            LogHelper.Print("请开启: 全局能力技不卡GCD");
+        if (SettingMgr.GetSetting<GeneralSettings>().MaxAbilityTimesInGcd != 2)
+            LogHelper.Print("请设置: GCD内最大能力技数量 = 2");
+        if (!MchSettings.Instance.AutoResetBattleData)
+            return;
+        // 重制Qt设置
+        MchQtManager.Qt.Reset();
+        // 重制电量热量
+        MchSettings.Instance.MinBattery = 50;
+        MchSettings.Instance.MinHeat = 50;
+        MchCacheBattleData.Instance.Reset();
     }
+
 
     /// <summary>
     /// ACR默认再没目标时是不工作的 为了兼容没目标时的处理 比如舞者在转阶段可能要提前跳舞
     /// </summary>
-    public Task OnNoTarget()
+    public async Task OnNoTarget()
     {
-        return Task.CompletedTask;
+        await Task.CompletedTask;
     }
 
 

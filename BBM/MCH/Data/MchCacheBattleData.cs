@@ -5,8 +5,9 @@ namespace BBM.MCH.Data;
 /// </summary>
 public class MchCacheBattleData
 {
-    public static readonly MchCacheBattleData Instance = new();
+    public static MchCacheBattleData Instance = new();
 
     // 热键使用高优先级
     public bool HotkeyUseHighPrioritySlot = false;
+    public void Reset() => Instance = new MchCacheBattleData();
 }

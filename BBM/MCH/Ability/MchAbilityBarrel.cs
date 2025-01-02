@@ -14,11 +14,13 @@ public class MchAbilityBarrelStabilizer(params string[] qtKeys) : ISlotResolver,
 {
     private readonly List<string> _qtKeys = qtKeys.ToList(); // 支持多种 Qt 的判断逻辑
 
+    private const uint BarrelStabilizer = MchSpells.BarrelStabilizer;
+
     public SlotMode SlotMode { get; } = SlotMode.OffGcd;
 
     public int Check()
     {
-        if (!this.IsReady(MchSpells.BarrelStabilizer))
+        if (!this.IsReady(BarrelStabilizer))
             return -1;
         if (!this.CanInsertAbility())
             return -2;
@@ -27,7 +29,7 @@ public class MchAbilityBarrelStabilizer(params string[] qtKeys) : ISlotResolver,
 
     public void Build(Slot slot)
     {
-        slot.Add(MchSpells.BarrelStabilizer.GetSpell());
+        slot.Add(BarrelStabilizer.GetSpell());
     }
 
     public int CheckQt()

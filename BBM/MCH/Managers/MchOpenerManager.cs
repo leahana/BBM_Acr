@@ -1,6 +1,6 @@
 using AEAssist.CombatRoutine.Module.Opener;
-using BBM.MCH.Opener;
 using BBM.MCH.Settings;
+using BBM.MCH.SlotSequences.Opener;
 
 namespace BBM.MCH.Managers;
 

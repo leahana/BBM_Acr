@@ -171,4 +171,6 @@ public static class MchSpellsHelper
                && MchSpells.BarrelStabilizer.GetSpell().IsReadyWithCanCast()
                && MchSpells.Wildfire.GetSpell().IsReadyWithCanCast();
     }
+    
+    
 }

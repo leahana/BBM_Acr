@@ -13,12 +13,12 @@ namespace BBM.MCH.Ability;
 public class MchAbilityHyperCharge(params string[] qtKeys) : ISlotResolver, IQtChecker
 {
     private readonly List<string> _qtKeys = qtKeys.ToList(); // 支持多种 Qt 的判断逻辑
-
+    
     public SlotMode SlotMode { get; } = SlotMode.OffGcd;
 
     public int Check()
     {
-        if (!this.IsReady(MchSpells.Hypercharge))
+        if (!this.IsReady(MchSpells.HyperCharge))
             return -1;
 
         if (!this.CanInsertAbility())
@@ -69,7 +69,7 @@ public class MchAbilityHyperCharge(params string[] qtKeys) : ISlotResolver, IQtC
 
     public void Build(Slot slot)
     {
-        slot.Add(MchSpells.Hypercharge.GetSpell());
+        slot.Add(MchSpells.HyperCharge.GetSpell());
     }
 
     public int CheckQt()

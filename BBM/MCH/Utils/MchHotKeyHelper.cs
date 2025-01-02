@@ -116,12 +116,12 @@ public static class MchHotKeyHelper
     public static int HotkeyHyperCharge()
     {
         // 野火不可用 
-        if (!MchSpells.Hypercharge.RecentlyUsed()
-            && MchSpells.Hypercharge.GetSpell().IsReadyWithCanCast()
+        if (!MchSpells.HyperCharge.RecentlyUsed()
+            && MchSpells.HyperCharge.GetSpell().IsReadyWithCanCast()
             && MchSpellsHelper.GetHeat() >= 50
            )
         {
-            return MchSpells.Hypercharge.GetSpell().RecentlyUsed() ? -3 : 0;
+            return MchSpells.HyperCharge.GetSpell().RecentlyUsed() ? -3 : 0;
         }
 
         return -1;

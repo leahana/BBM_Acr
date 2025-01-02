@@ -15,13 +15,17 @@ public class MchSettings
     public static MchSettings Instance;
 
     public int Opener = 0; // 起手选择
-    public bool UsePeloton = true; // 使用速行 默认开启
+    public bool UsePeloton = false; // 使用速行 默认关闭
     public bool UsePotionInOpener = false; // 是否在开场使用药水
     public const double GcdCooldownLimit = 600.0; // 基础Gcd剩余
     public int MinBattery = 50; // 最小电量
     public int MinHeat = 50; // 最大热量
     public int GrabItLimit = 300; // 抢开设置
+
     public bool IsHighEnd = true; // 是否是高难模式
+
+    // 自动重制qt等设置
+    public bool AutoResetBattleData { get; set; } = true;
 
 
     #region 标准模板代码 可以直接复制后改掉类名即可
