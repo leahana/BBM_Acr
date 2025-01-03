@@ -11,9 +11,10 @@ namespace BBM.MCH.Ability;
 public class MchAbilitySecondWind(params string[] qtKeys) : ISlotResolver
 {
     private readonly List<string> _qtKeys = qtKeys.ToList(); // 支持多种 Qt 的判断逻辑
+    
     public SlotMode SlotMode { get; } = SlotMode.OffGcd;
+    
     private const uint SecondWind = SpellsDefine.SecondWind;
-
 
     public int Check()
     {

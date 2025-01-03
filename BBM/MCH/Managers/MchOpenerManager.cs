@@ -9,12 +9,7 @@ namespace BBM.MCH.Managers;
 /// </summary>
 public class MchOpenerManager
 {
-    public static readonly MchOpenerManager Instance;
-
-    static MchOpenerManager()
-    {
-        Instance = new MchOpenerManager();
-    }
+    public static readonly MchOpenerManager Instance = new();
 
     public IOpener? GetOpener(uint level)
     {

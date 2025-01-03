@@ -18,7 +18,8 @@ public static class MchSpellsHelper
     /// 获取最后一次连击的id
     /// </summary>
     /// <returns></returns>
-    public static uint GetLastComboSpellId() => Core.Resolve<MemApiSpell>().GetLastComboSpellId();
+    public static uint GetLastComboSpellId() => 
+        Core.Resolve<MemApiSpell>().GetLastComboSpellId();
 
 
     /// <summary>

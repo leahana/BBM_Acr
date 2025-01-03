@@ -49,6 +49,7 @@ public class MchRotationEventHandler : IRotationEventHandler
         // 重制电量热量
         MchSettings.Instance.MinBattery = 50;
         MchSettings.Instance.MinHeat = 50;
+        // 战斗数据重制
         MchCacheBattleData.Instance.Reset();
     }
 

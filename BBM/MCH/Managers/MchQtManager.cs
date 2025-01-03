@@ -1,9 +1,12 @@
 using System.Diagnostics;
 using System.Numerics;
+using System.Reflection;
+using AEAssist;
 using AEAssist.CombatRoutine;
 using AEAssist.CombatRoutine.Module;
 using AEAssist.CombatRoutine.View.JobView;
 using AEAssist.CombatRoutine.View.JobView.HotkeyResolver;
+using AEAssist.Helper;
 using BBM.MCH.Data;
 using BBM.MCH.Data.HotKeys;
 using BBM.MCH.Settings;
@@ -27,7 +30,7 @@ public class MchQtManager
 
     public static JobViewWindow Qt;
 
-    private static  MchSettings MchSettings;
+    private static readonly MchSettings MchSettings = MchSettings.Instance;
 
     // JobViewSave是AE底层提供的QT设置存档类 在你自己的设置里定义即可
     private static readonly JobViewSave QtViewSave = new()
@@ -37,12 +40,9 @@ public class MchQtManager
         QtWindowBgAlpha = 0.0f,
         QtHotkeySize = new Vector2(60, 60)
     }; // QT设置存档
-    
 
     public void BuildQt()
     {
-
-        MchSettings = MchSettings.Instance;
         Qt = new JobViewWindow(QtViewSave, MchSettings.Save, "bbm Mch jobView");
         // 第二个参数是你设置文件的Save类 第三个参数是QT窗口标题
         // QT.SetUpdateAction(OnUIUpdate); // 设置QT中的Update回调 不需要就不设置
@@ -101,6 +101,23 @@ public class MchQtManager
         Qt.AddQt(MchQtKeys.Aoe, false, MchQtKeys.Aoe);
         Qt.AddQt(MchQtKeys.UseReassemble, true, MchQtKeys.UseBaseComboFirst);
         Qt.AddQt(MchQtKeys.UseHyperCharge, true, MchQtKeys.UseHyperCharge);
+    }
+
+    public void ResetQt()
+    {
+        Qt.SetQt(MchQtKeys.UsePotion, false);
+        Qt.SetQt(MchQtKeys.UseOutbreak, true);
+        Qt.SetQt(MchQtKeys.UseBaseComboFirst, false);
+        Qt.SetQt(MchQtKeys.UseChainSaw, true);
+        Qt.SetQt(MchQtKeys.ReserveCheckMate, false);
+        Qt.SetQt(MchQtKeys.ReserveDoubleCheck, false);
+        Qt.SetQt(MchQtKeys.UseExcavator, true);
+        Qt.SetQt(MchQtKeys.UseFullMetalField, true);
+        Qt.SetQt(MchQtKeys.UseDrill, true);
+        Qt.SetQt(MchQtKeys.UseAirAnchor, true);
+        Qt.SetQt(MchQtKeys.Aoe, false);
+        Qt.SetQt(MchQtKeys.UseReassemble, true);
+        Qt.SetQt(MchQtKeys.UseHyperCharge, true);
     }
 
     private void AddQtHotKey()
@@ -272,8 +289,7 @@ public class MchQtManager
 
         ImGui.Separator();
     }
-
-
+    
     // 画dev页设置
     private void DrawQtDev(JobViewWindow jobViewWindow)
     {
@@ -287,22 +303,5 @@ public class MchQtManager
         {
             ImGui.Text($"Hotkey按钮: {v}");
         }
-    }
-
-    public void ResetQt()
-    {
-        Qt.SetQt(MchQtKeys.UsePotion, false);
-        Qt.SetQt(MchQtKeys.UseOutbreak, true);
-        Qt.SetQt(MchQtKeys.UseBaseComboFirst, false);
-        Qt.SetQt(MchQtKeys.UseChainSaw, true);
-        Qt.SetQt(MchQtKeys.ReserveCheckMate, false);
-        Qt.SetQt(MchQtKeys.ReserveDoubleCheck, false);
-        Qt.SetQt(MchQtKeys.UseExcavator, true);
-        Qt.SetQt(MchQtKeys.UseFullMetalField, true);
-        Qt.SetQt(MchQtKeys.UseDrill, true);
-        Qt.SetQt(MchQtKeys.UseAirAnchor, true);
-        Qt.SetQt(MchQtKeys.Aoe, false);
-        Qt.SetQt(MchQtKeys.UseReassemble, true);
-        Qt.SetQt(MchQtKeys.UseHyperCharge, true);
     }
 }

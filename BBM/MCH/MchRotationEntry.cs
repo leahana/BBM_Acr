@@ -7,11 +7,17 @@ namespace BBM.MCH;
 public class MchRotationEntry : IRotationEntry
 {
     public string AuthorName { get; set; } = "BBM";
-    private static readonly MchSettings MchSettings = MchSettings.Instance;
+
+    // Qt管理
     private static readonly MchQtManager MchQtManger = MchQtManager.Instance;
+
+    // 决策管理
     private static readonly MchSlotResolverManager MchSlotResolverManager = MchSlotResolverManager.Instance;
+
+    // 起手管理
     private static readonly MchOpenerManager MchOpenerManager = MchOpenerManager.Instance;
 
+    
     public Rotation? Build(string settingFolder)
     {
         // 初始化设置
@@ -28,7 +34,7 @@ public class MchRotationEntry : IRotationEntry
             MinLevel = 100,
             MaxLevel = 100,
             Description = "目前仅支持100级高难，其他没写" +
-                          "/n 沉淀",
+                          "\n 沉淀",
         };
 
         // 添加起手设置
@@ -36,7 +42,7 @@ public class MchRotationEntry : IRotationEntry
 
         // 添加各种事件回调
         rot.SetRotationEventHandler(new MchRotationEventHandler());
-        
+
         // rot.AddHotkeyEventHandlers();
         // 添加时间轴触发器
         rot.AddTriggers();

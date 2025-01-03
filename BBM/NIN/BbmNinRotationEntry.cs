@@ -8,7 +8,7 @@ using ImGuiNET;
 
 namespace BBM.NIN;
 
-public class BbmNinRotationEntry : IRotationEntry
+class BbmNinRotationEntry 
 {
     public string AuthorName { get; set; } = "BBM";
 

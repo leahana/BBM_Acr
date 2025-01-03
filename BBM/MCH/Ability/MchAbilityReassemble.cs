@@ -42,19 +42,20 @@ public class MchAbilityReassemble(params string[] qtKeys) : ISlotResolver, IQtCh
         if (this.HasAura(MchBuffs.Overheated)) return -7;
 
         var checkQt = CheckQt();
+
         if (checkQt < 0)
         {
             return checkQt;
         }
 
-        if (!this.IsReady(MchSpells.Wildfire)) return 0; // 野火未准备好
+        if (!this.IsReady(MchSpells.Wildfire)) return 1; // 野火未准备好
 
-        if (strongGcd != MchSpells.ChainSaw) return 0; // 当前 GCD 不是回转飞锯
+        if (strongGcd != MchSpells.ChainSaw) return 2; // 当前 GCD 不是回转飞锯
 
         // 如果回转飞锯被选中 检查空气矛和钻头是否准备好
         if (!this.IsReady(MchSpells.AirAnchor) && !this.IsReady(MchSpells.Drill))
             return -8;
-        // 如果回转飞锯被选中 检查空气矛和钻头是否准备好
+        // 上一个技能是野火不用整备
         if (MchSpellsHelper.GetLastComboSpellId() == MchSpells.Wildfire)
             return -9;
 

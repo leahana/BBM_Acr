@@ -1,5 +1,3 @@
-using System.Numerics;
-using AEAssist.CombatRoutine.View.JobView;
 using AEAssist.Helper;
 using AEAssist.IO;
 
@@ -20,11 +18,8 @@ public class MchSettings
     public int MinBattery = 50; // 最小电量
     public int MinHeat = 50; // 最大热量
     public int GrabItLimit = 300; // 抢开设置
-
     public bool IsHighEnd = true; // 是否是高难模式
-
-    // 自动重制qt等设置
-    public bool AutoResetBattleData { get; set; } = true;
+    public bool AutoResetBattleData = true; // 自动重制战斗数据 如qt等设置
 
 
     #region 标准模板代码 可以直接复制后改掉类名即可

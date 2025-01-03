@@ -1,8 +1,6 @@
-using AEAssist.CombatRoutine.View.JobView;
 using AEAssist.Helper;
 using BBM.MCH.Data;
 using BBM.MCH.Managers;
-using BBM.MCH.Settings;
 
 namespace BBM.MCH.Utils;
 
@@ -47,7 +45,8 @@ public static class MchQtHelper
     /// <returns></returns>
     private static int QtUseHyperCharge()
     {
-        return _qtResult(MchQtManager.Qt.GetQt(MchQtKeys.UseHyperCharge));
+        var qt = MchQtManager.Qt.GetQt(MchQtKeys.UseHyperCharge);
+        return qt ? 111 : -111;
     }
 
     /// <summary>
@@ -65,7 +64,8 @@ public static class MchQtHelper
     /// <returns></returns>
     private static int QtUseReassemble()
     {
-        return _qtResult(MchQtManager.Qt.GetQt(MchQtKeys.UseReassemble));
+        var qt = MchQtManager.Qt.GetQt(MchQtKeys.UseReassemble);
+        return qt ? 112 : -112;
     }
 
     /// <summary>
@@ -84,58 +84,48 @@ public static class MchQtHelper
     }
 
 
-// 飞锯QT
+    // 飞锯QT
     private static int QtUseChainSaw()
     {
         var result = MchQtManager.Qt.GetQt(MchQtKeys.UseChainSaw);
         return _qtResult(result);
     }
 
-// 空气锚QT
+    // 空气锚QT
     private static int QtUseAirAnchor()
     {
         var result = MchQtManager.Qt.GetQt(MchQtKeys.UseAirAnchor);
         return _qtResult(result);
     }
 
-// 钻头QT
+    // 钻头QT
     private static int QtUseDrill()
     {
         var result = MchQtManager.Qt.GetQt(MchQtKeys.UseDrill);
         return _qtResult(result);
     }
 
-// 将死Qt
+    // 将死Qt
     private static int QtReserveCheckMate()
     {
-        //  开启 说明 保留不用 大于两层返回复数
+        //  开启 说明 保留不用 大于两层返回复数 交给Check
         var qt = MchQtManager.Qt.GetQt(MchQtKeys.ReserveCheckMate);
-        if (qt && MchSpells.CheckMate.GetSpell().Charges < 2.9)
-        {
-            return MchSpells.CheckMate.GetSpell().Charges >= 2.0 && MchSpellsHelper.GetHeat() >= 45 ? 1 : -45;
-        }
-
-        return MchSpells.CheckMate.GetSpell().Charges >= 2.5 ? 99 : _qtResult(!qt);
+        return !qt ? 145 : -145;
     }
 
-// 双将Qt
+    // 双将Qt
     private static int QtReserveDoubleCheck()
     {
         //  开启 说明 保留不用 大于两层返回复数
         var qt = MchQtManager.Qt.GetQt(MchQtKeys.ReserveDoubleCheck);
-        if (qt && MchSpells.DoubleCheck.GetSpell().Charges < 2.9)
-        {
-            return MchSpells.DoubleCheck.GetSpell().Charges >= 2.0 && MchSpellsHelper.GetHeat() >= 45 ? 1 : -45;
-        }
-
-        return MchSpells.DoubleCheck.GetSpell().Charges >= 2.5 ? 99 : _qtResult(!qt);
+        return !qt ? 146 : -146;
     }
 
 // 爆发Qt
     private static int QtUseOutbreak()
     {
         var qt = MchQtManager.Qt.GetQt(MchQtKeys.UseOutbreak);
-        return _qtResult(qt);
+        return qt ? 101 : -101;
     }
 
 
@@ -146,7 +136,7 @@ public static class MchQtHelper
             if (!QtResolvers.TryGetValue(qtKey, out var qtFunc))
             {
                 LogHelper.Debug($"Invalid QtKey: {qtKey}");
-                return -99; // Qt 未配置
+                return -199; // Qt 未配置
             }
 
             var value = qtFunc();
@@ -159,5 +149,4 @@ public static class MchQtHelper
 
         return 0; // 所有 Qt 判断通过
     }
-
 }

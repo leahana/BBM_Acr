@@ -1,4 +1,5 @@
 using AEAssist;
+using AEAssist.CombatRoutine.View.JobView.HotkeyResolver;
 using AEAssist.Extension;
 using AEAssist.Helper;
 using BBM.MCH.Data;
@@ -99,6 +100,7 @@ public static class MchHotKeyHelper
     /// <returns></returns>
     public static int HotkeyFlamethrower()
     {
+        
         // 野火不可用 
         if (!MchSpells.Flamethrower.RecentlyUsed() && MchSpells.Flamethrower.GetSpell().IsReadyWithCanCast())
         {

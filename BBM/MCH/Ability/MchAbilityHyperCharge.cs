@@ -13,7 +13,7 @@ namespace BBM.MCH.Ability;
 public class MchAbilityHyperCharge(params string[] qtKeys) : ISlotResolver, IQtChecker
 {
     private readonly List<string> _qtKeys = qtKeys.ToList(); // 支持多种 Qt 的判断逻辑
-    
+
     public SlotMode SlotMode { get; } = SlotMode.OffGcd;
 
     public int Check()
@@ -24,46 +24,44 @@ public class MchAbilityHyperCharge(params string[] qtKeys) : ISlotResolver, IQtC
         if (!this.CanInsertAbility())
             return -2;
 
-        // 热量小于50 且没有超荷预备buff
-        if (MchSpellsHelper.IsHeatBelow(50) && !this.HasAura(MchBuffs.HyperChargeReady))
-            return -3;
-
         // 连击在0-9.5s不打超荷防止断连击
         if (this.IsComboTimeWithin(9500.0) && this.IsComboTimeWithOut(0.0))
-            return -5;
+            return -3;
+
+        // 热量小于50 且没有超荷预备buff
+        if (MchSpellsHelper.IsHeatBelow(50) && !this.HasAura(MchBuffs.HyperChargeReady))
+            return -4;
 
         // 空气锚/飞锯/钻头>  第二层充能  -8s=1.6层
         if (this.IsCooldownWithin(MchSpells.AirAnchor, 8000.0)
             || this.IsCooldownWithin(MchSpells.ChainSaw, 8000.0)
             || MchSpells.Drill.GetCharges() > 1.6)
-            return -6;
-
-        // 能量小于100 且枪管加热cd35s内。存资源 
-        // if (MchSpellHelper.GetHeat() < 100
-        //     && this.IsCooldownWithin(MchSpells.BarrelStabilizer, 35000.0))
-        //     return -7;
-
-        if (this.HasAura(MchBuffs.ExcavatorReady) || this.HasAura(MchBuffs.FullMetalFieldReady))
-            return -8;
+            return -5;
 
         // 120快好了 不打
-        if (MchSpellsHelper.GetHeat() < 100 &&
-            MchSpells.BarrelStabilizer.Cooldown() <= 35000.0)
+        if (MchSpellsHelper.GetHeat() < 100 && MchSpells.BarrelStabilizer.Cooldown() <= 35000.0)
         {
-            return -9;
+            return -6;
         }
 
-        var checkQt = CheckQt();
-        if (checkQt != 0)
+        // 全金属爆发或者飞轮预备
+        if (this.HasAura(MchBuffs.ExcavatorReady) || this.HasAura(MchBuffs.FullMetalFieldReady))
+            return -7;
+
+
+        var validationResult = CheckQt();
+
+        if (validationResult < 0)
         {
-            return checkQt;
+            // -101 爆发关了 -111 超荷关了
+            return validationResult;
         }
+
 
         // 120 超荷+野火
         if (this.HasAura(MchBuffs.HyperChargeReady) && this.IsReady(MchSpells.Wildfire)) return 2;
-        ;
-
-        return MchSpellsHelper.GetHeat() >= 50 ? 2 : -10;
+        
+        return MchSpellsHelper.GetHeat() >= 50 ? 1 : -4;
     }
 
 
