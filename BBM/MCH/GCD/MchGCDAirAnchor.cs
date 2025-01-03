@@ -14,29 +14,39 @@ public class MchGcdAirAnchor(params string[] qtKeys) : ISlotResolver, IQtChecker
 {
     private readonly List<string> _qtKeys = qtKeys.ToList(); // 支持多种 Qt 的判断逻辑
 
+    private const uint CleanShot = MchSpells.CleanShot;
+    private const uint AirAnchor = MchSpells.AirAnchor;
+
     public int Check()
     {
-        if (!this.IsReady(MchSpells.AirAnchor))
+        if (!this.IsReady(AirAnchor))
         {
             return -1;
         }
 
         // 防止断连击
-        if (this.IsComboTimeWithin(3000.0) && MchSpellsHelper.GetLastComboSpellId() != MchSpells.CleanShot)
+        if (this.IsComboTimeWithin(3000.0)
+            && MchSpellsHelper.GetLastComboSpellId() != CleanShot)
         {
             return -3;
         }
 
         // ！ 空气锚1.2s转好且可打Gcd
-        if (!this.IsGcdReadySoon() && !this.IsCooldownWithin(MchSpells.AirAnchor, 1200))
+        if (!this.IsGcdReadySoon() && !this.IsCooldownWithin(AirAnchor, 1200))
         {
             return -4;
         }
 
-        return CheckQt();
+        var validationResult = CheckQt();
+        // 爆发Qt关闭
+        if (validationResult == -101) return -101;
+
+        // 爆发Qt通过
+        // 强制123Qt → 空气锚Qt
+        return validationResult;
     }
 
-    public void Build(Slot slot) => slot.Add(MchSpells.AirAnchor.GetSpell());
+    public void Build(Slot slot) => slot.Add(AirAnchor.GetSpell());
 
     public int CheckQt()
     {

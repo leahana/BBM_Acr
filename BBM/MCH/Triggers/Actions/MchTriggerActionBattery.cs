@@ -11,7 +11,7 @@ namespace BBM.MCH.Triggers.Actions;
 /// </summary>
 public class MchTriggerActionBattery : ITriggerAction, ITriggerBase, ITriggerlineCheck
 {
-    public string DisplayName => "BBM-Mch/行为/电量控制";
+    public string DisplayName => "BBM-Mch/行为/电量控制-设置电量阈值";
 
     public int Battery { get; set; } = 0;
 

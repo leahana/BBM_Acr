@@ -1,12 +1,9 @@
 using System.Diagnostics;
 using System.Numerics;
-using System.Reflection;
-using AEAssist;
 using AEAssist.CombatRoutine;
 using AEAssist.CombatRoutine.Module;
 using AEAssist.CombatRoutine.View.JobView;
 using AEAssist.CombatRoutine.View.JobView.HotkeyResolver;
-using AEAssist.Helper;
 using BBM.MCH.Data;
 using BBM.MCH.Data.HotKeys;
 using BBM.MCH.Settings;
@@ -101,6 +98,8 @@ public class MchQtManager
         Qt.AddQt(MchQtKeys.Aoe, false, MchQtKeys.Aoe);
         Qt.AddQt(MchQtKeys.UseReassemble, true, MchQtKeys.UseBaseComboFirst);
         Qt.AddQt(MchQtKeys.UseHyperCharge, true, MchQtKeys.UseHyperCharge);
+        Qt.AddQt(MchQtKeys.UseWildfire, true, MchQtKeys.UseWildfire);
+        Qt.AddQt(MchQtKeys.UseBarrelStabilizer, true, MchQtKeys.UseBarrelStabilizer);
     }
 
     public void ResetQt()
@@ -118,6 +117,8 @@ public class MchQtManager
         Qt.SetQt(MchQtKeys.Aoe, false);
         Qt.SetQt(MchQtKeys.UseReassemble, true);
         Qt.SetQt(MchQtKeys.UseHyperCharge, true);
+        Qt.SetQt(MchQtKeys.UseWildfire, true);
+        Qt.SetQt(MchQtKeys.UseBarrelStabilizer, true);
     }
 
     private void AddQtHotKey()

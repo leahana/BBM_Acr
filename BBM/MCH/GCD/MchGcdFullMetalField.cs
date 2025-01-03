@@ -21,10 +21,11 @@ public class MchGcdFullMetalField(params string[] qtKeys) : ISlotResolver, IQtCh
             return -1;
         // 有全金属爆发状态预备状态
         if (!this.HasAura(MchBuffs.FullMetalFieldReady))
-            return -2;
+            return -3;
         // 空气锚冷却小于1000ms
-        if (MchSpells.AirAnchor.GetSpell().Cooldown.TotalMilliseconds <= 1000.0) return -3;
-        // 全金属爆发qt开启状态
+        if (MchSpells.AirAnchor.GetSpell().Cooldown.TotalMilliseconds <= 1000.0)
+            return -4;
+        // qt检测
         return CheckQt();
     }
 

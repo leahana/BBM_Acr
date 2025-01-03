@@ -1,4 +1,3 @@
-
 namespace BBM.MCH.Data;
 
 // 直接定义好 方便编码
@@ -17,4 +16,6 @@ public static class MchQtKeys
     public const string UseReassemble = "整备";
     public const string UseBaseComboFirst = "优先打123";
     public const string UseHyperCharge = "超荷";
+    public const string UseWildfire = "野火";
+    public const string UseBarrelStabilizer = "枪管加热";
 }

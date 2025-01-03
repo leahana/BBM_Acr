@@ -15,12 +15,6 @@ public static class MchQtHelper
     // 一般qt结果返回
     private static int _qtResult(bool result) => result ? QtYes : QtNo;
 
-    // 飞轮QT
-    private static int QtExcavator()
-    {
-        var result = MchQtManager.Qt.GetQt(MchQtKeys.UseExcavator);
-        return _qtResult(result);
-    }
 
     // 添加一个字典来存储不同 Qt 对应的逻辑
     private static readonly Dictionary<string, Func<int>> QtResolvers = new()
@@ -36,7 +30,9 @@ public static class MchQtHelper
         { MchQtKeys.Aoe, QtAoe },
         { MchQtKeys.UseReassemble, QtUseReassemble },
         { MchQtKeys.UseBaseComboFirst, QtUseBaseComboFirst },
-        { MchQtKeys.UseHyperCharge, QtUseHyperCharge }
+        { MchQtKeys.UseHyperCharge, QtUseHyperCharge },
+        { MchQtKeys.UseWildfire, QtUseWildfire },
+        { MchQtKeys.UseBarrelStabilizer, QtUseBarrelStabilizer }
     };
 
     /// <summary>
@@ -50,12 +46,13 @@ public static class MchQtHelper
     }
 
     /// <summary>
-    /// 只打123
+    /// 强制只打123
     /// </summary>
     /// <returns></returns>
     private static int QtUseBaseComboFirst()
     {
-        return _qtResult(!MchQtManager.Qt.GetQt(MchQtKeys.UseBaseComboFirst));
+        var qt = MchQtManager.Qt.GetQt(MchQtKeys.UseBaseComboFirst);
+        return !qt ? 123 : -123;
     }
 
     /// <summary>
@@ -69,6 +66,26 @@ public static class MchQtHelper
     }
 
     /// <summary>
+    /// 野火Qt
+    /// </summary>
+    /// <returns></returns>
+    private static int QtUseWildfire()
+    {
+        var qt = MchQtManager.Qt.GetQt(MchQtKeys.UseWildfire);
+        return qt ? 113 : -113;
+    }
+
+    /// <summary>
+    /// 枪管加热Qt
+    /// </summary>
+    /// <returns></returns>
+    private static int QtUseBarrelStabilizer()
+    {
+        var qt = MchQtManager.Qt.GetQt(MchQtKeys.UseBarrelStabilizer);
+        return qt ? 114 : -114;
+    }
+
+    /// <summary>
     /// AOEqt 暂时无用
     /// </summary>
     /// <returns></returns>
@@ -77,32 +94,45 @@ public static class MchQtHelper
         return _qtResult(MchQtManager.Qt.GetQt(MchQtKeys.Aoe));
     }
 
-    // 全金属爆发Qt
+    /// <summary>
+    /// 全金属爆发Qt
+    /// </summary>
+    /// <returns></returns>
     private static int QtFullMetalField()
     {
-        return _qtResult(MchQtManager.Qt.GetQt(MchQtKeys.UseFullMetalField));
+        var qt = MchQtManager.Qt.GetQt(MchQtKeys.UseFullMetalField);
+        return qt ? 161 : -161;
     }
 
-
-    // 飞锯QT
-    private static int QtUseChainSaw()
-    {
-        var result = MchQtManager.Qt.GetQt(MchQtKeys.UseChainSaw);
-        return _qtResult(result);
-    }
 
     // 空气锚QT
     private static int QtUseAirAnchor()
     {
-        var result = MchQtManager.Qt.GetQt(MchQtKeys.UseAirAnchor);
-        return _qtResult(result);
+        var qt = MchQtManager.Qt.GetQt(MchQtKeys.UseAirAnchor);
+        return qt ? 151 : -151;
     }
 
     // 钻头QT
     private static int QtUseDrill()
     {
         var result = MchQtManager.Qt.GetQt(MchQtKeys.UseDrill);
-        return _qtResult(result);
+        return result ? 153 : -153;
+    }
+
+    /// <summary>
+    /// 飞锯QT
+    /// </summary>
+    private static int QtUseChainSaw()
+    {
+        var result = MchQtManager.Qt.GetQt(MchQtKeys.UseChainSaw);
+        return result ? 152 : -152;
+    }
+
+    // 飞轮QT
+    private static int QtExcavator()
+    {
+        var result = MchQtManager.Qt.GetQt(MchQtKeys.UseExcavator);
+        return result ? 163 : -163;
     }
 
     // 将死Qt
@@ -121,7 +151,7 @@ public static class MchQtHelper
         return !qt ? 146 : -146;
     }
 
-// 爆发Qt
+    // 爆发Qt
     private static int QtUseOutbreak()
     {
         var qt = MchQtManager.Qt.GetQt(MchQtKeys.UseOutbreak);

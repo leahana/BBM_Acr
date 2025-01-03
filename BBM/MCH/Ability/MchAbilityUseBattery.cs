@@ -39,24 +39,8 @@ public class MchAbilityUseBattery(params string[] qtKeys) : ISlotResolver
         var battery = MchSpellsHelper.GetBattery();
         var instanceMinBattery = MchSettings.Instance.MinBattery;
         // LogHelper.Print($"用户手动设置电量阈值：{instanceMinBattery}");
-        
-        // 电量大于用户设定值再开
-        return battery >= instanceMinBattery ? 2 : -14;
-
-        // 电量60。下一G是回转飞锯
-        // if (heat == 60 && this.IsCooldownWithin(MchSpells.ChainSaw, 2100.0))
-        // {
-        //     return -8;
-        // }
-        //
-        // // 电量80。打了飞轮再开
-        // if (heat == 80 && this.HasAura(MchBuffs.ExcavatorReady))
-        // {
-        //     return -9;
-        // }
-        //
-        // // 电量大于用户设定值再开
-        // return MchSpellHelper.GetBattery() >= MchSettings.Instance.MinBattery ? 2 : -14;
+        // 电量大于用户设定值再开  
+        return battery >= instanceMinBattery ? 1 : -8;
     }
 
 

@@ -22,24 +22,23 @@ public class MchSlotResolverManager
             new SlotResolverData(new MchAbilityUseBattery(MchQtKeys.UseOutbreak),
                 SlotMode.OffGcd),
             // 热冲击slotResolver, qt: 优先使用123
-            new SlotResolverData(new MchGcdBlazingShot(
-                MchQtKeys.UseBaseComboFirst
+            new SlotResolverData(new MchGcdBlazingShot(MchQtKeys.UseBaseComboFirst
             ), SlotMode.Gcd),
             // 空气矛slotResolver, qt:  爆发 空气矛 优先使用123
             new SlotResolverData(
-                new MchGcdAirAnchor(MchQtKeys.UseOutbreak, MchQtKeys.UseAirAnchor, MchQtKeys.UseBaseComboFirst),
+                new MchGcdAirAnchor(MchQtKeys.UseOutbreak, MchQtKeys.UseBaseComboFirst, MchQtKeys.UseAirAnchor),
                 SlotMode.Gcd),
             // 回转飞锯slotResolver, qt:  爆发 回转飞锯 优先使用123
             new SlotResolverData(
-                new MchGcdChainsaw(MchQtKeys.UseOutbreak, MchQtKeys.UseChainSaw, MchQtKeys.UseBaseComboFirst),
+                new MchGcdChainsaw(MchQtKeys.UseOutbreak, MchQtKeys.UseBaseComboFirst, MchQtKeys.UseChainSaw),
                 SlotMode.Gcd),
             // 掘地飞轮slotResolver, qt： 爆发 掘地飞轮 优先使用123
             new SlotResolverData(
-                new MchGcdExcavator(MchQtKeys.UseOutbreak, MchQtKeys.UseExcavator, MchQtKeys.UseBaseComboFirst),
+                new MchGcdExcavator(MchQtKeys.UseOutbreak, MchQtKeys.UseBaseComboFirst, MchQtKeys.UseExcavator),
                 SlotMode.Gcd),
-            // 钻头slotResolver, qt:  爆发 钻头  优先使用123
+            // 钻头slotResolver, qt:  爆发 优先使用123 钻头  
             new SlotResolverData(
-                new MchGcdDrill(MchQtKeys.UseOutbreak, MchQtKeys.UseDrill, MchQtKeys.UseBaseComboFirst), SlotMode.Gcd),
+                new MchGcdDrill(MchQtKeys.UseOutbreak, MchQtKeys.UseBaseComboFirst, MchQtKeys.UseDrill), SlotMode.Gcd),
 
             // 全金属爆发slotResolver, qt： 爆发 全金属爆发 优先使用123
             new SlotResolverData(
@@ -59,12 +58,13 @@ public class MchSlotResolverManager
             new SlotResolverData(new MchAbilityHyperCharge(MchQtKeys.UseOutbreak, MchQtKeys.UseHyperCharge),
                 SlotMode.OffGcd),
 
-            // 野火slotResolver qt：  爆发
-            new SlotResolverData(new MchAbilityWildfire(MchQtKeys.UseOutbreak), SlotMode.OffGcd),
+            // 野火slotResolver qt：  爆发 野火
+            new SlotResolverData(new MchAbilityWildfire(MchQtKeys.UseOutbreak,
+                MchQtKeys.UseWildfire), SlotMode.OffGcd),
 
             // 整备slotResolver qt:  爆发 使用整备
-            new SlotResolverData(new MchAbilityReassemble(MchQtKeys.UseOutbreak, MchQtKeys.UseReassemble),
-                SlotMode.OffGcd),
+            new SlotResolverData(new MchAbilityReassemble(MchQtKeys.UseOutbreak,
+                MchQtKeys.UseReassemble), SlotMode.OffGcd),
 
             // 将死slotResolver  qt:  爆发 (保留)2层双将
             new SlotResolverData(new MchAbilityCheckMate(MchQtKeys.UseOutbreak, MchQtKeys.ReserveCheckMate),
@@ -74,7 +74,7 @@ public class MchSlotResolverManager
             new SlotResolverData(new MchAbilityDoubleCheck(MchQtKeys.UseOutbreak, MchQtKeys.ReserveDoubleCheck),
                 SlotMode.OffGcd),
 
-            new SlotResolverData(new MchAbilitySecondWind(), SlotMode.OffGcd)
+            // new SlotResolverData(new MchAbilitySecondWind(), SlotMode.OffGcd)
         ];
     }
 

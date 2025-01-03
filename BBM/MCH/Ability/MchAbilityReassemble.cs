@@ -59,7 +59,7 @@ public class MchAbilityReassemble(params string[] qtKeys) : ISlotResolver, IQtCh
         if (MchSpellsHelper.GetLastComboSpellId() == MchSpells.Wildfire)
             return -9;
 
-        return 1;
+        return 0;
     }
 
     public void Build(Slot slot)
