@@ -16,6 +16,8 @@ public class MchSlotResolverManager
     static MchSlotResolverManager()
     {
         Instance = new MchSlotResolverManager();
+
+        // Qt判断 以QtKey 从左到右优先级
         SlotResolvers =
         [
             // 机器人电量slotResolver, qt:  爆发 
@@ -50,8 +52,9 @@ public class MchSlotResolverManager
             // 基础123Gcd slotResolver  qt: 无
             new SlotResolverData(new MchGcdBaseCombo(), SlotMode.Gcd),
 
-            // 枪管加热slotResolver qt:  爆发
-            new SlotResolverData(new MchAbilityBarrelStabilizer(MchQtKeys.UseOutbreak),
+            // 枪管加热slotResolver qt:  爆发 枪管加热
+            new SlotResolverData(new MchAbilityBarrelStabilizer(MchQtKeys.UseOutbreak, 
+                    MchQtKeys.UseBarrelStabilizer),
                 SlotMode.OffGcd),
 
             // 超荷slotResolver qt:  爆发 超荷
@@ -63,8 +66,8 @@ public class MchSlotResolverManager
                 MchQtKeys.UseWildfire), SlotMode.OffGcd),
 
             // 整备slotResolver qt:  爆发 使用整备
-            new SlotResolverData(new MchAbilityReassemble(MchQtKeys.UseOutbreak,
-                MchQtKeys.UseReassemble), SlotMode.OffGcd),
+            new SlotResolverData(new MchAbilityReassemble(MchQtKeys.UseOutbreak, MchQtKeys.UseReassemble),
+                SlotMode.OffGcd),
 
             // 将死slotResolver  qt:  爆发 (保留)2层双将
             new SlotResolverData(new MchAbilityCheckMate(MchQtKeys.UseOutbreak, MchQtKeys.ReserveCheckMate),

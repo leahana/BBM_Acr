@@ -1,39 +1,24 @@
 namespace BBM.MCH.Data;
 
-
 // 技工士技能
 public static class MchSpells
 {
-    public const uint 烈焰弹 = 36978;
-    public const uint 双将 = 36979;
-    public const uint 将死 = 36980; // 虹吸
-    public const uint 热独头弹连击 = 2868;
-    public const uint 热分裂弹连击 = 2866;
-    public const uint 热狙击弹连击 = 2873;
-    public const uint 热独头弹 = 7411;
-    public const uint 热分裂弹 = 7412;
-    public const uint 热狙击弹 = 7413;
-    public const uint 钻头 = 16498;
-    public const uint 超荷 = 17209;
-    public const uint 后式自走人偶 = 16501;
-    public const uint 空气锚 = 16500;
-    public const uint 整备 = 2876;
-    public const uint 回转飞锯 = 25788;
-    public const uint 掘地飞轮 = 36981;
-    public const uint 枪管加热 = 7414;
-    public const uint 野火 = 2878;
-    public const uint 全金属爆发 = 36982;
-    public const uint 武装解除 = 2887;
-    public const uint 策动 = 16889;
-    public const uint 内丹 = 7541;
-    public const uint 速行 = 7557;
-    
+    /// <summary>
+    /// 内丹
+    /// </summary>
+    public const uint SecondWind = 7541;
+
+    /// <summary>
+    /// 速行
+    /// </summary>
+    public const uint Peloton = 7557;
+
     // 炮塔- 80变机器人
     public const uint RookAutoturret = 2864;
-
-
+    
     // 双将
     public const uint DoubleCheck = 36979;
+
     // 将死
     public const uint CheckMate = 36980;
 
@@ -173,7 +158,7 @@ public static class MchSpells
     public const uint HyperCharge = 17209;
 
     /// <summary>
-    /// 霰弹枪 - AoE 技能，范围更大
+    /// 霰弹枪
     /// </summary>
     public const uint Scattergun = 25786;
 

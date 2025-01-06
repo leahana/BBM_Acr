@@ -9,5 +9,6 @@ public class MchCacheBattleData
 
     // 热键使用高优先级
     public bool HotkeyUseHighPrioritySlot = false;
+
     public void Reset() => Instance = new MchCacheBattleData();
 }

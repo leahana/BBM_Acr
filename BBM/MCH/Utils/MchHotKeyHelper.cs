@@ -1,5 +1,4 @@
 using AEAssist;
-using AEAssist.CombatRoutine.View.JobView.HotkeyResolver;
 using AEAssist.Extension;
 using AEAssist.Helper;
 using BBM.MCH.Data;
