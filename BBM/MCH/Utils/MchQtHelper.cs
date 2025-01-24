@@ -9,13 +9,6 @@ namespace BBM.MCH.Utils;
 /// </summary>
 public static class MchQtHelper
 {
-    private const int QtYes = 101;
-    private const int QtNo = -101;
-
-    // 一般qt结果返回
-    private static int _qtResult(bool result) => result ? QtYes : QtNo;
-
-
     // 添加一个字典来存储不同 Qt 对应的逻辑
     private static readonly Dictionary<string, Func<int>> QtResolvers = new()
     {
@@ -91,7 +84,8 @@ public static class MchQtHelper
     /// <returns></returns>
     private static int QtAoe()
     {
-        return _qtResult(MchQtManager.Qt.GetQt(MchQtKeys.Aoe));
+        var qt = MchQtManager.Qt.GetQt(MchQtKeys.Aoe);
+        return 0;
     }
 
     /// <summary>

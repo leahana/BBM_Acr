@@ -24,27 +24,28 @@ public class MchSlotResolverManager
             // 热冲击slotResolver, qt: 优先使用123
             new SlotResolverData(new MchGcdBlazingShot(MchQtKeys.UseBaseComboFirst
             ), SlotMode.Gcd),
-            // 空气矛slotResolver, qt:  爆发 空气矛 优先使用123
+            // 空气矛slotResolver, qt:  爆发 优先使用123 空气矛 
             new SlotResolverData(
                 new MchGcdAirAnchor(MchQtKeys.UseOutbreak, MchQtKeys.UseBaseComboFirst, MchQtKeys.UseAirAnchor),
                 SlotMode.Gcd),
-            // 回转飞锯slotResolver, qt:  爆发 回转飞锯 优先使用123
+            // 回转飞锯slotResolver, qt:  爆发 优先使用123 回转飞锯 
             new SlotResolverData(
                 new MchGcdChainsaw(MchQtKeys.UseOutbreak, MchQtKeys.UseBaseComboFirst, MchQtKeys.UseChainSaw),
                 SlotMode.Gcd),
-            // 掘地飞轮slotResolver, qt： 爆发 掘地飞轮 优先使用123
+            // 掘地飞轮slotResolver, qt： 爆发 优先使用123 掘地飞轮 
             new SlotResolverData(
                 new MchGcdExcavator(MchQtKeys.UseOutbreak, MchQtKeys.UseBaseComboFirst, MchQtKeys.UseExcavator),
                 SlotMode.Gcd),
-            // 钻头slotResolver, qt:  爆发 优先使用123 钻头  
-            new SlotResolverData(
-                new MchGcdDrill(MchQtKeys.UseOutbreak, MchQtKeys.UseBaseComboFirst, MchQtKeys.UseDrill), SlotMode.Gcd),
 
-            // 全金属爆发slotResolver, qt： 爆发 全金属爆发 优先使用123
+            // 全金属爆发slotResolver, qt： 爆发 优先使用123 全金属爆发 
             new SlotResolverData(
                 new MchGcdFullMetalField(MchQtKeys.UseOutbreak, MchQtKeys.UseFullMetalField,
                     MchQtKeys.UseBaseComboFirst),
                 SlotMode.Gcd),
+
+            // 钻头slotResolver, qt:  爆发 优先使用123 钻头  
+            new SlotResolverData(
+                new MchGcdDrill(MchQtKeys.UseOutbreak, MchQtKeys.UseBaseComboFirst, MchQtKeys.UseDrill), SlotMode.Gcd),
 
             // new(new MchGcdAdvanced(), SlotMode.Gcd),
             // 基础123Gcd slotResolver  qt: 无
