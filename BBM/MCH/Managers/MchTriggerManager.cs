@@ -20,8 +20,8 @@ public static class MchTriggerManager
         rot.AddTriggerCondition(new MchTriggerConditionBattery());
         // 热量条件
         rot.AddTriggerCondition(new MchTriggerCondHeat());
-        // 战斗时间条件
-        rot.AddTriggerCondition(new MchCondAfterBattleStart());
+        // 战斗时间条件 （已有 通用条件
+        // rot.AddTriggerCondition(new MchCondAfterBattleStart());
     }
 
     // 时间轴行为

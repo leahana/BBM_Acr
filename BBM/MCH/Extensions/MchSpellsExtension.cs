@@ -44,6 +44,11 @@ public static class MchSpellsExtension
         return Core.Resolve<MemApiSpell>().CheckActionCanUse(spellId);
     }
 
+    /// <summary>
+    /// 上一个能力技
+    /// </summary>
+    /// <param name="resolver"></param>
+    /// <returns></returns>
     public static uint LastAbility(this ISlotResolver resolver)
     {
         return Core.Resolve<MemApiSpellCastSuccess>().LastAbility;

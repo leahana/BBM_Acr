@@ -1,12 +1,9 @@
-using AEAssist;
 using AEAssist.CombatRoutine;
 using AEAssist.CombatRoutine.Module;
-using AEAssist.Extension;
 using AEAssist.Helper;
 using BBM.MCH.Data;
 using BBM.MCH.Managers;
 using BBM.MCH.Settings;
-using BBM.MCH.Utils;
 
 namespace BBM.MCH;
 
@@ -17,11 +14,6 @@ public class MchRotationEventHandler : IRotationEventHandler
     /// </summary>
     public async Task OnPreCombat()
     {
-        // // 生成 0 到 1500 毫秒之间的随机延迟
-        // Random random = new Random();
-        // int delay = random.Next(0, 1501); // 上限为 1501，因为上限不包含在随机范围内
-
-        // 应用随机延迟
         await Task.CompletedTask;
         //
         // // 如果开启了远敏技能 Peloton 的使用选项
@@ -95,7 +87,7 @@ public class MchRotationEventHandler : IRotationEventHandler
     /// </summary>
     public void OnEnterRotation()
     {
-        LogHelper.Print("已切换至acr：BBM-Mch");
+        LogHelper.Print("已切换至ACR：BBM-Mch");
     }
 
     /// <summary>
@@ -103,7 +95,7 @@ public class MchRotationEventHandler : IRotationEventHandler
     /// </summary>
     public void OnExitRotation()
     {
-        LogHelper.Print("退出ACR");
+        LogHelper.Print("退出ACR: BBM-Mch");
     }
 
     /// <summary>

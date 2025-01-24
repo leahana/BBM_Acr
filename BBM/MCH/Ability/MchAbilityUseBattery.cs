@@ -7,6 +7,11 @@ using BBM.MCH.Utils;
 
 namespace BBM.MCH.Ability;
 
+
+/// <summary>
+/// 电量使用Solver
+/// </summary>
+/// <param name="qtKeys"></param>
 public class MchAbilityUseBattery(params string[] qtKeys) : ISlotResolver
 {
     private readonly List<string> _qtKeys = qtKeys.ToList(); // 支持多种 Qt 的判断逻辑

@@ -30,7 +30,7 @@ public static class MchSpellsHelper
     {
         var memApiSpell = Core.Resolve<MemApiSpell>(); // 提取重复调用
         var lastComboSpellId = memApiSpell.GetLastComboSpellId();
-
+        
         // 根据 lastComboSpellId 返回对应的 Spell
         return lastComboSpellId switch
         {

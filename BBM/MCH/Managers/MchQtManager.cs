@@ -153,8 +153,9 @@ public class MchQtManager
     {
         if (ImGui.CollapsingHeader("   重要说明"))
         {
-            ImGui.Text("能力及插入相关：连续两个能力技插入间隔在620ms以下（可在FFLogs上查）");
+            ImGui.Text("能力技插入相关：");
             ImGui.Text("推荐使用NiGuangOwO佬的三插插件，我自己用的是最优双插模式550ms。开了更流畅，兄弟们开。");
+            ImGui.Text("连续两个能力技插入间隔在620ms以下（可在FFLogs上查)");
             if (ImGui.Button("FuckAnimationLock"))
             {
                 string url = "https://github.com/NiGuangOwO/DalamudPlugins";
@@ -172,8 +173,7 @@ public class MchQtManager
                 }
             }
 
-            ImGui.Separator();
-
+            ImGui.SameLine(10);
             if (ImGui.Button("反馈问题"))
             {
                 string url = "https://discord.com/channels/1191648233454313482/1191649639796064346";
@@ -199,6 +199,23 @@ public class MchQtManager
             ImGui.Text("当前模式：" + (MchSettings.IsHighEnd
                 ? "高难模式"
                 : "日常模式"));
+            ImGui.Text("暂不支持日常，选了也没用（");
+            if (MchSettings.IsHighEnd)
+            {
+                ImGui.SameLine();
+                if (ImGui.Button("切换到日常模式"))
+                {
+                    MchSettings.IsHighEnd = false;
+                }
+            }
+            else
+            {
+                ImGui.SameLine();
+                if (ImGui.Button("切换到高难模式"))
+                {
+                    MchSettings.IsHighEnd = true;
+                }
+            }
 
             ImGui.Separator();
             var opener = MchSettings.Opener switch
@@ -225,7 +242,6 @@ public class MchQtManager
             {
                 // 拖动条调整后逻辑处理
             }
-
             ImGui.Text($"当前延迟: {MchSettings.GrabItLimit} ms");
             ImGui.Separator();
             ImGui.Text("设置电量阈值:");
@@ -245,7 +261,8 @@ public class MchQtManager
             ImGui.Text($"当前电量: {MchSettings.MinBattery}");
             ImGui.Separator();
             if (!Qt.GetQt(MchQtKeys.UsePotion))
-                ImGui.TextColored(new(0.866f, 0.609f, 0.278f, 0.950f), "如果你希望使用爆发药，请在QT面板中开启爆发药开关");
+                ImGui.TextColored(new(0.866f, 0.609f, 0.278f, 0.950f),
+                    "如果你希望使用爆发药，在QT面板中也需要开启爆发药开关");
             ImGui.Checkbox("起手吃爆发药", ref MchSettings.UsePotionInOpener);
             ImGui.Separator();
             var noClipGcd3 = SettingMgr.GetSetting<GeneralSettings>().NoClipGCD3;
@@ -255,8 +272,8 @@ public class MchQtManager
                       + "\n  开启方法：AE首页→左侧ACR→设置→能力技→勾选 “全局能力技能不卡GCD”");
             ImGui.Checkbox("全局能力技能不卡GCD", ref noClipGcd3);
             ImGui.Separator();
-            ImGui.Text("勾了也没用 还没写 哈哈：");
-            ImGui.Checkbox("速行", ref MchSettings.UsePeloton);
+            // ImGui.Text("勾了也没用 还没写 哈哈：");
+            // ImGui.Checkbox("速行", ref MchSettings.UsePeloton);
             ImGui.SameLine();
             ImGui.Separator();
             if (ImGui.Button("保存设置"))
@@ -290,7 +307,7 @@ public class MchQtManager
 
         ImGui.Separator();
     }
-    
+
     // 画dev页设置
     private void DrawQtDev(JobViewWindow jobViewWindow)
     {
