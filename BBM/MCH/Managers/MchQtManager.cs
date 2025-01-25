@@ -21,7 +21,8 @@ public class MchQtManager
                                                "\n2024.12.28 第二行些什么我还没想好" +
                                                "\n2024.12.30 增加很多qt控制 暂不支持Aoe" +
                                                "\n2025.1.2" +
-                                               "重构了一下入口类，提取相关qt时间轴设置";
+                                               "重构了一下入口类，提取相关qt时间轴设置" +
+                                               "\n2025.1.25 工作好忙，没时间继续。年前抽了一下时间测试，修复了一下resetQt会导致倒数把爆发药qt重置的问题";
 
     public static readonly MchQtManager Instance = new();
 
@@ -104,7 +105,6 @@ public class MchQtManager
 
     public void ResetQt()
     {
-        Qt.SetQt(MchQtKeys.UsePotion, false);
         Qt.SetQt(MchQtKeys.UseOutbreak, true);
         Qt.SetQt(MchQtKeys.UseBaseComboFirst, false);
         Qt.SetQt(MchQtKeys.UseChainSaw, true);
@@ -154,8 +154,7 @@ public class MchQtManager
         if (ImGui.CollapsingHeader("   重要说明"))
         {
             ImGui.Text("能力技插入相关：");
-            ImGui.Text("推荐使用NiGuangOwO佬的三插插件，我自己用的是最优双插模式550ms。开了更流畅，兄弟们开。");
-            ImGui.Text("连续两个能力技插入间隔在620ms以下（可在FFLogs上查)");
+            ImGui.SameLine(85f);
             if (ImGui.Button("FuckAnimationLock"))
             {
                 string url = "https://github.com/NiGuangOwO/DalamudPlugins";
@@ -173,8 +172,12 @@ public class MchQtManager
                 }
             }
 
-            ImGui.SameLine(10);
-            if (ImGui.Button("反馈问题"))
+            ImGui.Text("推荐使用NiGuangOwO佬的三插插件FuckAnimationLock。" +
+                       "\n建议建议620ms以内，我自己用的是最优双插模式550ms。开了更流畅，兄弟们开。");
+            ImGui.Separator();
+            ImGui.Text("反馈问题：");
+            ImGui.SameLine(55f);
+            if (ImGui.Button("Discord"))
             {
                 string url = "https://discord.com/channels/1191648233454313482/1191649639796064346";
                 try
@@ -199,7 +202,7 @@ public class MchQtManager
             ImGui.Text("当前模式：" + (MchSettings.IsHighEnd
                 ? "高难模式"
                 : "日常模式"));
-            ImGui.Text("暂不支持日常，选了也没用（");
+            ImGui.Text("暂不支持日常，选了也没用（）");
             if (MchSettings.IsHighEnd)
             {
                 ImGui.SameLine();
@@ -242,6 +245,7 @@ public class MchQtManager
             {
                 // 拖动条调整后逻辑处理
             }
+
             ImGui.Text($"当前延迟: {MchSettings.GrabItLimit} ms");
             ImGui.Separator();
             ImGui.Text("设置电量阈值:");
@@ -305,7 +309,10 @@ public class MchQtManager
                     ImGui.Text(" --" + obj);
         }
 
-        ImGui.Separator();
+        ImGui.SameLine();
+        if (!ImGui.Button("保存##Save"))
+            return;
+        MchSettings.Instance.Save();
     }
 
     // 画dev页设置
