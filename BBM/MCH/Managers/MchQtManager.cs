@@ -309,10 +309,6 @@ public class MchQtManager
                     ImGui.Text(" --" + obj);
         }
 
-        ImGui.SameLine();
-        if (!ImGui.Button("保存##Save"))
-            return;
-        MchSettings.Instance.Save();
     }
 
     // 画dev页设置
