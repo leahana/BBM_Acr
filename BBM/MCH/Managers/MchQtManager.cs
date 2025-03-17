@@ -271,10 +271,22 @@ public class MchQtManager
             ImGui.Separator();
             var noClipGcd3 = SettingMgr.GetSetting<GeneralSettings>().NoClipGCD3;
             if (!noClipGcd3)
-                ImGui.TextColored(new Vector4(0.866f, 0.609f, 0.278f, 0.950f)
-                    , "  未开启全局能力技能不卡GCD，可能导致本ACR产生能力技插入问题，建议开启"
-                      + "\n  开启方法：AE首页→左侧ACR→设置→能力技→勾选 “全局能力技能不卡GCD”");
-            ImGui.Checkbox("全局能力技能不卡GCD", ref noClipGcd3);
+            {
+                // 未开启状态使用警告色（橙红色）
+                ImGui.TextColored(
+                    new Vector4(0.98f, 0.26f, 0.16f, 0.95f), // R, G, B, Alpha 值
+                    "  未开启全局能力技能不卡GCD，可能导致本ACR产生能力技插入问题，建议开启"
+                    + "\n  开启方法：AE首页→左侧ACR→设置→能力技→勾选 “全局能力技能不卡GCD”");
+            }
+            else
+            {
+                // 已开启状态使用确认色（青绿色）
+                ImGui.TextColored(
+                    new Vector4(0.18f, 0.80f, 0.72f, 0.95f), // R, G, B, Alpha 值
+                    "全局能力技能不卡GCD已开启");
+            }
+
+            // ImGui.Checkbox("全局能力技能不卡GCD", ref noClipGcd3);
             ImGui.Separator();
             // ImGui.Text("勾了也没用 还没写 哈哈：");
             // ImGui.Checkbox("速行", ref MchSettings.UsePeloton);
@@ -308,7 +320,6 @@ public class MchQtManager
                 foreach (var obj in AI.Instance.BattleData.HighPrioritySlots_OffGCD)
                     ImGui.Text(" --" + obj);
         }
-
     }
 
     // 画dev页设置
