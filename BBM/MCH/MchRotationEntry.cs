@@ -1,4 +1,5 @@
 ﻿using AEAssist.CombatRoutine;
+using AEAssist.Helper;
 using BBM.MCH.Managers;
 using BBM.MCH.Settings;
 
@@ -17,14 +18,23 @@ public class MchRotationEntry : IRotationEntry
     // 起手管理
     private static readonly MchOpenerManager MchOpenerManager = MchOpenerManager.Instance;
 
-    
+
     public Rotation? Build(string settingFolder)
     {
-        // 初始化设置
-        MchSettings.Build(settingFolder);
+        // Ui设置初始化放入Try catch。
+        try
+        {
+            // 初始化设置
+            MchSettings.Build(settingFolder);
+            // 初始化QT （依赖了设置的数据）
+            MchQtManger.BuildQt();
+        }
+        catch (Exception e)
+        {
+            LogHelper.Error("BBM-Mch:Failed to build Qt. message:" + e.Message);
+            throw;
+        }
 
-        // 初始化QT （依赖了设置的数据）
-        MchQtManger.BuildQt();
 
         // 设置Rotation基本信息和技能决策
         var rot = new Rotation(MchSlotResolverManager.GetSlotResolvers())
