@@ -16,7 +16,7 @@ public class MchSettings
     public bool UsePotionInOpener = false; // 是否在开场使用药水
     public const double GcdCooldownLimit = 600.0; // 基础Gcd剩余
     public int MinBattery = 50; // 最小电量
-    public float SecondWindThreshold = 0.4f;
+    public float SecondWindThreshold = 40.0f;
     public bool AutoSecondWind = true;
     public int MinHeat = 50; // 最大热量
     public int GrabItLimit = 300; // 抢开设置

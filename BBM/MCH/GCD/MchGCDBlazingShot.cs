@@ -35,7 +35,7 @@ public class MchGcdBlazingShot(params string[] qtKeys) : ISlotResolver, IQtCheck
 
     public void Build(Slot slot)
     {
-        slot.Add(BlazingShot.GetSpell());
+        slot.Add(CheckAoe());
     }
 
     public int CheckQt()
@@ -52,6 +52,7 @@ public class MchGcdBlazingShot(params string[] qtKeys) : ISlotResolver, IQtCheck
         {
             return BlazingShot.GetSpell();
         }
+
         var battleChara = Core.Me.GetCurrTarget();
         // 有一个5个目标打aoe才赚的职业
         if (battleChara != null)
@@ -62,6 +63,7 @@ public class MchGcdBlazingShot(params string[] qtKeys) : ISlotResolver, IQtCheck
                 return AutoCrossbow.GetSpell();
             }
         }
+
         return BlazingShot.GetSpell();
     }
 }

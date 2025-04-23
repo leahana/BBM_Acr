@@ -18,6 +18,11 @@ public class MchCommonDrillOpener100 : IOpener, ISlotSequence
 {
     public int StartCheck()
     {
+              
+        if (!MchSettings.Instance.IsHighEnd)
+        {
+            return -1;
+        }
         // 检查爆发技能
         if (MchSpellsHelper.CheckOpenerOutbreakSpells())
         {

@@ -29,7 +29,12 @@ public class MchAirAnchorOpener100 : IOpener, ISlotSequence
 
     public int StartCheck()
     {
-        // 检查爆发技能
+        
+        if (!MchSettings.Instance.IsHighEnd)
+        {
+            return -1;
+        }
+// 检查爆发技能
         if (MchSpellsHelper.CheckOpenerOutbreakSpells())
         {
             return -1;

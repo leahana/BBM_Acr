@@ -15,7 +15,7 @@ public static class CombatHelper
     /// </summary>
     /// <param name="limit"></param>
     /// <returns></returns>
-    public static bool GetHpPercent(float limit) => Core.Me.CurrentHpPercent() > limit;
+    public static bool GetHpPercent(float limit) => Core.Me.CurrentHpPercent() > limit / 100.0f;
 
     /// <summary>
     /// 是否有远敏减

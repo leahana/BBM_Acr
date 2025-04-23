@@ -7,7 +7,6 @@ using BBM.MCH.Data;
 using BBM.MCH.Extensions;
 using BBM.MCH.Interfaces;
 using BBM.MCH.Utils;
-using BBM.NIN;
 
 namespace BBM.MCH.GCD;
 
@@ -54,15 +53,18 @@ public class MchGcdDrill(params string[] qtKeys) : ISlotResolver, IQtChecker, IA
         }
 
         var battleChara = Core.Me.GetCurrTarget();
-        
+
         if (battleChara != null)
         {
             // 三目标跳12秒才赚四目标9秒
             var nearbyEnemyCount = TargetHelper.GetNearbyEnemyCount(battleChara, 12, 6);
+            LogHelper.Info(
+                "Bioblaster AOE毒菌判断，TargetHelper.GetNearbyEnemyCount(battleChara, 12, 6)=" + nearbyEnemyCount +
+                "TTKHelper.IsTargetTTK(battleChara, 9500, false) =" + TTKHelper.IsTargetTTK(battleChara, 9500, false));
             // 3目标毒跳12s以上
-            if (nearbyEnemyCount >= 3 && TTKHelper.IsTargetTTK(battleChara, 13000, false)
+            if (nearbyEnemyCount >= 4 && TTKHelper.IsTargetTTK(battleChara, 9500, false)
                 // 4目标毒跳9s以上
-                || nearbyEnemyCount >= 4 && TTKHelper.IsTargetTTK(battleChara, 10000, false))
+                || nearbyEnemyCount >= 3 && TTKHelper.IsTargetTTK(battleChara, 12500, false))
             {
                 return Bioblaster.GetSpell();
             }

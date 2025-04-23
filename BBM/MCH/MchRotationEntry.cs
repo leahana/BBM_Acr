@@ -40,11 +40,10 @@ public class MchRotationEntry : IRotationEntry
         var rot = new Rotation(MchSlotResolverManager.GetSlotResolvers())
         {
             TargetJob = Jobs.Machinist,
-            AcrType = AcrType.HighEnd,
+            AcrType = AcrType.Both,
             MinLevel = 100,
             MaxLevel = 100,
-            Description = "目前仅支持100级高难，其他没写" +
-                          "\n 沉淀",
+            Description = "100级高难/日随，低级本没测",
         };
 
         // 添加起手设置

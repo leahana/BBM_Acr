@@ -18,12 +18,12 @@ namespace BBM.MCH.Managers;
 public class MchQtManager
 {
     private static readonly string UpdateLog = "2024.12.27 新增标准钻头起手" +
-                                               "\n2024.12.28 第二行些什么我还没想好" +
-                                               "\n2024.12.30 增加很多qt控制 暂不支持Aoe" +
-                                               "\n2025.1.2" +
-                                               "重构了一下入口类，提取相关qt时间轴设置" +
-                                               "\n2025.1.25 工作好忙，没时间继续。年前抽了一下时间测试，修复了一下resetQt会导致倒数把爆发药qt重置的问题" +
-                                               "\n2025.04.23 摸鱼更新,aoe检测,自动内胆阈值设置";
+                                               "\n2024.12.28 功能待补充" +
+                                               "\n2024.12.30 基础QT控制（无AOE支持）" +
+                                               "\n2025.01.02 入口类重构" +
+                                               "\n2025.01.25 修复爆发药倒计时BUG" +
+                                               "\n2025.03.17 优化技能勾选提示" +
+                                               "\n2025.04.23 新增AOE检测/自动内丹";
 
     public static readonly MchQtManager Instance = new();
 
@@ -115,7 +115,7 @@ public class MchQtManager
         Qt.SetQt(MchQtKeys.UseFullMetalField, true);
         Qt.SetQt(MchQtKeys.UseDrill, true);
         Qt.SetQt(MchQtKeys.UseAirAnchor, true);
-        Qt.SetQt(MchQtKeys.Aoe, false);
+        Qt.SetQt(MchQtKeys.Aoe, !MchSettings.IsHighEnd);
         Qt.SetQt(MchQtKeys.UseReassemble, true);
         Qt.SetQt(MchQtKeys.UseHyperCharge, true);
         Qt.SetQt(MchQtKeys.UseWildfire, true);
@@ -175,6 +175,14 @@ public class MchQtManager
 
             ImGui.Text("推荐使用NiGuangOwO佬的三插插件FuckAnimationLock。" +
                        "\n建议建议620ms以内，我自己用的是最优双插模式550ms。开了更流畅，兄弟们开。");
+            if (!MchSettings.IsHighEnd)
+            {
+                ImGui.Separator();
+                ImGui.Text("日随模式Aoe说明：" +
+                           "\n这里有一个5个目标打自动弩才赚的职业，3目标霰弹枪，" +
+                           "\nIsTargetTTK计算4目标9s，3目标12s才会上毒。");
+            }
+
             ImGui.Separator();
             ImGui.Text("反馈问题：");
             ImGui.SameLine(55f);
@@ -200,10 +208,21 @@ public class MchQtManager
         if (ImGui.CollapsingHeader("   基础设置"))
         {
             // 目前仅支持100级高难
-            ImGui.Text("当前模式：" + (MchSettings.IsHighEnd
-                ? "高难模式"
-                : "日常模式"));
-            ImGui.Text("暂不支持日常，选了也没用（）");
+            ImGui.Text("设置acr模式：");
+            ImGui.SameLine();
+            if (MchSettings.IsHighEnd)
+            {
+                ImGui.TextColored(
+                    new Vector4(0.98f, 0.26f, 0.16f, 0.95f), "高难模式"); // R, G, B, Alpha 
+            }
+            else
+            {
+                ImGui.TextColored(
+                    new Vector4(0.18f, 0.80f, 0.72f, 0.95f), "日常模式"); // R, G, B, Alpha 
+            }
+
+
+            // ImGui.Text("暂不支持日常，选了也没用（）");
             if (MchSettings.IsHighEnd)
             {
                 ImGui.SameLine();
@@ -219,39 +238,49 @@ public class MchQtManager
                 if (ImGui.Button("切换到高难模式"))
                 {
                     MchSettings.IsHighEnd = true;
-                    Qt.SetQt(MchQtKeys.Aoe, true);
+                    Qt.SetQt(MchQtKeys.Aoe, false);
                 }
             }
 
-            ImGui.Separator();
-            var opener = MchSettings.Opener switch
+            if (MchSettings.IsHighEnd)
             {
-                0 => "100级 空气锚起手",
-                1 => "100级 标准钻头起手",
-                _ => "100级 空气锚起手"
-            };
+                ImGui.Separator();
+                var opener = MchSettings.Opener switch
+                {
+                    0 => "100级 空气锚起手",
+                    1 => "100级 标准钻头起手",
+                    _ => "100级 空气锚起手"
+                };
+                if (ImGui.BeginCombo("起手选择:", opener))
+                {
+                    if (ImGui.Selectable("100级 空气锚起手"))
+                        MchSettings.Opener = 0;
+                    if (ImGui.Selectable("100级 标准钻头起手"))
+                        MchSettings.Opener = 1;
+                    ImGui.EndCombo();
+                }
 
-            if (ImGui.BeginCombo("起手选择", opener))
-            {
-                if (ImGui.Selectable("100级 空气锚起手"))
-                    MchSettings.Opener = 0;
-                if (ImGui.Selectable("100级 标准钻头起手"))
-                    MchSettings.Opener = 1;
-                ImGui.EndCombo();
+                ImGui.Separator();
+                ImGui.Text("设置抢开延迟:");
+                // 拖动条
+                if (ImGui.SliderInt("延迟 (ms)", ref MchSettings.GrabItLimit, 0, 1000))
+                {
+                    // 拖动条调整后逻辑处理
+                }
+
+                ImGui.Text($"当前延迟: {MchSettings.GrabItLimit} ms");
+                ImGui.Separator();
+                if (!Qt.GetQt(MchQtKeys.UsePotion))
+                    ImGui.TextColored(new(0.866f, 0.609f, 0.278f, 0.950f),
+                        "如果你希望使用爆发药，在QT面板中也需要开启爆发药开关");
+                ImGui.Checkbox("起手吃爆发药", ref MchSettings.UsePotionInOpener);
+                ImGui.Separator();
             }
 
-            ImGui.Separator();
-
-            ImGui.Text("设置抢开延迟:");
-            // 拖动条
-            if (ImGui.SliderInt("延迟 (ms)", ref MchSettings.GrabItLimit, 0, 1000))
-            {
-                // 拖动条调整后逻辑处理
-            }
-
-            ImGui.Text($"当前延迟: {MchSettings.GrabItLimit} ms");
-            ImGui.Separator();
-            ImGui.Text("设置电量阈值:");
+            ImGui.Text("设置电量阈值: ");
+            ImGui.SameLine();
+            ImGui.TextColored(
+                new Vector4(0.278f, 0.614f, 0.866f, 1.000f), ($"{MchSettings.MinBattery}"));
             // 拖动条
             var instanceMinBattery = MchSettings.MinBattery;
             int step = 10; // 设置步长值
@@ -265,12 +294,7 @@ public class MchQtManager
                 MchSettings.MinBattery = instanceMinBattery;
             }
 
-            ImGui.Text($"当前电量: {MchSettings.MinBattery}");
-            ImGui.Separator();
-            if (!Qt.GetQt(MchQtKeys.UsePotion))
-                ImGui.TextColored(new(0.866f, 0.609f, 0.278f, 0.950f),
-                    "如果你希望使用爆发药，在QT面板中也需要开启爆发药开关");
-            ImGui.Checkbox("起手吃爆发药", ref MchSettings.UsePotionInOpener);
+
             ImGui.Separator();
             var noClipGcd3 = SettingMgr.GetSetting<GeneralSettings>().NoClipGCD3;
             if (!noClipGcd3)
@@ -293,33 +317,45 @@ public class MchQtManager
             ImGui.Checkbox("自动内丹", ref MchSettings.AutoSecondWind);
             if (MchSettings.AutoSecondWind)
             {
-                ImGui.Text("设置自动内丹阈值:");
+                ImGui.Text("设置自动内丹血量阈值: ");
+
                 // 拖动条
                 var secondWindThreshold = MchSettings.SecondWindThreshold; // 直接使用float类型
+                ImGui.SameLine();
+                ImGui.TextColored(
+                    new Vector4(0.289f, 0.866f, 0.278f, 1.000f), ($"{MchSettings.SecondWindThreshold}%"));
                 // 使用SliderFloat并设置精度格式
                 // float stepSecondWindThreshold = 1.0f; // 设置步进间隔为1%
-                if (ImGui.SliderFloat("阈值",
+
+                if (ImGui.SliderFloat("血量",
                         ref secondWindThreshold,
                         0.0f, // 最小值保持0%
                         100.0f, // 最大值保持100%
                         "%.1f%%", // 显示百分比格式并保留1位小数
                         ImGuiSliderFlags.AlwaysClamp)) // 自动限制在范围内
                     // 步进对齐（示例步长1%）
-                    secondWindThreshold = (float)Math.Round(secondWindThreshold / step) * step;
+                {
+                }
+
+                // secondWindThreshold = (float)Math.Round(secondWindThreshold / step) * step;
                 // 添加右侧调整按钮
                 ImGui.SameLine();
-                if (ImGui.Button("+1%")) {
-                    MchSettings.SecondWindThreshold = Math.Clamp(MchSettings.SecondWindThreshold + 1.0f, 0, 100);
+
+                if (ImGui.Button("+1%"))
+                {
+                    secondWindThreshold = Math.Clamp(MchSettings.SecondWindThreshold + 1.0f, 0, 100);
                 }
+
                 ImGui.SameLine();
-                if (ImGui.Button("-1%")) {
-                    MchSettings.SecondWindThreshold = Math.Clamp(MchSettings.SecondWindThreshold - 1.0f, 0, 100);
+                if (ImGui.Button("-1%"))
+                {
+                    secondWindThreshold = Math.Clamp(MchSettings.SecondWindThreshold - 1.0f, 0, 100);
                 }
 
                 // 应用设置时自动保存
                 MchSettings.SecondWindThreshold = secondWindThreshold;
             }
-            
+
             ImGui.Separator();
             // ImGui.Text("勾了也没用 还没写 哈哈：");
             // ImGui.Checkbox("速行", ref MchSettings.UsePeloton);
