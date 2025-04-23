@@ -68,7 +68,9 @@ public class MchAbilityDoubleCheck(params string[] qtKeys) : ISlotResolver, IQtC
     public void Build(Slot slot) => slot.Add(DoubleCheck.GetSpell());
 
     public int CheckQt()
+
     {
+        var nearbyEnemyCount = TargetHelper.GetNearbyEnemyCount(5);
         return MchQtHelper.ValidateQtKeys(_qtKeys);
     }
 }

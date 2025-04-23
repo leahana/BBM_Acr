@@ -153,6 +153,14 @@ public static class MchQtHelper
     }
 
 
+    /**
+     * 根据key获取 qt boolean
+     */
+    public static bool ValidateQtKey(String qtKey)
+    {
+        return MchQtManager.Qt.GetQt(qtKey);
+    }
+
     public static int ValidateQtKeys(IEnumerable<string> qtKeys)
     {
         foreach (var qtKey in qtKeys)
