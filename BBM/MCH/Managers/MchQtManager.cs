@@ -22,7 +22,8 @@ public class MchQtManager
                                                "\n2024.12.30 增加很多qt控制 暂不支持Aoe" +
                                                "\n2025.1.2" +
                                                "重构了一下入口类，提取相关qt时间轴设置" +
-                                               "\n2025.1.25 工作好忙，没时间继续。年前抽了一下时间测试，修复了一下resetQt会导致倒数把爆发药qt重置的问题";
+                                               "\n2025.1.25 工作好忙，没时间继续。年前抽了一下时间测试，修复了一下resetQt会导致倒数把爆发药qt重置的问题" +
+                                               "\n2025.04.23 摸鱼更新,aoe检测,自动内胆阈值设置";
 
     public static readonly MchQtManager Instance = new();
 
@@ -209,6 +210,7 @@ public class MchQtManager
                 if (ImGui.Button("切换到日常模式"))
                 {
                     MchSettings.IsHighEnd = false;
+                    Qt.SetQt(MchQtKeys.Aoe, true);
                 }
             }
             else
@@ -217,6 +219,7 @@ public class MchQtManager
                 if (ImGui.Button("切换到高难模式"))
                 {
                     MchSettings.IsHighEnd = true;
+                    Qt.SetQt(MchQtKeys.Aoe, true);
                 }
             }
 
@@ -294,7 +297,7 @@ public class MchQtManager
                 // 拖动条
                 var secondWindThreshold = MchSettings.SecondWindThreshold; // 直接使用float类型
                 // 使用SliderFloat并设置精度格式
-                float stepSecondWindThreshold = 1.0f; // 设置步进间隔为1%
+                // float stepSecondWindThreshold = 1.0f; // 设置步进间隔为1%
                 if (ImGui.SliderFloat("阈值",
                         ref secondWindThreshold,
                         0.0f, // 最小值保持0%
