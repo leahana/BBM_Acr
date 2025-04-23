@@ -306,6 +306,15 @@ public class MchQtManager
                         ImGuiSliderFlags.AlwaysClamp)) // 自动限制在范围内
                     // 步进对齐（示例步长1%）
                     secondWindThreshold = (float)Math.Round(secondWindThreshold / step) * step;
+                // 添加右侧调整按钮
+                ImGui.SameLine();
+                if (ImGui.Button("+1%")) {
+                    MchSettings.SecondWindThreshold = Math.Clamp(MchSettings.SecondWindThreshold + 1.0f, 0, 100);
+                }
+                ImGui.SameLine();
+                if (ImGui.Button("-1%")) {
+                    MchSettings.SecondWindThreshold = Math.Clamp(MchSettings.SecondWindThreshold - 1.0f, 0, 100);
+                }
 
                 // 应用设置时自动保存
                 MchSettings.SecondWindThreshold = secondWindThreshold;
