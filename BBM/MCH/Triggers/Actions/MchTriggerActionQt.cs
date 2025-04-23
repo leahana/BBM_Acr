@@ -1,7 +1,6 @@
 using AEAssist.CombatRoutine.Trigger;
 using AEAssist.GUI;
 using BBM.MCH.Managers;
-using BBM.MCH.Settings;
 using ImGuiNET;
 
 namespace BBM.MCH.Triggers.Actions;

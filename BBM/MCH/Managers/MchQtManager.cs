@@ -274,7 +274,7 @@ public class MchQtManager
             {
                 // 未开启状态使用警告色（橙红色）
                 ImGui.TextColored(
-                        new Vector4(0.98f, 0.26f, 0.16f, 0.95f), // R, G, B, Alpha 值
+                    new Vector4(0.98f, 0.26f, 0.16f, 0.95f), // R, G, B, Alpha 值
                     "  未开启全局能力技能不卡GCD，可能导致本ACR产生能力技插入问题，建议开启"
                     + "\n  开启方法：AE首页→左侧ACR→设置→能力技→勾选 “全局能力技能不卡GCD”");
             }
@@ -286,7 +286,28 @@ public class MchQtManager
                     "全局能力技能不卡GCD已开启");
             }
 
-            // ImGui.Checkbox("全局能力技能不卡GCD", ref noClipGcd3);
+            ImGui.Separator();
+            ImGui.Checkbox("自动内丹", ref MchSettings.AutoSecondWind);
+            if (MchSettings.AutoSecondWind)
+            {
+                ImGui.Text("设置自动内丹阈值:");
+                // 拖动条
+                var secondWindThreshold = MchSettings.SecondWindThreshold; // 直接使用float类型
+                // 使用SliderFloat并设置精度格式
+                float stepSecondWindThreshold = 1.0f; // 设置步进间隔为1%
+                if (ImGui.SliderFloat("阈值",
+                        ref secondWindThreshold,
+                        0.0f, // 最小值保持0%
+                        100.0f, // 最大值保持100%
+                        "%.1f%%", // 显示百分比格式并保留1位小数
+                        ImGuiSliderFlags.AlwaysClamp)) // 自动限制在范围内
+                    // 步进对齐（示例步长1%）
+                    secondWindThreshold = (float)Math.Round(secondWindThreshold / step) * step;
+
+                // 应用设置时自动保存
+                MchSettings.SecondWindThreshold = secondWindThreshold;
+            }
+            
             ImGui.Separator();
             // ImGui.Text("勾了也没用 还没写 哈哈：");
             // ImGui.Checkbox("速行", ref MchSettings.UsePeloton);

@@ -1,6 +1,8 @@
 using AEAssist.CombatRoutine.Module;
 using AEAssist.Helper;
+using BBM.MCH.Data;
 using BBM.MCH.Extensions;
+using BBM.MCH.Settings;
 using BBM.MCH.Utils;
 
 namespace BBM.MCH.Ability;
@@ -16,6 +18,8 @@ public class MchAbilitySecondWind(params string[] qtKeys) : ISlotResolver
     
     private const uint SecondWind = SpellsDefine.SecondWind;
 
+    private readonly MchSettings _mchSettings = MchSettings.Instance;
+
     public int Check()
     {
         if (!this.IsReady(SecondWind))
@@ -27,7 +31,7 @@ public class MchAbilitySecondWind(params string[] qtKeys) : ISlotResolver
         }
 
         // 自身血量 百分比大于 40%
-        if (CombatHelper.GetHpPercent(0.4f))
+        if (CombatHelper.GetHpPercent(_mchSettings.SecondWindThreshold))
         {
             return -3;
         }

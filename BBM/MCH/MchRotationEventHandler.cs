@@ -87,7 +87,7 @@ public class MchRotationEventHandler : IRotationEventHandler
     /// </summary>
     public void OnEnterRotation()
     {
-        LogHelper.Print("已切换至ACR：BBM-Mch");
+        LogHelper.Print("已切换ACR：BBM-Mch");
     }
 
     /// <summary>

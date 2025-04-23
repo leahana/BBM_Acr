@@ -78,7 +78,8 @@ public class MchSlotResolverManager
             new SlotResolverData(new MchAbilityDoubleCheck(MchQtKeys.UseOutbreak, MchQtKeys.ReserveDoubleCheck),
                 SlotMode.OffGcd),
 
-            // new SlotResolverData(new MchAbilitySecondWind(), SlotMode.OffGcd)
+            // 内丹
+            new SlotResolverData(new MchAbilitySecondWind(), SlotMode.OffGcd)
         ];
     }
 
