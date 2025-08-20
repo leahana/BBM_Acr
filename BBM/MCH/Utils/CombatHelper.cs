@@ -14,6 +14,7 @@ public static class CombatHelper
     /// 自身获取当前血量
     /// </summary>
     /// <param name="limit"></param>
+    /// 
     /// <returns></returns>
     public static bool GetHpPercent(float limit) => Core.Me.CurrentHpPercent() > limit / 100.0f;
 
