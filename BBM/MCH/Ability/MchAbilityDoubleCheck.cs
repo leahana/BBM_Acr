@@ -41,7 +41,7 @@ public class MchAbilityDoubleCheck(params string[] qtKeys) : ISlotResolver, IQtC
             if (charges < 2.9)
             {
                 // 大于2.3层且 （在过热 或 热量大于45）
-                if (charges >= 2.3 && (MchSpellsHelper.OverHeated() || MchSpellsHelper.GetHeat() >= 45))
+                if (charges >= 2.2 && (MchSpellsHelper.OverHeated() || MchSpellsHelper.GetHeat() >= 45))
                 {
                     return 146;
                 }

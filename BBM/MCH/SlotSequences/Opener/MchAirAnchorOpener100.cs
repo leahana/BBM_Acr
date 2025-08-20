@@ -34,7 +34,7 @@ public class MchAirAnchorOpener100 : IOpener, ISlotSequence
         {
             return -1;
         }
-// 检查爆发技能
+        // 检查爆发技能
         if (MchSpellsHelper.CheckOpenerOutbreakSpells())
         {
             return -1;

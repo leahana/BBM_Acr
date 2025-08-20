@@ -36,4 +36,6 @@ public class MchAbilityBarrelStabilizer(params string[] qtKeys) : ISlotResolver,
     {
         return MchQtHelper.ValidateQtKeys(_qtKeys);
     }
+
+  
 }
