@@ -15,7 +15,6 @@ public static class MchHotKeyHelper
     {
         if (!MchSpells.Dismantle.GetSpell().IsReadyWithCanCast())
         {
-            
             LogHelper.Print("hotkey", "扳手 cd");
             return -1;
         }
